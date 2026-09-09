@@ -1,0 +1,922 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Tejas\Desktop\Edme\Insurance-Comparison-Claim-Assistant\backend\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Tejas\Desktop\Edme\Insurance-Comparison-Claim-Assistant\backend
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 23 items
+
+tests/test_endorsement_approve.py::test_tc040_approval_applies_new_values_and_stamps_decision FAILED [  4%]
+tests/test_endorsement_approve.py::test_tc041_approval_after_policy_expired_updates_vehicle_only FAILED [  8%]
+tests/test_endorsement_approve.py::test_tc042_cannot_decide_an_already_decided_endorsement FAILED [ 13%]
+tests/test_endorsement_authz.py::test_tc020_cannot_submit_against_another_customers_policy FAILED [ 17%]
+tests/test_endorsement_authz.py::test_tc021_unauthenticated_submit_blocked FAILED [ 21%]
+tests/test_endorsement_authz.py::test_tc022_non_admin_cannot_approve_or_reject FAILED [ 26%]
+tests/test_endorsement_authz.py::test_tc023_customer_cannot_list_admin_queue FAILED [ 30%]
+tests/test_endorsement_history.py::test_tc060_history_returns_full_timeline_newest_first FAILED [ 34%]
+tests/test_endorsement_history.py::test_tc061_history_is_owner_scoped FAILED [ 39%]
+tests/test_endorsement_policy_state.py::test_tc030_expired_policy_cannot_be_endorsed FAILED [ 43%]
+tests/test_endorsement_policy_state.py::test_tc031_non_active_policies_rejected[cancelled] FAILED [ 47%]
+tests/test_endorsement_policy_state.py::test_tc031_non_active_policies_rejected[pending] FAILED [ 52%]
+tests/test_endorsement_reject.py::test_tc050_rejection_leaves_vehicle_unchanged_and_stamps_decision FAILED [ 56%]
+tests/test_endorsement_submit.py::test_tc001_customer_submits_update_for_own_active_policy FAILED [ 60%]
+tests/test_endorsement_submit.py::test_tc002_first_update_snapshots_null_baseline_and_creates_no_vehicle_row FAILED [ 65%]
+tests/test_endorsement_submit.py::test_tc003_pending_endorsement_does_not_touch_live_vehicle FAILED [ 69%]
+tests/test_endorsement_submit.py::test_tc004_multiple_pending_endorsements_allowed FAILED [ 73%]
+tests/test_endorsement_validation.py::test_tc010_missing_required_field_rejected FAILED [ 78%]
+tests/test_endorsement_validation.py::test_tc011_year_out_of_range_rejected FAILED [ 82%]
+tests/test_endorsement_validation.py::test_tc012_invalid_vin_rejected FAILED [ 86%]
+tests/test_endorsement_validation.py::test_tc013_empty_registration_rejected FAILED [ 91%]
+tests/test_endorsement_validation.py::test_tc014_no_op_update_rejected FAILED [ 95%]
+tests/test_migration.py::test_tc080_schema_files_apply_and_roll_back FAILED [100%]
+
+================================== FAILURES ===================================
+_________ test_tc040_approval_applies_new_values_and_stamps_decision __________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B3FEAA50>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4167050>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDE3fQ.JHwz6rTy3pOGHvN4Oi59rCsPYBMzK_No47H0JDqdvPs'}
+headers_admin = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImV4cCI6MTc4ODk4MDAxOH0.cs_hfAxxg3PgfnjKYyBNZTcwFmdtBSy7iV0cQXQwGzc'}
+admin = <models.User object at 0x000001D1B423F390>
+active_policy_a = <models.UserPolicies object at 0x000001D1B425F0D0>
+
+    @pytest.mark.tc("TC-040")
+    def test_tc040_approval_applies_new_values_and_stamps_decision(
+        client, db, headers_a, headers_admin, admin, active_policy_a
+    ):
+        """AC-005: after approval the vehicle row reflects the new details and the
+        endorsement becomes Approved with a decision date and decider."""
+>       endorsement_id = _pending(client, db, headers_a, active_policy_a.id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_endorsement_approve.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_endorsement_approve.py:18: in _pending
+    seed_vehicle(db, user_policy_id, make=make_from)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4167050>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+________ test_tc041_approval_after_policy_expired_updates_vehicle_only ________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B41B9A90>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B40E5910>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDE4fQ.LAtE6JMC9zUC8l6pvlEm-DVc2R9HkHzYpzqZ2YfvDWs'}
+headers_admin = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImV4cCI6MTc4ODk4MDAxOX0.n-AaomvfxcgJV4eENf4dno7MBuhCoXd1J92UDPINB38'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B452B710>
+
+    @pytest.mark.tc("TC-041")
+    def test_tc041_approval_after_policy_expired_updates_vehicle_only(
+        client, db, headers_a, headers_admin, active_policy_a
+    ):
+        """AC-005 / AC-008: approving after the policy expired updates the vehicle but
+        leaves the policy status expired."""
+>       endorsement_id = _pending(client, db, headers_a, active_policy_a.id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_endorsement_approve.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_endorsement_approve.py:18: in _pending
+    seed_vehicle(db, user_policy_id, make=make_from)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B40E5910>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+___________ test_tc042_cannot_decide_an_already_decided_endorsement ___________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B450D850>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B450DA50>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDE5fQ.1pug0r1Yt4zY_ZI6HHsfSKHjWmDFZLyRXbpMAF0gJLI'}
+headers_admin = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImV4cCI6MTc4ODk4MDAxOX0.n-AaomvfxcgJV4eENf4dno7MBuhCoXd1J92UDPINB38'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B452B9D0>
+
+    @pytest.mark.tc("TC-042")
+    def test_tc042_cannot_decide_an_already_decided_endorsement(
+        client, db, headers_a, headers_admin, active_policy_a
+    ):
+        """AC-009: only Pending endorsements are decidable."""
+>       endorsement_id = _pending(client, db, headers_a, active_policy_a.id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_endorsement_approve.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_endorsement_approve.py:18: in _pending
+    seed_vehicle(db, user_policy_id, make=make_from)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B450DA50>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+__________ test_tc020_cannot_submit_against_another_customers_policy __________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B450F690>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B450D250>
+headers_b = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9iQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIwfQ.wyAkifiJ_ZxDMq6pXmgCcMlS2w2RWzVuB-Iu0l4RP38'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B450F9D0>
+
+    @pytest.mark.tc("TC-020")
+    def test_tc020_cannot_submit_against_another_customers_policy(
+        client, db, headers_b, active_policy_a
+    ):
+        """AC-003: customer B cannot submit an endorsement on customer A's policy."""
+        resp = client.post(
+            f"/userpolicies/{active_policy_a.id}/endorsements", json=PAYLOAD, headers=headers_b
+        )
+>       assert resp.status_code == 403, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 403
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_authz.py:36: AssertionError
+__________________ test_tc021_unauthenticated_submit_blocked __________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B4530750>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4530290>
+active_policy_a = <models.UserPolicies object at 0x000001D1B4529A90>
+
+    @pytest.mark.tc("TC-021")
+    def test_tc021_unauthenticated_submit_blocked(client, db, active_policy_a):
+        """AC-003: an unauthenticated submit is rejected."""
+        resp = client.post(f"/userpolicies/{active_policy_a.id}/endorsements", json=PAYLOAD)
+>       assert resp.status_code == 401, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 401
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_authz.py:44: AssertionError
+________________ test_tc022_non_admin_cannot_approve_or_reject ________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B4530390>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4533190>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIxfQ.2bRyhAA0WzBUct7gVsPYk5k7EnyQGhI5dawsyj4x_ek'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B450F1D0>
+
+    @pytest.mark.tc("TC-022")
+    def test_tc022_non_admin_cannot_approve_or_reject(
+        client, db, headers_a, active_policy_a
+    ):
+        """AC-009: a non-admin caller cannot approve or reject; the endorsement stays Pending."""
+>       endorsement_id = _create_pending(client, db, headers_a, active_policy_a.id)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_endorsement_authz.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_endorsement_authz.py:20: in _create_pending
+    seed_vehicle(db, user_policy_id, make="Toyota")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4533190>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+_________________ test_tc023_customer_cannot_list_admin_queue _________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B451DAD0>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIxfQ.2bRyhAA0WzBUct7gVsPYk5k7EnyQGhI5dawsyj4x_ek'}
+
+    @pytest.mark.tc("TC-023")
+    def test_tc023_customer_cannot_list_admin_queue(client, headers_a):
+        """AC-009: a customer cannot read the admin endorsement queue."""
+        resp = client.get("/admin/endorsements?status=pending", headers=headers_a)
+>       assert resp.status_code == 403, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 403
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_authz.py:68: AssertionError
+____________ test_tc060_history_returns_full_timeline_newest_first ____________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B451D410>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B451D510>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIxfQ.2bRyhAA0WzBUct7gVsPYk5k7EnyQGhI5dawsyj4x_ek'}
+headers_admin = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImV4cCI6MTc4ODk4MDAyMX0.CUS5thCKqDgllR_K7m_8T_7RylszGABgciEqwJIX3Eg'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B451E190>
+
+    @pytest.mark.tc("TC-060")
+    def test_tc060_history_returns_full_timeline_newest_first(
+        client, db, headers_a, headers_admin, active_policy_a
+    ):
+        """AC-006: history shows every endorsement with old values, new values,
+        request date and status; a decided one carries a decision date."""
+>       seed_vehicle(db, active_policy_a.id, make="Toyota")
+
+tests\test_endorsement_history.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B451D510>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+_____________________ test_tc061_history_is_owner_scoped ______________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B4518D10>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B45196D0>
+headers_b = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9iQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIyfQ.cEQBGPySRlna9rC8GGJavsdcbvnE58hRyqpmXv14vsA'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B451E9D0>
+
+    @pytest.mark.tc("TC-061")
+    def test_tc061_history_is_owner_scoped(client, db, headers_b, active_policy_a):
+        """AC-006: another customer cannot read this policy's endorsement history."""
+        resp = client.get(f"/userpolicies/{active_policy_a.id}/endorsements", headers=headers_b)
+>       assert resp.status_code == 403, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 403
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_history.py:53: AssertionError
+________________ test_tc030_expired_policy_cannot_be_endorsed _________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B451E7D0>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B451C1D0>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIyfQ.0z8jYa_nHiEwaaqOpPCv27-Y5f3Q5ahiZ9iNqXFBABE'}
+expired_policy_a = <models.UserPolicies object at 0x000001D1B4510710>
+
+    @pytest.mark.tc("TC-030")
+    def test_tc030_expired_policy_cannot_be_endorsed(client, db, headers_a, expired_policy_a):
+        """AC-008: an endorsement against an expired policy is rejected, none created."""
+        resp = client.post(
+            f"/userpolicies/{expired_policy_a.id}/endorsements", json=PAYLOAD, headers=headers_a
+        )
+>       assert resp.status_code in (400, 409), resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 in (400, 409)
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_policy_state.py:23: AssertionError
+_____________ test_tc031_non_active_policies_rejected[cancelled] ______________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B4565BD0>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4566B50>
+customer_a = <models.User object at 0x000001D1B4567450>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIzfQ.J9-CX44PtP2kNHHTQKHrqOyC_KbsI5b_i6f04ZG49wY'}
+status = 'cancelled'
+
+    @pytest.mark.tc("TC-031")
+    @pytest.mark.parametrize("status", ["cancelled", "pending"])
+    def test_tc031_non_active_policies_rejected(client, db, customer_a, headers_a, status):
+        """AC-008: cancelled and pending policies are rejected the same way."""
+        policy = _make_auto_policy(db)
+        up = _make_user_policy(db, customer_a, policy, status=status, number=f"POL-{status}")
+        resp = client.post(
+            f"/userpolicies/{up.id}/endorsements", json=PAYLOAD, headers=headers_a
+        )
+>       assert resp.status_code in (400, 409), resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 in (400, 409)
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_policy_state.py:36: AssertionError
+______________ test_tc031_non_active_policies_rejected[pending] _______________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B451B650>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B451A650>
+customer_a = <models.User object at 0x000001D1B459F850>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDIzfQ.J9-CX44PtP2kNHHTQKHrqOyC_KbsI5b_i6f04ZG49wY'}
+status = 'pending'
+
+    @pytest.mark.tc("TC-031")
+    @pytest.mark.parametrize("status", ["cancelled", "pending"])
+    def test_tc031_non_active_policies_rejected(client, db, customer_a, headers_a, status):
+        """AC-008: cancelled and pending policies are rejected the same way."""
+        policy = _make_auto_policy(db)
+        up = _make_user_policy(db, customer_a, policy, status=status, number=f"POL-{status}")
+        resp = client.post(
+            f"/userpolicies/{up.id}/endorsements", json=PAYLOAD, headers=headers_a
+        )
+>       assert resp.status_code in (400, 409), resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 in (400, 409)
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_policy_state.py:36: AssertionError
+______ test_tc050_rejection_leaves_vehicle_unchanged_and_stamps_decision ______
+
+client = <starlette.testclient.TestClient object at 0x000001D1B459E190>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B459EE10>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI0fQ.KqzaJA2-nrmFdMqeNn4XHwybWgYw2PUfAzi3KmTKkIg'}
+headers_admin = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImV4cCI6MTc4ODk4MDAyNH0.IPHYnAskYVe3dZNKMoLsRS7b0FxZhXMVkXc5e9-FK6A'}
+admin = <models.User object at 0x000001D1B45657D0>
+active_policy_a = <models.UserPolicies object at 0x000001D1B4505F90>
+
+    @pytest.mark.tc("TC-050")
+    def test_tc050_rejection_leaves_vehicle_unchanged_and_stamps_decision(
+        client, db, headers_a, headers_admin, admin, active_policy_a
+    ):
+        """AC-007: after rejection the vehicle details are unchanged and the
+        endorsement status is Rejected with a decision date."""
+>       seed_vehicle(db, active_policy_a.id, make="Toyota")
+
+tests\test_endorsement_reject.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B459EE10>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+__________ test_tc001_customer_submits_update_for_own_active_policy ___________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B45B0090>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B45B09D0>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI0fQ.KqzaJA2-nrmFdMqeNn4XHwybWgYw2PUfAzi3KmTKkIg'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B45B2190>
+valid_vehicle_payload = {'make': 'Toyota', 'model': 'Corolla', 'year': 2020, 'vin': '1HGCM82633A004352', ...}
+
+    @pytest.mark.tc("TC-001")
+    def test_tc001_customer_submits_update_for_own_active_policy(
+        client, db, headers_a, active_policy_a, valid_vehicle_payload
+    ):
+        """AC-001: a customer can submit a vehicle detail update for their own active policy."""
+        changed = {**valid_vehicle_payload, "make": "Honda"}
+        resp = client.post(
+            f"/userpolicies/{active_policy_a.id}/endorsements",
+            json=changed,
+            headers=headers_a,
+        )
+>       assert resp.status_code == 201, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_submit.py:20: AssertionError
+_ test_tc002_first_update_snapshots_null_baseline_and_creates_no_vehicle_row __
+
+client = <starlette.testclient.TestClient object at 0x000001D1B45B1410>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B45B2110>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI0fQ.KqzaJA2-nrmFdMqeNn4XHwybWgYw2PUfAzi3KmTKkIg'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B45B0A50>
+valid_vehicle_payload = {'make': 'Toyota', 'model': 'Corolla', 'year': 2020, 'vin': '1HGCM82633A004352', ...}
+
+    @pytest.mark.tc("TC-002")
+    def test_tc002_first_update_snapshots_null_baseline_and_creates_no_vehicle_row(
+        client, db, headers_a, active_policy_a, valid_vehicle_payload
+    ):
+        """AC-001 / AC-004: first-ever update snapshots an empty baseline; the vehicles
+        row is created only on approval, not at submit time."""
+        resp = client.post(
+            f"/userpolicies/{active_policy_a.id}/endorsements",
+            json=valid_vehicle_payload,
+            headers=headers_a,
+        )
+>       assert resp.status_code == 201, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_submit.py:40: AssertionError
+_________ test_tc003_pending_endorsement_does_not_touch_live_vehicle __________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B4535490>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4534950>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI1fQ.vmP2ZnTQBCMbHybeYsG2UMQ7TJDff0S0yOw03SvOeNQ'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B4535650>
+valid_vehicle_payload = {'make': 'Toyota', 'model': 'Corolla', 'year': 2020, 'vin': '1HGCM82633A004352', ...}
+
+    @pytest.mark.tc("TC-003")
+    def test_tc003_pending_endorsement_does_not_touch_live_vehicle(
+        client, db, headers_a, active_policy_a, valid_vehicle_payload
+    ):
+        """AC-004: a Pending endorsement does not change the live vehicle details."""
+>       seed_vehicle(db, active_policy_a.id, make="Toyota")
+
+tests\test_endorsement_submit.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4534950>
+user_policy_id = 1, overrides = {'make': 'Toyota'}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+______________ test_tc004_multiple_pending_endorsements_allowed _______________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B45B2550>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B45B1F50>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI1fQ.vmP2ZnTQBCMbHybeYsG2UMQ7TJDff0S0yOw03SvOeNQ'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B451CD50>
+valid_vehicle_payload = {'make': 'Toyota', 'model': 'Corolla', 'year': 2020, 'vin': '1HGCM82633A004352', ...}
+
+    @pytest.mark.tc("TC-004")
+    def test_tc004_multiple_pending_endorsements_allowed(
+        client, db, headers_a, active_policy_a, valid_vehicle_payload
+    ):
+        """AC-010: multiple Pending endorsements for the same policy are allowed."""
+        first = client.post(
+            f"/userpolicies/{active_policy_a.id}/endorsements",
+            json={**valid_vehicle_payload, "make": "Honda"},
+            headers=headers_a,
+        )
+        second = client.post(
+            f"/userpolicies/{active_policy_a.id}/endorsements",
+            json={**valid_vehicle_payload, "make": "Ford"},
+            headers=headers_a,
+        )
+>       assert first.status_code == 201, first.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 201
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_submit.py:82: AssertionError
+_________________ test_tc010_missing_required_field_rejected __________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B451C950>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B451EB10>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI1fQ.vmP2ZnTQBCMbHybeYsG2UMQ7TJDff0S0yOw03SvOeNQ'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B451C490>
+
+    @pytest.mark.tc("TC-010")
+    def test_tc010_missing_required_field_rejected(client, db, headers_a, active_policy_a):
+        """AC-002: a missing required field is rejected and no endorsement is created."""
+        resp = _submit(client, headers_a, active_policy_a.id, make=_MISSING)
+>       assert resp.status_code in (400, 422), resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 in (400, 422)
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_validation.py:36: AssertionError
+____________________ test_tc011_year_out_of_range_rejected ____________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B458DA50>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B458F6D0>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI2fQ.s8G20YwVaNh0HJLImyioXVUIPqrEKoADzai37tgtHFU'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B458E190>
+
+    @pytest.mark.tc("TC-011")
+    def test_tc011_year_out_of_range_rejected(client, db, headers_a, active_policy_a):
+        """AC-002: a year before 1900 or after next year is rejected with a clear error."""
+        too_old = _submit(client, headers_a, active_policy_a.id, year=1800)
+        too_new = _submit(
+            client, headers_a, active_policy_a.id, year=datetime.date.today().year + 2
+        )
+>       assert too_old.status_code == 400, too_old.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 400
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_validation.py:47: AssertionError
+_______________________ test_tc012_invalid_vin_rejected _______________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B458F110>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B458D950>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI2fQ.s8G20YwVaNh0HJLImyioXVUIPqrEKoADzai37tgtHFU'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B45A7ED0>
+
+    @pytest.mark.tc("TC-012")
+    def test_tc012_invalid_vin_rejected(client, db, headers_a, active_policy_a):
+        """AC-002: a VIN that is not 17 valid characters is rejected."""
+        short = _submit(client, headers_a, active_policy_a.id, vin="SHORT")
+        illegal = _submit(client, headers_a, active_policy_a.id, vin="1HGCM82633A0043IO")
+>       assert short.status_code == 400, short.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 400
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_validation.py:58: AssertionError
+___________________ test_tc013_empty_registration_rejected ____________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B4512950>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4513B10>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI2fQ.s8G20YwVaNh0HJLImyioXVUIPqrEKoADzai37tgtHFU'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B450F510>
+
+    @pytest.mark.tc("TC-013")
+    def test_tc013_empty_registration_rejected(client, db, headers_a, active_policy_a):
+        """AC-002: a blank registration is rejected."""
+        resp = _submit(client, headers_a, active_policy_a.id, registration="   ")
+>       assert resp.status_code == 400, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 400
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_endorsement_validation.py:68: AssertionError
+______________________ test_tc014_no_op_update_rejected _______________________
+
+client = <starlette.testclient.TestClient object at 0x000001D1B45A7C50>
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4535510>
+headers_a = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjdXN0b21lcl9hQGV4YW1wbGUuY29tIiwiZXhwIjoxNzg4OTgwMDI3fQ.-jJQ-Q1aKCaxtGf34-Acly1wMRgUAVxnmiFeTPHe8cI'}
+active_policy_a = <models.UserPolicies object at 0x000001D1B45A6490>
+
+    @pytest.mark.tc("TC-014")
+    def test_tc014_no_op_update_rejected(client, db, headers_a, active_policy_a):
+        """AC-002: a payload identical to the current vehicle values is rejected."""
+        from conftest import seed_vehicle
+    
+>       seed_vehicle(db, active_policy_a.id, **BASE)
+
+tests\test_endorsement_validation.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+db = <sqlalchemy.orm.session.Session object at 0x000001D1B4535510>
+user_policy_id = 1
+overrides = {'make': 'Toyota', 'model': 'Corolla', 'year': 2020, 'vin': '1HGCM82633A004352', ...}
+
+    def seed_vehicle(db, user_policy_id, **overrides):
+        """Insert a vehicles row directly. Used by tests that need a pre-existing
+        live vehicle record. Relies on the vehicles table the implementer adds."""
+        values = {
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2020,
+            "vin": "1HGCM82633A004352",
+            "registration": "KA01AB1234",
+        }
+        values.update(overrides)
+>       vehicle = models.Vehicle(user_policy_id=user_policy_id, **values)
+                  ^^^^^^^^^^^^^^
+E       AttributeError: module 'models' has no attribute 'Vehicle'
+
+conftest.py:215: AttributeError
+_________________ test_tc080_schema_files_apply_and_roll_back _________________
+
+    @pytest.mark.tc("TC-080")
+    def test_tc080_schema_files_apply_and_roll_back():
+        """AC-004: the vehicles + policy_endorsements schema applies and the down
+        migration drops both tables."""
+        for f in UP_FILES + [DOWN_FILE]:
+>           assert f.is_file(), f"missing schema file: {f}"
+E           AssertionError: missing schema file: C:\Users\Tejas\Desktop\Edme\Insurance-Comparison-Claim-Assistant\database\vehicles_schema.sql
+E           assert False
+E            +  where False = is_file()
+E            +    where is_file = WindowsPath('C:/Users/Tejas/Desktop/Edme/Insurance-Comparison-Claim-Assistant/database/vehicles_schema.sql').is_file
+
+tests\test_migration.py:27: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\Tejas\Desktop\Edme\Insurance-Comparison-Claim-Assistant\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_endorsement_approve.py::test_tc040_approval_applies_new_values_and_stamps_decision
+FAILED tests/test_endorsement_approve.py::test_tc041_approval_after_policy_expired_updates_vehicle_only
+FAILED tests/test_endorsement_approve.py::test_tc042_cannot_decide_an_already_decided_endorsement
+FAILED tests/test_endorsement_authz.py::test_tc020_cannot_submit_against_another_customers_policy
+FAILED tests/test_endorsement_authz.py::test_tc021_unauthenticated_submit_blocked
+FAILED tests/test_endorsement_authz.py::test_tc022_non_admin_cannot_approve_or_reject
+FAILED tests/test_endorsement_authz.py::test_tc023_customer_cannot_list_admin_queue
+FAILED tests/test_endorsement_history.py::test_tc060_history_returns_full_timeline_newest_first
+FAILED tests/test_endorsement_history.py::test_tc061_history_is_owner_scoped
+FAILED tests/test_endorsement_policy_state.py::test_tc030_expired_policy_cannot_be_endorsed
+FAILED tests/test_endorsement_policy_state.py::test_tc031_non_active_policies_rejected[cancelled]
+FAILED tests/test_endorsement_policy_state.py::test_tc031_non_active_policies_rejected[pending]
+FAILED tests/test_endorsement_reject.py::test_tc050_rejection_leaves_vehicle_unchanged_and_stamps_decision
+FAILED tests/test_endorsement_submit.py::test_tc001_customer_submits_update_for_own_active_policy
+FAILED tests/test_endorsement_submit.py::test_tc002_first_update_snapshots_null_baseline_and_creates_no_vehicle_row
+FAILED tests/test_endorsement_submit.py::test_tc003_pending_endorsement_does_not_touch_live_vehicle
+FAILED tests/test_endorsement_submit.py::test_tc004_multiple_pending_endorsements_allowed
+FAILED tests/test_endorsement_validation.py::test_tc010_missing_required_field_rejected
+FAILED tests/test_endorsement_validation.py::test_tc011_year_out_of_range_rejected
+FAILED tests/test_endorsement_validation.py::test_tc012_invalid_vin_rejected
+FAILED tests/test_endorsement_validation.py::test_tc013_empty_registration_rejected
+FAILED tests/test_endorsement_validation.py::test_tc014_no_op_update_rejected
+FAILED tests/test_migration.py::test_tc080_schema_files_apply_and_roll_back
+======================== 23 failed, 1 warning in 9.84s ========================
+
+########################################################################
+# FRONTEND RED — react-scripts test (Jest + RTL)
+########################################################################
+FAIL src/components/VehicleEndorsementModal.test.js
+  ● Test suite failed to run
+
+    Cannot find module './VehicleEndorsementModal' from 'src/components/VehicleEndorsementModal.test.js'
+
+    However, Jest was able to find:
+    	'./VehicleEndorsementModal.test.js'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+    [0m [90m 2 |[39m [90m// shows inline validation errors before calling onSubmit.[39m
+     [90m 3 |[39m [36mimport[39m { render[33m,[39m screen[33m,[39m fireEvent } [36mfrom[39m [32m"@testing-library/react"[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33mVehicleEndorsementModal[39m [36mfrom[39m [32m"./VehicleEndorsementModal"[39m[33m;[39m
+     [90m   |[39m [31m[1m^[22m[39m
+     [90m 5 |[39m
+     [90m 6 |[39m [36mconst[39m current [33m=[39m {
+     [90m 7 |[39m   make[33m:[39m [32m"Toyota"[39m[33m,[39m[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/components/VehicleEndorsementModal.test.js:4:1)
+
+FAIL src/components/EndorsementHistory.test.js
+  ● Test suite failed to run
+
+    Cannot find module './EndorsementHistory' from 'src/components/EndorsementHistory.test.js'
+
+    However, Jest was able to find:
+    	'./EndorsementHistory.test.js'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+    [0m [90m 2 |[39m [90m// the previous values, the new values, the request date and a status badge.[39m
+     [90m 3 |[39m [36mimport[39m { render[33m,[39m screen } [36mfrom[39m [32m"@testing-library/react"[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33mEndorsementHistory[39m [36mfrom[39m [32m"./EndorsementHistory"[39m[33m;[39m
+     [90m   |[39m [31m[1m^[22m[39m
+     [90m 5 |[39m
+     [90m 6 |[39m [36mconst[39m [33mITEMS[39m [33m=[39m [
+     [90m 7 |[39m   {[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/components/EndorsementHistory.test.js:4:1)
+
+FAIL src/pages/AdminEndorsements.test.js
+  ● Test suite failed to run
+
+    Cannot find module './AdminEndorsements' from 'src/pages/AdminEndorsements.test.js'
+
+    However, Jest was able to find:
+    	'./AdminEndorsements.test.js'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+    [0m [90m 4 |[39m [36mimport[39m { [33mToastProvider[39m } [36mfrom[39m [32m"../context/ToastContext"[39m[33m;[39m
+     [90m 5 |[39m [36mimport[39m { [33mConfirmProvider[39m } [36mfrom[39m [32m"../context/ConfirmContext"[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 6 |[39m [36mimport[39m [33mAdminEndorsements[39m [36mfrom[39m [32m"./AdminEndorsements"[39m[33m;[39m
+     [90m   |[39m [31m[1m^[22m[39m
+     [90m 7 |[39m [36mimport[39m { apiFetch } [36mfrom[39m [32m"../utils/apiClient"[39m[33m;[39m
+     [90m 8 |[39m
+     [90m 9 |[39m jest[33m.[39mmock([32m"../utils/apiClient"[39m)[33m;[39m[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/pages/AdminEndorsements.test.js:6:1)
+
+FAIL src/pages/Policies.endorsement.test.js
+  ● TC-070 / AC-001 — owned auto policy exposes an Update vehicle details action
+
+    Unable to find role="button" and name `/update vehicle details/i`
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mPrivate Car Comprehensive[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m7000[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m2000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 38 |[39m   )[33m;[39m
+     [90m 39 |[39m
+    [31m[1m>[22m[39m[90m 40 |[39m   [36mconst[39m updateBtn [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/update vehicle details/i[39m })[33m;[39m
+     [90m    |[39m                                  [31m[1m^[22m[39m
+     [90m 41 |[39m   fireEvent[33m.[39mclick(updateBtn)[33m;[39m
+     [90m 42 |[39m
+     [90m 43 |[39m   [36mawait[39m waitFor(() [33m=>[39m[0m
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/pages/Policies.endorsement.test.js:40:34)
+
+Test Suites: 4 failed, 4 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        3.782 s, estimated 24 s
+Ran all test suites matching /(VehicleEndorsementModal|EndorsementHistory|Policies.endorsement|AdminEndorsements)/i.
+
+########################################################################
+# RED ANALYSIS — EPT-13  (captured 2026-09-09)
+########################################################################
+# Backend: 23 test functions (TC-001..004, 010..014, 020..023, 030,
+#   031[cancelled|pending], 040..042, 050, 060, 061, 080) — ALL FAIL.
+#   Failure reasons match the test-plan predictions:
+#     * 404 Not Found — POST/GET /userpolicies/{id}/endorsements and
+#       /admin/endorsements[/approve|/reject] routes do not exist yet.
+#     * AttributeError: module 'models' has no attribute 'Vehicle' — the
+#       vehicles table / ORM model does not exist yet (tests that seed a
+#       pre-existing live vehicle). Predicted "absent column/model".
+#     * TC-080 — database/vehicles_schema.sql, database/endorsements_schema.sql
+#       and database/migrations/EPT-13_down.sql do not exist yet.
+#   No test ERRORED at collection; no test PASSED.
+#
+# Frontend: 4 suites (TC-015, TC-062, TC-070, TC-071) — ALL FAIL.
+#     * "Cannot find module" — VehicleEndorsementModal, EndorsementHistory,
+#       AdminEndorsements components not created yet.
+#     * TC-070 — Policies.js has no "Update vehicle details" action yet
+#       (findByRole times out). Predicted.
+#
+# This is a valid RED baseline: every case fails for the reason its
+# acceptance criterion predicts, none pass, none are broken.

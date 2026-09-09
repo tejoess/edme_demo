@@ -7,3 +7,7 @@ passlib[bcrypt]
 bcrypt==4.0.1
 python-multipart
 python-dotenv
+
+# Test harness (EPT-13) — see .agentic/tickets/EPT-13/plan.md
+pytest
+httpx
