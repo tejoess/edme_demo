@@ -1,4 +1,4 @@
-<h1 align="center">🚀 CoverMate</h1>
+<h1 align="center">🚀 Edme Insurance</h1>
 <h2 align="center">Insurance Comparison, Recommendation & Claim Assistant</h2>
 
 <p align="center">
@@ -19,7 +19,7 @@
 <h2>📌 Project Overview</h2>
 
 <p>
-CoverMate is a full-stack insurance management platform that enables users to:
+Edme Insurance is a full-stack insurance management platform that enables users to:
 </p>
 
 <ul>
@@ -251,3 +251,8 @@ This project demonstrates full-stack development, backend architecture design,
 secure authentication, relational database modeling, cloud integration,
 and structured milestone execution.
 </p>
+
+cd backend
+pip install pytest pytest-asyncio httpx
+mkdir -p tests
+# conftest.py with a test DB fixture pointing at a scratch Postgres database

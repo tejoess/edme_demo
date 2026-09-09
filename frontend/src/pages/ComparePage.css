@@ -1,128 +1,90 @@
-.compare-container {
-  padding: 50px;
-  background: #f4f6fb;
-  min-height: 100vh;
-  font-family: "Inter", sans-serif;
-}
-
-/* Header */
-.compare-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.compare-top h2 {
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.back-btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  background: #4e73df;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.back-btn:hover {
-  background: #2e59d9;
-}
-
-/* Calculator */
 .calculator-box {
   display: flex;
   gap: 30px;
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-  margin-bottom: 40px;
+  flex-wrap: wrap;
+  padding: 24px;
+  margin-bottom: 30px;
 }
 
 .calculator-field {
   display: flex;
   flex-direction: column;
+  min-width: 200px;
 }
 
 .calculator-field label {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
   margin-bottom: 6px;
-  color: #6c757d;
+  color: var(--gray-700);
 }
 
 .calculator-field input,
 .calculator-field select {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #d1d3e2;
-  min-width: 200px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-300);
+  font-size: 14px;
 }
 
-/* Comparison Grid */
+.calculator-field input:focus,
+.calculator-field select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+
 .compare-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
 }
 
-/* Comparison Card */
 .compare-card {
-  background: white;
-  padding: 30px;
-  border-radius: 18px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-  transition: all 0.3s ease;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 4px;
+  transition: transform 0.2s ease;
 }
 
 .compare-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
 }
 
-/* Header */
 .compare-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .compare-card-header h3 {
-  font-size: 18px;
+  margin: 0;
+  font-size: 16px;
+  color: var(--gray-900);
 }
 
-.policy-type {
-  font-size: 12px;
-  color: #6c757d;
-  text-transform: uppercase;
-}
-
-/* Price Section */
 .price-section {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .base-price {
-  font-size: 14px;
-  color: #6c757d;
+  font-size: 13px;
+  color: var(--gray-500);
 }
 
 .estimated-price {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  color: #1cc88a;
-  margin-top: 8px;
+  color: var(--color-success);
+  margin: 6px 0;
 }
 
-/* Features */
 .features-section p {
-  font-size: 14px;
-  margin-bottom: 8px;
-  color: #495057;
+  font-size: 13.5px;
+  margin: 0 0 8px;
+  color: var(--gray-600);
 }

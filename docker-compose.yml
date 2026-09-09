@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: covermate
+      POSTGRES_PASSWORD: covermate
+      POSTGRES_DB: insurance_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - covermate_pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  covermate_pgdata:

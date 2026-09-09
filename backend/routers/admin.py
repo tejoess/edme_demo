@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import func, extract
@@ -8,6 +9,8 @@ import io
 import models
 from database import get_db
 from oauth2 import get_current_user
+
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 
 router = APIRouter(
     prefix="/admin",
@@ -21,8 +24,7 @@ def admin_only(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    # Hardcoded admin email (as you requested)
-    if current_user.email != "satyn152@gmail.com":
+    if current_user.email != ADMIN_EMAIL:
         raise HTTPException(status_code=403, detail="Admin access required")
     return current_user
 

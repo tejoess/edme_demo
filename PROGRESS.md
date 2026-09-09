@@ -1,5 +1,5 @@
 # 📅 Daily Progress Log
-## CoverMate – Insurance Comparison, Recommendation & Claim Assistant
+## Edme Insurance – Insurance Comparison, Recommendation & Claim Assistant
 
 This file tracks day-to-day development progress for the
 Infosys Springboard 6.0 Internship.

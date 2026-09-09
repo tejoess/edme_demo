@@ -9,14 +9,15 @@ import os
 import models
 import schemas
 from database import get_db
-from drive_service import upload_file_to_drive
-from tasks import send_claim_status_email
 from oauth2 import get_current_user
 
 router = APIRouter(
     prefix="/claims",
     tags=["Claims"]
 )
+
+UPLOAD_DIR = "uploaded_claim_docs"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # -----------------------------
 # GENERATE CLAIM NUMBER
@@ -171,8 +172,6 @@ def upload_claim_document(
     current_user: models.User = Depends(get_current_user)
 ):
 
-    file_location = None  # Prevent crash in finally
-
     claim = (
         db.query(models.Claims)
         .join(models.UserPolicies)
@@ -189,16 +188,14 @@ def upload_claim_document(
     try:
         file_bytes = file.file.read()
 
-        safe_filename = file.filename.replace(" ", "_")
-        file_location = f"temp_{safe_filename}"
+        safe_filename = f"{claim_id}_{file.filename.replace(' ', '_')}"
+        file_location = os.path.join(UPLOAD_DIR, safe_filename)
 
         with open(file_location, "wb") as buffer:
             buffer.write(file_bytes)
 
-        file_url = upload_file_to_drive(file_location, safe_filename)
-
-        if not file_url:
-            raise Exception("Google Drive upload failed")
+        # Stored locally (Google Drive upload disabled for this setup)
+        file_url = f"/{file_location}"
 
         new_doc = models.ClaimDocuments(
             claim_id=claim_id,
@@ -218,10 +215,6 @@ def upload_claim_document(
         db.rollback()
         print("UPLOAD ERROR:", e)
         raise HTTPException(status_code=500, detail=str(e))
-
-    finally:
-        if file_location and os.path.exists(file_location):
-            os.remove(file_location)
 
 
 # -----------------------------
@@ -249,7 +242,7 @@ def update_claim_status(
     claim.status = request.status
     db.commit()
 
-    send_claim_status_email.delay(claim.id, claim.status)
+    # Status-update email notification disabled (Celery/SMTP not used in this setup)
 
     return {
         "message": "Claim status updated successfully",

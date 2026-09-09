@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -8,6 +9,8 @@ from hashing import Verify
 from jwt_token import create_access_token
 
 router = APIRouter()
+
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 
 @router.post("/login")
 def login(request: LoginRequest, db: Session = Depends(get_db)):
@@ -31,7 +34,7 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
     access_token = create_access_token(data={"sub": user.email})
 
     # ✅ Role flag without changing DB schema
-    is_admin = user.email == "satyn152@gmail.com"
+    is_admin = user.email == ADMIN_EMAIL
 
     return {
         "access_token": access_token,

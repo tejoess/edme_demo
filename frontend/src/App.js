@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Policies from "./pages/Policies";
@@ -8,16 +8,33 @@ import UploadClaim from "./pages/UploadClaim";
 import MyClaims from "./pages/MyClaims";
 import AdminDashboard from "./pages/AdminDashboard";
 import ComparePage from "./pages/ComparePage";
-import { BASE_URL } from "./api";
+import AppLayout from "./components/AppLayout";
+import { apiFetch, SESSION_EXPIRED_EVENT } from "./utils/apiClient";
+import { useToast } from "./context/ToastContext";
 
 function App() {
+  const toast = useToast();
   const [page, setPage] = useState("login");
   const [userId, setUserId] = useState(null);
   const [selectedClaimId, setSelectedClaimId] = useState(null);
   const [comparePolicies, setComparePolicies] = useState([]);
   const [checkingSession, setCheckingSession] = useState(true);
 
-  // ✅ SAFE SESSION RESTORE
+  const logout = useCallback(() => {
+    localStorage.clear();
+    setUserId(null);
+    setPage("login");
+  }, []);
+
+  useEffect(() => {
+    const onSessionExpired = () => {
+      toast.error("Your session has expired. Please log in again.");
+      logout();
+    };
+    window.addEventListener(SESSION_EXPIRED_EVENT, onSessionExpired);
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, onSessionExpired);
+  }, [toast, logout]);
+
   useEffect(() => {
     const checkSession = async () => {
       const storedUserId = localStorage.getItem("user_id");
@@ -31,20 +48,9 @@ function App() {
       }
 
       try {
-        // Verify token with backend
-        const response = await fetch(`${BASE_URL}/policies`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Invalid session");
-        }
-
+        await apiFetch("/policies");
         setUserId(storedUserId);
         setPage("policies");
-
       } catch (error) {
         localStorage.clear();
         setPage("login");
@@ -54,17 +60,26 @@ function App() {
     };
 
     checkSession();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (checkingSession) {
-    return <p style={{ textAlign: "center" }}>Loading...</p>;
+    return (
+      <div className="page-loader" style={{ minHeight: "100vh" }}>
+        <span className="spinner spinner-dark" />
+        Loading Edme Insurance…
+      </div>
+    );
   }
 
   const token = localStorage.getItem("token");
   const isAuthenticated = !!token;
+  const isAdmin = localStorage.getItem("is_admin") === "true";
 
-  // Protect routes
-  if (!isAuthenticated && page !== "login" && page !== "signup") {
+  if (!isAuthenticated) {
+    if (page === "signup") {
+      return <Signup goToLogin={() => setPage("login")} />;
+    }
     return (
       <Login
         onLoginSuccess={(id) => {
@@ -76,91 +91,49 @@ function App() {
     );
   }
 
-  switch (page) {
+  const renderPage = () => {
+    switch (page) {
+      case "risk":
+        return <RiskProfile userId={userId} onSubmitSuccess={(next) => setPage(next)} />;
 
-    case "login":
-      return (
-        <Login
-          onLoginSuccess={(id) => {
-            setUserId(id);
-            setPage("policies");
-          }}
-          goToSignup={() => setPage("signup")}
-        />
-      );
+      case "recommendations":
+        return <Recommendations userId={userId} onBack={() => setPage("policies")} />;
 
-    case "signup":
-      return <Signup goToLogin={() => setPage("login")} />;
+      case "claims":
+        return <MyClaims onBack={() => setPage("policies")} />;
 
-    case "risk":
-      return (
-        <RiskProfile
-          userId={userId}
-          onSubmitSuccess={(nextPage) => setPage(nextPage)}
-        />
-      );
+      case "upload":
+        return <UploadClaim claimId={selectedClaimId} onBack={() => setPage("claims")} />;
 
-    case "recommendations":
-      return (
-        <Recommendations
-          userId={userId}
-          onBack={() => setPage("policies")}
-        />
-      );
+      case "admin":
+        return <AdminDashboard onBack={() => setPage("policies")} />;
 
-    case "claims":
-      return (
-        <MyClaims
-          onBack={() => setPage("policies")}
-        />
-      );
+      case "compare":
+        return <ComparePage policies={comparePolicies} onBack={() => setPage("policies")} />;
 
-    case "upload":
-      return (
-        <UploadClaim
-          claimId={selectedClaimId}
-          onBack={() => setPage("policies")}
-        />
-      );
+      default:
+        return (
+          <Policies
+            goToUpload={(claimId) => {
+              setSelectedClaimId(claimId);
+              setPage("upload");
+            }}
+            goToComparePage={(policies) => {
+              setComparePolicies(policies);
+              setPage("compare");
+            }}
+          />
+        );
+    }
+  };
 
-    case "admin":
-      return (
-        <AdminDashboard
-          onBack={() => setPage("policies")}
-        />
-      );
+  const activeKey = page === "upload" || page === "compare" ? "policies" : page;
 
-    case "compare":
-      return (
-        <ComparePage
-          policies={comparePolicies}
-          onBack={() => setPage("policies")}
-        />
-      );
-
-    default:
-      return (
-        <Policies
-          goToRiskProfile={() => setPage("risk")}
-          goToRecommendations={() => setPage("recommendations")}
-          goToUpload={(claimId) => {
-            setSelectedClaimId(claimId);
-            setPage("upload");
-          }}
-          goToClaims={() => setPage("claims")}
-          goToAdmin={() => setPage("admin")}
-          goToComparePage={(policies) => {
-            setComparePolicies(policies);
-            setPage("compare");
-          }}
-          onLogout={() => {
-            localStorage.clear();
-            setUserId(null);
-            setPage("login");
-          }}
-        />
-      );
-  }
+  return (
+    <AppLayout active={activeKey} isAdmin={isAdmin} onNavigate={setPage} onLogout={logout}>
+      {renderPage()}
+    </AppLayout>
+  );
 }
 
 export default App;

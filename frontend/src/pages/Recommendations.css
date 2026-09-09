@@ -1,71 +1,63 @@
-.recommendations-container {
-  padding: 30px;
-  background-color: #f4f7fb;
-  min-height: 100vh;
-}
-
-.recommendations-header {
+.risk-summary {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
+  gap: 40px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
 }
 
-.recommendations-title {
-  font-size: 24px;
-  font-weight: 600;
+.risk-summary-label {
+  font-size: 12.5px;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+
+.risk-summary-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .recommendation-card {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 22px 24px;
   transition: transform 0.2s ease;
 }
 
 .recommendation-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
+}
+
+.recommendation-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .policy-name {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray-900);
 }
 
-.policy-details {
-  margin-bottom: 8px;
-  color: #555;
-}
-
-.score-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 20px;
-  font-weight: 600;
-  margin-top: 8px;
+.policy-details-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  color: var(--gray-600);
+  font-size: 13.5px;
+  margin-bottom: 12px;
 }
 
 .reason-text {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #444;
+  font-size: 13.5px;
+  color: var(--gray-500);
   line-height: 1.5;
-}
-
-.back-btn {
-  padding: 8px 16px;
-  background-color: #1976d2;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.back-btn:hover {
-  background-color: #125aa1;
 }

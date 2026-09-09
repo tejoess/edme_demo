@@ -1,10 +1,13 @@
+import os
+from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 
+load_dotenv()
 
 # 🔑 Secret key
-SECRET_KEY = "secretkey123"
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

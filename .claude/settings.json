@@ -1,0 +1,57 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-log.sh file-change"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-sensitive-paths.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-scope-ops.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-sensitive-paths.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-frozen-tests.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/guard-scope-edit.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/audit-log.sh session-end"
+          }
+        ]
+      }
+    ]
+  }
+}

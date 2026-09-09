@@ -19,7 +19,7 @@ from routers import (
 )
 
 app = FastAPI(
-    title="CoverMate API",
+    title="Edme Insurance API",
     description="Insurance Comparison, Recommendation & Claim Assistant",
     version="1.0.0"
 )

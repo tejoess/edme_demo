@@ -57,3 +57,4 @@ backend/credentials.json
 backend/client_secret.json
 backend/client_secret_*.json
 backend/token.pickle
+backend/uploaded_claim_docs/

@@ -1,94 +1,124 @@
 import { useState } from "react";
-import axios from "axios";
 import "./Auth.css";
-import { BASE_URL } from "../api";
+import FormField from "../components/FormField";
+import { apiFetch } from "../utils/apiClient";
+import { isValidEmail } from "../utils/validation";
+import { useToast } from "../context/ToastContext";
 
 function Login({ onLoginSuccess, goToSignup }) {
+  const toast = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState("");
 
-  const handleLogin = async () => {
-    setError("");
+  const validate = () => {
+    const next = {};
+    if (!email.trim()) next.email = "Email is required";
+    else if (!isValidEmail(email)) next.email = "Enter a valid email address";
 
-    if (!email.trim() || !password.trim()) {
-      setError("Email and password are required");
-      return;
-    }
+    if (!password) next.password = "Password is required";
+
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setFormError("");
+    if (!validate()) return;
 
     try {
       setLoading(true);
 
-      const response = await axios.post(`${BASE_URL}/login`, {
-        email: email.trim(),
-        password: password.trim(),
+      const data = await apiFetch("/login", {
+        method: "POST",
+        body: { email: email.trim(), password },
       });
 
-      const { access_token, user_id, email: userEmail, is_admin } = response.data;
-
-      // Clear old session
       localStorage.clear();
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("user_id", data.user_id);
+      localStorage.setItem("email", data.email);
+      localStorage.setItem("is_admin", data.is_admin);
 
-      // Save session
-      localStorage.setItem("token", access_token);
-      localStorage.setItem("user_id", user_id);
-      localStorage.setItem("email", userEmail);
-      localStorage.setItem("is_admin", is_admin);  // ✅ ROLE STORED
-
-      onLoginSuccess(user_id);
-
+      toast.success(`Welcome back, ${data.email}!`);
+      onLoginSuccess(data.user_id);
     } catch (err) {
-      if (err.response && err.response.status === 401) {
-        setError("Invalid email or password");
-      } else {
-        setError("Server error. Please try again.");
-      }
+      setFormError(err.message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-container">
-      <h1 className="app-title">CoverMate</h1>
-      <p className="app-subtitle">
-        Insurance Comparison & Claim Assistant
-      </p>
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-brand">
+          <span className="auth-brand-icon" aria-hidden="true">🛡️</span>
+          <h1 className="app-title">Edme Insurance</h1>
+        </div>
+        <p className="app-subtitle">Insurance Comparison &amp; Claim Assistant</p>
 
-      <h2>Login</h2>
+        <h2>Log in to your account</h2>
 
-      {error && <p className="error-text">{error}</p>}
+        {formError && (
+          <div className="alert alert-error" role="alert">
+            {formError}
+          </div>
+        )}
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+        <form onSubmit={handleLogin} noValidate>
+          <FormField label="Email" required error={errors.email} htmlFor="login-email">
+            <input
+              id="login-email"
+              type="email"
+              autoComplete="email"
+              autoFocus
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={!!errors.email}
+            />
+          </FormField>
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <FormField label="Password" required error={errors.password} htmlFor="login-password">
+            <div className="password-input-wrap">
+              <input
+                id="login-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                placeholder="Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                aria-invalid={!!errors.password}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((v) => !v)}
+                tabIndex={-1}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+          </FormField>
 
-      <button
-        className="primary-btn"
-        onClick={handleLogin}
-        disabled={loading}
-      >
-        {loading ? "Logging in..." : "Login"}
-      </button>
+          <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+            {loading ? <span className="spinner" /> : null}
+            {loading ? "Logging in…" : "Log In"}
+          </button>
+        </form>
 
-      <button
-        className="secondary-btn"
-        onClick={goToSignup}
-        disabled={loading}
-      >
-        Signup
-      </button>
+        <p className="auth-footer">
+          Don't have an account?{" "}
+          <button className="btn-link" onClick={goToSignup} disabled={loading}>
+            Sign up
+          </button>
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,106 +1,105 @@
-import { useState, useEffect } from "react";
-import { BASE_URL } from "../api";
+import { useState, useEffect, useCallback } from "react";
+import { apiFetch } from "../utils/apiClient";
 import "./MyClaims.css";
 
-function MyClaims({ onBack }) {
+const STATUS_BADGE = {
+  draft: "badge-neutral",
+  submitted: "badge-info",
+  under_review: "badge-warning",
+  approved: "badge-success",
+  paid: "badge-success",
+  rejected: "badge-danger",
+};
+
+function ClaimSkeleton() {
+  return (
+    <div className="card claim-card">
+      <div className="skeleton" style={{ height: 16, width: "50%", marginBottom: 14 }} />
+      <div className="skeleton" style={{ height: 12, width: "70%", marginBottom: 8 }} />
+      <div className="skeleton" style={{ height: 12, width: "60%", marginBottom: 14 }} />
+      <div className="skeleton" style={{ height: 22, width: "35%" }} />
+    </div>
+  );
+}
+
+function MyClaims() {
   const [claims, setClaims] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchClaims = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        setError("Not authenticated");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const res = await fetch(`${BASE_URL}/claims/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch claims");
-        }
-
-        const data = await res.json();
-        setClaims(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load claims");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchClaims();
+  const fetchClaims = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await apiFetch("/claims/");
+      setClaims(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setError(err.message || "Unable to load claims");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "draft":
-        return "#6b7280";
-      case "submitted":
-      case "approved":
-      case "paid":
-        return "#2563eb";   // blue only
-      case "under_review":
-        return "#1d4ed8";
-      case "rejected":
-        return "#dc2626";
-      default:
-        return "#6b7280";
-    }
-  };
-
-  if (loading) return <p style={{ textAlign: "center" }}>Loading claims...</p>;
-
-  if (error)
-    return (
-      <div className="claims-container">
-        <h2>My Claims</h2>
-        <p style={{ color: "red" }}>{error}</p>
-        <button className="back-btn" onClick={onBack}>
-          Back
-        </button>
-      </div>
-    );
+  useEffect(() => {
+    fetchClaims();
+  }, [fetchClaims]);
 
   return (
-    <div className="claims-container">
-      <h2>My Claims</h2>
-
-      <button className="back-btn" onClick={onBack}>
-        Back
-      </button>
-
-      {claims.length === 0 ? (
-        <p style={{ marginTop: "20px" }}>
-          No claims found.
-        </p>
-      ) : (
-        <div className="claims-grid">
-          {claims.map((claim) => (
-            <div key={claim.id} className="claim-card">
-              <h4>{claim.claim_number}</h4>
-              <p><strong>Amount:</strong> ₹{claim.amount_claimed}</p>
-              <p><strong>Date:</strong> {claim.incident_date}</p>
-
-              <span
-                className="status-badge"
-                style={{ backgroundColor: getStatusColor(claim.status) }}
-              >
-                {claim.status}
-              </span>
-            </div>
-          ))}
+    <div className="page-shell">
+      <div className="page-content">
+        <div className="page-heading">
+          <div>
+            <h2>My Claims</h2>
+            <p>Track the status of claims you've filed.</p>
+          </div>
         </div>
-      )}
+
+        {loading && (
+          <div className="claims-grid">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <ClaimSkeleton key={i} />
+            ))}
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="empty-state">
+            <div className="empty-icon">⚠️</div>
+            <h3>Couldn't load claims</h3>
+            <p>{error}</p>
+            <button className="btn btn-primary" onClick={fetchClaims}>
+              Try again
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && claims.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-icon">🗂️</div>
+            <h3>No claims yet</h3>
+            <p>File a claim from one of your active policies to see it here.</p>
+          </div>
+        )}
+
+        {!loading && !error && claims.length > 0 && (
+          <div className="claims-grid">
+            {claims.map((claim) => (
+              <div key={claim.id} className="card claim-card">
+                <h4>{claim.claim_number}</h4>
+                <p className="claim-meta">
+                  <strong>Amount:</strong> ₹{claim.amount_claimed}
+                </p>
+                <p className="claim-meta">
+                  <strong>Incident date:</strong> {claim.incident_date}
+                </p>
+                <span className={`badge ${STATUS_BADGE[claim.status] || "badge-neutral"}`}>
+                  {claim.status.replace("_", " ")}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,158 +1,118 @@
 .admin-container {
-  padding: 60px 90px;
-  background: #f5f7fb;
-  min-height: 100vh;
-  font-family: 'Inter', sans-serif;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
 }
 
-/* HEADER */
 .admin-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 45px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .admin-header h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #1e293b;
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.admin-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--gray-500);
 }
 
 .header-actions {
   display: flex;
-  gap: 15px;
+  gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .sort-select {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid #dbeafe;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-200);
   background: white;
-  font-size: 14px;
+  font-size: 13.5px;
   cursor: pointer;
 }
 
-/* FIXED EXPORT BUTTON */
-.export-btn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.export-btn:hover {
-  background: #1d4ed8;
-}
-
-/* FIXED BACK BUTTON */
-.back-btn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  background: white;
-  cursor: pointer;
-}
-
-.back-btn:hover {
-  background: #f1f5f9;
-}
-
-/* GRID */
 .claims-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
 }
 
-/* CARD */
 .claim-card {
-  background: white;
-  border-radius: 16px;
-  padding: 28px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-  transition: 0.2s ease;
+  padding: 24px;
 }
 
-.claim-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-
-.claim-summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.claim-summary h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--gray-900);
 }
 
 .amount {
-  color: #64748b;
-  font-size: 14px;
-  margin: 5px 0;
-}
-
-/* STATUS COLORS */
-.status {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 500;
+  color: var(--gray-500);
+  font-size: 13.5px;
+  margin: 0 0 8px;
 }
 
 .status-approved {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
 }
-
 .status-rejected {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
 }
-
 .status-under_review {
-  background: #fef9c3;
-  color: #854d0e;
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
 }
-
 .status-submitted {
-  background: #e0f2fe;
-  color: #075985;
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
 }
-
 .status-draft {
-  background: #e2e8f0;
-  color: #334155;
+  background: var(--gray-200);
+  color: var(--gray-700);
 }
 
-/* REVIEW BUTTON */
-.review-btn {
-  padding: 10px 20px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #2563eb, #1d4ed8);
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
 }
 
-/* EXPAND */
 .expand-section {
-  margin-top: 20px;
-  border-top: 1px solid #e2e8f0;
-  padding-top: 20px;
+  margin-top: 18px;
+  border-top: 1px solid var(--gray-100);
+  padding-top: 18px;
 }
 
-/* FRAUD */
 .fraud-box {
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  font-size: 13.5px;
+}
+
+.fraud-box h4 {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+}
+
+.fraud-box ul {
+  margin: 0;
+  padding-left: 18px;
 }
 
 .fraud-danger {
@@ -167,45 +127,8 @@
   color: #166534;
 }
 
-/* DECISION */
 .decision-section {
   display: flex;
-  gap: 12px;
-}
-
-.decision-section button {
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.approve {
-  background: #16a34a;
-  color: white;
-}
-
-.reject {
-  background: #dc2626;
-  color: white;
-}
-
-.review {
-  background: #f59e0b;
-  color: white;
-}
-
-.card-buttons {
-  display: flex;
   gap: 10px;
-}
-
-.doc-btn {
-  padding: 6px 12px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+  flex-wrap: wrap;
 }
