@@ -1,0 +1,44 @@
+- generic [ref=e2]:
+  - generic [ref=e297]:
+    - complementary [ref=e298]:
+      - generic [ref=e299]:
+        - generic [aria-hidden] [ref=e300]: 🛡️
+        - generic [ref=e301]: Edme Insurance
+      - navigation "Primary" [ref=e302]:
+        - button "Policies" [ref=e303] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e304]: 📄
+          - text: Policies
+        - button "Recommendations" [ref=e305] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e306]: ✨
+          - text: Recommendations
+        - button "My Claims" [ref=e307] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e308]: 🗂️
+          - text: My Claims
+        - button "Preferences" [ref=e309] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e310]: ⚙️
+          - text: Preferences
+        - button "Admin Dashboard" [ref=e311] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e312]: 🛠️
+          - text: Admin Dashboard
+        - button "Endorsements" [ref=e313] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e314]: 📝
+          - text: Endorsements
+      - generic [ref=e315]:
+        - generic [ref=e316]:
+          - generic [ref=e317]: AD
+          - generic "admin@example.com" [ref=e318]
+        - button "Logout" [ref=e319] [cursor=pointer]
+    - main [ref=e320]:
+      - generic [ref=e440]:
+        - generic [ref=e441]:
+          - generic [ref=e442]:
+            - heading "Policy Endorsement Requests" [level=2] [ref=e443]
+            - paragraph [ref=e444]: 0 pending
+          - button "Back" [ref=e445] [cursor=pointer]
+        - generic [ref=e464]:
+          - generic [ref=e465]: 📭
+          - heading "No pending endorsements" [level=3] [ref=e466]
+  - status [ref=e467]:
+    - generic [ref=e468]: ✓
+    - generic [ref=e469]: Endorsement approved.
+    - button "Dismiss notification" [ref=e470] [cursor=pointer]: ✕

@@ -1,0 +1,153 @@
+- generic [ref=e2]:
+  - generic [ref=e497]:
+    - complementary [ref=e498]:
+      - generic [ref=e499]:
+        - generic [aria-hidden] [ref=e500]: 🛡️
+        - generic [ref=e501]: Edme Insurance
+      - navigation "Primary" [ref=e502]:
+        - button "Policies" [ref=e503] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e504]: 📄
+          - text: Policies
+        - button "Recommendations" [ref=e505] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e506]: ✨
+          - text: Recommendations
+        - button "My Claims" [ref=e507] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e508]: 🗂️
+          - text: My Claims
+        - button "Preferences" [ref=e509] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e510]: ⚙️
+          - text: Preferences
+      - generic [ref=e511]:
+        - generic [ref=e512]:
+          - generic [ref=e513]: UI
+          - generic "uicustomer@example.com" [ref=e514]
+        - button "Logout" [ref=e515] [cursor=pointer]
+    - main [ref=e516]:
+      - generic [ref=e518]:
+        - generic [ref=e520]:
+          - heading "Insurance Policies" [level=2] [ref=e521]
+          - paragraph [ref=e522]: Browse, compare, and manage your coverage.
+        - generic [ref=e523]:
+          - button "All" [ref=e524] [cursor=pointer]
+          - button "Health" [ref=e525] [cursor=pointer]
+          - button "Life" [ref=e526] [cursor=pointer]
+          - button "Travel" [ref=e527] [cursor=pointer]
+          - button "Auto" [ref=e528] [cursor=pointer]
+          - button "Home" [ref=e529] [cursor=pointer]
+        - generic [ref=e530]:
+          - 'checkbox "FamilyCare Health Plan health ₹8500 / 12mo Deductible: ₹5000 Buy Policy File Claim" [ref=e531] [cursor=pointer]':
+            - generic [ref=e532]:
+              - heading "FamilyCare Health Plan" [level=4] [ref=e533]
+              - generic [ref=e534]: health
+            - generic [ref=e535]:
+              - text: ₹8500
+              - generic [ref=e536]: / 12mo
+            - generic [ref=e537]: "Deductible: ₹5000"
+            - generic [ref=e538]:
+              - button "Buy Policy" [ref=e539]
+              - button "File Claim" [ref=e540]
+          - 'checkbox "Comprehensive Health Shield health ₹12000 / 12mo Deductible: ₹3000 Buy Policy File Claim" [ref=e541] [cursor=pointer]':
+            - generic [ref=e542]:
+              - heading "Comprehensive Health Shield" [level=4] [ref=e543]
+              - generic [ref=e544]: health
+            - generic [ref=e545]:
+              - text: ₹12000
+              - generic [ref=e546]: / 12mo
+            - generic [ref=e547]: "Deductible: ₹3000"
+            - generic [ref=e548]:
+              - button "Buy Policy" [ref=e549]
+              - button "File Claim" [ref=e550]
+          - 'checkbox "Domestic Travel Cover travel ₹1500 / 3mo Deductible: ₹500 Buy Policy File Claim" [ref=e551] [cursor=pointer]':
+            - generic [ref=e552]:
+              - heading "Domestic Travel Cover" [level=4] [ref=e553]
+              - generic [ref=e554]: travel
+            - generic [ref=e555]:
+              - text: ₹1500
+              - generic [ref=e556]: / 3mo
+            - generic [ref=e557]: "Deductible: ₹500"
+            - generic [ref=e558]:
+              - button "Buy Policy" [ref=e559]
+              - button "File Claim" [ref=e560]
+          - 'checkbox "International Travel Plus travel ₹4500 / 6mo Deductible: ₹1000 Buy Policy File Claim" [ref=e561] [cursor=pointer]':
+            - generic [ref=e562]:
+              - heading "International Travel Plus" [level=4] [ref=e563]
+              - generic [ref=e564]: travel
+            - generic [ref=e565]:
+              - text: ₹4500
+              - generic [ref=e566]: / 6mo
+            - generic [ref=e567]: "Deductible: ₹1000"
+            - generic [ref=e568]:
+              - button "Buy Policy" [ref=e569]
+              - button "File Claim" [ref=e570]
+          - 'checkbox "Term Life Secure life ₹6000 / 240mo Deductible: ₹0 Buy Policy File Claim" [ref=e571] [cursor=pointer]':
+            - generic [ref=e572]:
+              - heading "Term Life Secure" [level=4] [ref=e573]
+              - generic [ref=e574]: life
+            - generic [ref=e575]:
+              - text: ₹6000
+              - generic [ref=e576]: / 240mo
+            - generic [ref=e577]: "Deductible: ₹0"
+            - generic [ref=e578]:
+              - button "Buy Policy" [ref=e579]
+              - button "File Claim" [ref=e580]
+          - 'checkbox "Life Cover with Savings life ₹9500 / 180mo Deductible: ₹0 Buy Policy File Claim" [ref=e581] [cursor=pointer]':
+            - generic [ref=e582]:
+              - heading "Life Cover with Savings" [level=4] [ref=e583]
+              - generic [ref=e584]: life
+            - generic [ref=e585]:
+              - text: ₹9500
+              - generic [ref=e586]: / 180mo
+            - generic [ref=e587]: "Deductible: ₹0"
+            - generic [ref=e588]:
+              - button "Buy Policy" [ref=e589]
+              - button "File Claim" [ref=e590]
+          - 'checkbox "Private Car Comprehensive auto ₹7000 / 12mo Deductible: ₹2000 ✓ Purchased File Claim Update vehicle details Vehicle history" [ref=e591] [cursor=pointer]':
+            - generic [ref=e592]:
+              - heading "Private Car Comprehensive" [level=4] [ref=e593]
+              - generic [ref=e594]: auto
+            - generic [ref=e595]:
+              - text: ₹7000
+              - generic [ref=e596]: / 12mo
+            - generic [ref=e597]: "Deductible: ₹2000"
+            - generic [ref=e598]:
+              - button "✓ Purchased" [disabled] [ref=e599]
+              - button "File Claim" [ref=e600]
+              - button "Update vehicle details" [ref=e601]
+              - button "Vehicle history" [ref=e602]
+          - 'checkbox "Two-Wheeler Accident Cover auto ₹2000 / 12mo Deductible: ₹500 Buy Policy File Claim" [ref=e603] [cursor=pointer]':
+            - generic [ref=e604]:
+              - heading "Two-Wheeler Accident Cover" [level=4] [ref=e605]
+              - generic [ref=e606]: auto
+            - generic [ref=e607]:
+              - text: ₹2000
+              - generic [ref=e608]: / 12mo
+            - generic [ref=e609]: "Deductible: ₹500"
+            - generic [ref=e610]:
+              - button "Buy Policy" [ref=e611]
+              - button "File Claim" [ref=e612]
+          - 'checkbox "HomeSafe Structure Plan home ₹5000 / 12mo Deductible: ₹2500 Buy Policy File Claim" [ref=e613] [cursor=pointer]':
+            - generic [ref=e614]:
+              - heading "HomeSafe Structure Plan" [level=4] [ref=e615]
+              - generic [ref=e616]: home
+            - generic [ref=e617]:
+              - text: ₹5000
+              - generic [ref=e618]: / 12mo
+            - generic [ref=e619]: "Deductible: ₹2500"
+            - generic [ref=e620]:
+              - button "Buy Policy" [ref=e621]
+              - button "File Claim" [ref=e622]
+          - 'checkbox "Complete Home Protection home ₹8000 / 12mo Deductible: ₹3000 Buy Policy File Claim" [ref=e623] [cursor=pointer]':
+            - generic [ref=e624]:
+              - heading "Complete Home Protection" [level=4] [ref=e625]
+              - generic [ref=e626]: home
+            - generic [ref=e627]:
+              - text: ₹8000
+              - generic [ref=e628]: / 12mo
+            - generic [ref=e629]: "Deductible: ₹3000"
+            - generic [ref=e630]:
+              - button "Buy Policy" [ref=e631]
+              - button "File Claim" [ref=e632]
+  - status [ref=e633]:
+    - generic [ref=e634]: ✓
+    - generic [ref=e635]: Welcome back, uicustomer@example.com!
+    - button "Dismiss notification" [ref=e636] [cursor=pointer]: ✕

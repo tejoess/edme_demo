@@ -1,0 +1,21 @@
+- generic [ref=e479]:
+  - generic [ref=e480]:
+    - generic [aria-hidden] [ref=e481]: 🛡️
+    - heading "Edme Insurance" [level=1] [ref=e482]
+  - paragraph [ref=e483]: Insurance Comparison & Claim Assistant
+  - heading "Log in to your account" [level=2] [ref=e484]
+  - generic [ref=e485]:
+    - generic [ref=e486]:
+      - generic [ref=e487]: Email*
+      - textbox "Email*" [active] [ref=e488]:
+        - /placeholder: you@example.com
+    - generic [ref=e489]:
+      - generic [ref=e490]: Password*
+      - generic [ref=e491]:
+        - textbox "Password*" [ref=e492]:
+          - /placeholder: Your password
+        - button "Show" [ref=e493] [cursor=pointer]
+    - button "Log In" [ref=e494] [cursor=pointer]
+  - paragraph [ref=e495]:
+    - text: Don't have an account?
+    - button "Sign up" [ref=e496] [cursor=pointer]

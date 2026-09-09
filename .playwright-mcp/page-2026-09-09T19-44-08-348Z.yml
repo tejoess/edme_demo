@@ -1,0 +1,97 @@
+- generic [ref=e2]:
+  - generic [ref=e22]:
+    - complementary [ref=e23]:
+      - generic [ref=e24]:
+        - generic [aria-hidden] [ref=e25]: 🛡️
+        - generic [ref=e26]: Edme Insurance
+      - navigation "Primary" [ref=e27]:
+        - button "Policies" [ref=e28] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e29]: 📄
+          - text: Policies
+        - button "Recommendations" [ref=e30] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e31]: ✨
+          - text: Recommendations
+        - button "My Claims" [ref=e32] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e33]: 🗂️
+          - text: My Claims
+        - button "Preferences" [ref=e34] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e35]: ⚙️
+          - text: Preferences
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]: UI
+          - generic "uicustomer@example.com" [ref=e39]
+        - button "Logout" [ref=e40] [cursor=pointer]
+    - main [ref=e41]:
+      - generic [ref=e43]:
+        - generic [ref=e45]:
+          - heading "Insurance Policies" [level=2] [ref=e46]
+          - paragraph [ref=e47]: Browse, compare, and manage your coverage.
+        - generic [ref=e48]:
+          - button "All" [ref=e49] [cursor=pointer]
+          - button "Health" [ref=e50] [cursor=pointer]
+          - button "Life" [ref=e51] [cursor=pointer]
+          - button "Travel" [ref=e52] [cursor=pointer]
+          - button "Auto" [ref=e53] [cursor=pointer]
+          - button "Home" [ref=e54] [cursor=pointer]
+        - generic [ref=e55]:
+          - 'checkbox "Private Car Comprehensive auto ₹7000 / 12mo Deductible: ₹2000 ✓ Purchased File Claim Update vehicle details Vehicle history Pending Requested 9/9/2026 VIN — 2HGFC2F59KH500000 Make — Honda Year — 2022 Model — Civic Registration — KA05MJ7788" [ref=e238] [cursor=pointer]':
+            - generic [ref=e117]:
+              - heading "Private Car Comprehensive" [level=4] [ref=e118]
+              - generic [ref=e119]: auto
+            - generic [ref=e120]:
+              - text: ₹7000
+              - generic [ref=e121]: / 12mo
+            - generic [ref=e122]: "Deductible: ₹2000"
+            - generic [ref=e123]:
+              - button "✓ Purchased" [disabled] [ref=e169]
+              - button "File Claim" [ref=e125]
+              - button "Update vehicle details" [ref=e170]
+              - button "Vehicle history" [ref=e171]
+            - generic [ref=e241]:
+              - generic [ref=e242]:
+                - generic [ref=e243]: Pending
+                - generic [ref=e244]: Requested 9/9/2026
+              - list [ref=e245]:
+                - listitem [ref=e246]:
+                  - generic [ref=e247]: VIN
+                  - generic [ref=e248]: —
+                  - generic [aria-hidden] [ref=e249]: →
+                  - generic [ref=e250]: 2HGFC2F59KH500000
+                - listitem [ref=e251]:
+                  - generic [ref=e252]: Make
+                  - generic [ref=e253]: —
+                  - generic [aria-hidden] [ref=e254]: →
+                  - generic [ref=e255]: Honda
+                - listitem [ref=e256]:
+                  - generic [ref=e257]: Year
+                  - generic [ref=e258]: —
+                  - generic [aria-hidden] [ref=e259]: →
+                  - generic [ref=e260]: "2022"
+                - listitem [ref=e261]:
+                  - generic [ref=e262]: Model
+                  - generic [ref=e263]: —
+                  - generic [aria-hidden] [ref=e264]: →
+                  - generic [ref=e265]: Civic
+                - listitem [ref=e266]:
+                  - generic [ref=e267]: Registration
+                  - generic [ref=e268]: —
+                  - generic [aria-hidden] [ref=e269]: →
+                  - generic [ref=e270]: KA05MJ7788
+          - 'checkbox "Two-Wheeler Accident Cover auto ₹2000 / 12mo Deductible: ₹500 Buy Policy File Claim" [ref=e126] [cursor=pointer]':
+            - generic [ref=e127]:
+              - heading "Two-Wheeler Accident Cover" [level=4] [ref=e128]
+              - generic [ref=e129]: auto
+            - generic [ref=e130]:
+              - text: ₹2000
+              - generic [ref=e131]: / 12mo
+            - generic [ref=e132]: "Deductible: ₹500"
+            - generic [ref=e133]:
+              - button "Buy Policy" [ref=e134]
+              - button "File Claim" [ref=e135]
+  - alertdialog [ref=e272]:
+    - heading "Log out?" [level=3] [ref=e273]
+    - paragraph [ref=e274]: You'll need to sign in again to access your account.
+    - generic [ref=e275]:
+      - button "Cancel" [ref=e276] [cursor=pointer]
+      - button "Log out" [active] [ref=e277] [cursor=pointer]

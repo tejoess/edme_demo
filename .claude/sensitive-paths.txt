@@ -14,3 +14,5 @@ deploy/
 # "sensitive" means for this repo, e.g.:
 # agentcore_deploy\.py
 # terraform/
+# Frozen-test lock — written once at RED, never edited afterwards.
+frozen\.lock
