@@ -1,0 +1,12 @@
+backend/tests/test_endorsement_submit.py
+backend/tests/test_endorsement_validation.py
+backend/tests/test_endorsement_authz.py
+backend/tests/test_endorsement_policy_state.py
+backend/tests/test_endorsement_approve.py
+backend/tests/test_endorsement_reject.py
+backend/tests/test_endorsement_history.py
+backend/tests/test_migration.py
+frontend/src/components/VehicleEndorsementModal.test.js
+frontend/src/components/EndorsementHistory.test.js
+frontend/src/pages/Policies.endorsement.test.js
+frontend/src/pages/AdminEndorsements.test.js

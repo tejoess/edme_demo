@@ -1,0 +1,33 @@
+{
+  "ticket": "EPT-13",
+  "risk": "HIGH",
+  "branch": "feature/EPT-13",
+  "checkpoint_sha": "87962856d1dc437b42fe9e211aed95414beb563d",
+  "phase": "IMPLEMENTATION",
+  "plan_approved": true,
+  "red_captured": true,
+  "attempt": 0,
+  "max_attempts": 3,
+  "verification": "not_run",
+  "review": "pending",
+  "_phases": [
+    "ANALYSIS",
+    "WAITING_FOR_APPROVAL",
+    "IMPLEMENTATION",
+    "VERIFICATION",
+    "FIX",
+    "EVIDENCE",
+    "REVIEW",
+    "APPROVED",
+    "PR",
+    "BLOCKED",
+    "ABANDONED"
+  ],
+  "_metrics": {
+    "planned_at": "2026-09-09",
+    "approved_at": "2026-09-09T18:01:01Z",
+    "green_at": null,
+    "files_changed": null,
+    "diff_lines": null
+  }
+}
