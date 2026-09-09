@@ -8,7 +8,7 @@
   "red_captured": true,
   "attempt": 0,
   "max_attempts": 3,
-  "verification": "pass (ui_tests + migration up/down NOT RUN; no local stack; see evidence.md)",
+  "verification": "pass (all 7 layers; migration up/down live against PostgreSQL; UI walked end-to-end via Playwright \u2014 see evidence.md)",
   "review": "pending",
   "_phases": [
     "ANALYSIS",
