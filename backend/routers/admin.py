@@ -194,3 +194,109 @@ def export_claims(
             "Content-Disposition": "attachment; filename=claims_export.csv"
         }
     )
+
+
+# -------------------------------------------------
+# EPT-13 — POLICY ENDORSEMENT QUEUE + DECISIONS
+# -------------------------------------------------
+def _serialize_endorsement(e):
+    return {
+        "id": e.id,
+        "user_policy_id": e.user_policy_id,
+        "requested_by": e.requested_by,
+        "status": e.status,
+        "request_date": e.request_date.isoformat() if e.request_date else None,
+        "decision_date": e.decision_date.isoformat() if e.decision_date else None,
+        "decided_by": e.decided_by,
+        "old_values": e.old_values,
+        "new_values": e.new_values,
+    }
+
+
+@router.get("/endorsements")
+def list_endorsements(
+    status: str | None = None,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(admin_only),
+):
+    query = db.query(models.PolicyEndorsement)
+    if status:
+        query = query.filter(
+            func.lower(models.PolicyEndorsement.status) == status.lower()
+        )
+    rows = query.order_by(models.PolicyEndorsement.id.desc()).all()
+
+    result = []
+    for e in rows:
+        item = _serialize_endorsement(e)
+        user_policy = (
+            db.query(models.UserPolicies)
+            .filter(models.UserPolicies.id == e.user_policy_id)
+            .first()
+        )
+        requester = (
+            db.query(models.User).filter(models.User.id == e.requested_by).first()
+        )
+        item["policy_number"] = user_policy.policy_number if user_policy else None
+        item["requested_by_name"] = requester.name if requester else None
+        item["requested_by_email"] = requester.email if requester else None
+        result.append(item)
+    return result
+
+
+def _load_pending(endorsement_id: int, db: Session):
+    e = (
+        db.query(models.PolicyEndorsement)
+        .filter(models.PolicyEndorsement.id == endorsement_id)
+        .first()
+    )
+    if not e:
+        raise HTTPException(status_code=404, detail="Endorsement not found")
+    if e.status != "Pending":
+        raise HTTPException(status_code=409, detail="Endorsement is not Pending")
+    return e
+
+
+@router.post("/endorsements/{endorsement_id}/approve")
+def approve_endorsement(
+    endorsement_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(admin_only),
+):
+    e = _load_pending(endorsement_id, db)
+    new_values = e.new_values or {}
+
+    vehicle = (
+        db.query(models.Vehicle)
+        .filter(models.Vehicle.user_policy_id == e.user_policy_id)
+        .first()
+    )
+    if vehicle is None:
+        vehicle = models.Vehicle(user_policy_id=e.user_policy_id)
+        db.add(vehicle)
+
+    for field in ("make", "model", "year", "vin", "registration"):
+        if field in new_values and new_values[field] is not None:
+            setattr(vehicle, field, new_values[field])
+
+    e.status = "Approved"
+    e.decision_date = func.now()
+    e.decided_by = current_user.id
+    db.commit()
+
+    return {"message": "Endorsement approved", "id": endorsement_id, "status": "Approved"}
+
+
+@router.post("/endorsements/{endorsement_id}/reject")
+def reject_endorsement(
+    endorsement_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(admin_only),
+):
+    e = _load_pending(endorsement_id, db)
+    e.status = "Rejected"
+    e.decision_date = func.now()
+    e.decided_by = current_user.id
+    db.commit()
+
+    return {"message": "Endorsement rejected", "id": endorsement_id, "status": "Rejected"}

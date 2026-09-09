@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import date, datetime
 from decimal import Decimal
+from typing import Optional
 
 
 # -----------------------------
@@ -51,6 +52,30 @@ class ClaimResponse(BaseModel):
     incident_date: date
     amount_claimed: Decimal
     status: str
+
+    class Config:
+        from_attributes = True
+
+
+# -----------------------------
+# VEHICLE ENDORSEMENT (EPT-13)
+# -----------------------------
+class VehicleFields(BaseModel):
+    make: str
+    model: str
+    year: int
+    vin: str
+    registration: str
+
+
+class EndorsementResponse(BaseModel):
+    id: int
+    user_policy_id: int
+    status: str
+    request_date: Optional[datetime] = None
+    decision_date: Optional[datetime] = None
+    old_values: dict
+    new_values: dict
 
     class Config:
         from_attributes = True

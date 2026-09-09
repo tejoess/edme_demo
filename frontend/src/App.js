@@ -7,6 +7,7 @@ import Recommendations from "./pages/Recommendations";
 import UploadClaim from "./pages/UploadClaim";
 import MyClaims from "./pages/MyClaims";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminEndorsements from "./pages/AdminEndorsements";
 import ComparePage from "./pages/ComparePage";
 import AppLayout from "./components/AppLayout";
 import { apiFetch, SESSION_EXPIRED_EVENT } from "./utils/apiClient";
@@ -107,6 +108,9 @@ function App() {
 
       case "admin":
         return <AdminDashboard onBack={() => setPage("policies")} />;
+
+      case "admin-endorsements":
+        return <AdminEndorsements onBack={() => setPage("policies")} />;
 
       case "compare":
         return <ComparePage policies={comparePolicies} onBack={() => setPage("policies")} />;

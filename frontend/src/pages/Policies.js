@@ -4,6 +4,8 @@ import { apiFetch } from "../utils/apiClient";
 import { useToast } from "../context/ToastContext";
 import { useConfirm } from "../context/ConfirmContext";
 import FileClaimModal from "../components/FileClaimModal";
+import VehicleEndorsementModal from "../components/VehicleEndorsementModal";
+import EndorsementHistory from "../components/EndorsementHistory";
 
 const FILTERS = ["all", "health", "life", "travel", "auto", "home"];
 
@@ -30,6 +32,11 @@ function Policies({ goToUpload, goToComparePage }) {
   const [busyPolicyId, setBusyPolicyId] = useState(null);
   const [claimModalPolicy, setClaimModalPolicy] = useState(null);
   const [filingClaim, setFilingClaim] = useState(false);
+  const [vehicleModalPolicy, setVehicleModalPolicy] = useState(null);
+  const [submittingEndorsement, setSubmittingEndorsement] = useState(false);
+  const [historyPolicyId, setHistoryPolicyId] = useState(null);
+  const [historyItems, setHistoryItems] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
 
   const fetchData = useCallback(async () => {
     try {
@@ -116,6 +123,60 @@ function Policies({ goToUpload, goToComparePage }) {
     } finally {
       setFilingClaim(false);
     }
+  };
+
+  const openVehicleModal = (policy) => {
+    const owned = userPolicies.find((up) => Number(up.policy_id) === Number(policy.id));
+    if (!owned) {
+      toast.info("Purchase this policy before updating vehicle details.");
+      return;
+    }
+    setVehicleModalPolicy({ ...policy, _userPolicyId: owned.id });
+  };
+
+  const loadHistory = async (userPolicyId) => {
+    try {
+      setHistoryLoading(true);
+      const data = await apiFetch(`/userpolicies/${userPolicyId}/endorsements`);
+      setHistoryItems(Array.isArray(data) ? data : []);
+    } catch (err) {
+      toast.error(err.message || "Unable to load vehicle history.");
+      setHistoryItems([]);
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  const submitEndorsement = async (payload) => {
+    try {
+      setSubmittingEndorsement(true);
+      await apiFetch(`/userpolicies/${vehicleModalPolicy._userPolicyId}/endorsements`, {
+        method: "POST",
+        body: payload,
+      });
+      toast.success("Vehicle update request submitted for review.");
+      const submittedFor = vehicleModalPolicy._userPolicyId;
+      setVehicleModalPolicy(null);
+      if (historyPolicyId === submittedFor) {
+        loadHistory(submittedFor);
+      }
+    } catch (err) {
+      toast.error(err.message || "Unable to submit vehicle update.");
+    } finally {
+      setSubmittingEndorsement(false);
+    }
+  };
+
+  const toggleHistory = (policy) => {
+    const owned = userPolicies.find((up) => Number(up.policy_id) === Number(policy.id));
+    if (!owned) return;
+    if (historyPolicyId === owned.id) {
+      setHistoryPolicyId(null);
+      setHistoryItems([]);
+      return;
+    }
+    setHistoryPolicyId(owned.id);
+    loadHistory(owned.id);
   };
 
   const filteredPolicies = Array.isArray(policies)
@@ -236,7 +297,39 @@ function Policies({ goToUpload, goToComparePage }) {
                     <button className="btn btn-secondary" onClick={() => openClaimModal(policy)}>
                       File Claim
                     </button>
+
+                    {owned && policy.policy_type === "auto" && (
+                      <>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={() => openVehicleModal(policy)}
+                        >
+                          Update vehicle details
+                        </button>
+                        <button
+                          className="btn btn-link"
+                          onClick={() => toggleHistory(policy)}
+                        >
+                          Vehicle history
+                        </button>
+                      </>
+                    )}
                   </div>
+
+                  {owned &&
+                    policy.policy_type === "auto" &&
+                    historyPolicyId ===
+                      userPolicies.find(
+                        (up) => Number(up.policy_id) === Number(policy.id)
+                      )?.id && (
+                      <div className="vehicle-history-panel" onClick={(e) => e.stopPropagation()}>
+                        {historyLoading ? (
+                          <p>Loading vehicle history…</p>
+                        ) : (
+                          <EndorsementHistory items={historyItems} />
+                        )}
+                      </div>
+                    )}
                 </div>
               );
             })}
@@ -250,6 +343,16 @@ function Policies({ goToUpload, goToComparePage }) {
           submitting={filingClaim}
           onCancel={() => !filingClaim && setClaimModalPolicy(null)}
           onSubmit={submitClaim}
+        />
+      )}
+
+      {vehicleModalPolicy && (
+        <VehicleEndorsementModal
+          policyTitle={vehicleModalPolicy.title}
+          currentVehicle={vehicleModalPolicy._currentVehicle}
+          submitting={submittingEndorsement}
+          onCancel={() => !submittingEndorsement && setVehicleModalPolicy(null)}
+          onSubmit={submitEndorsement}
         />
       )}
     </div>

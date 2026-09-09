@@ -36,6 +36,37 @@ export function calculateAge(dobString) {
   return age;
 }
 
+// EPT-13 — vehicle endorsement payload checks (mirrors backend vehicle_validation.py).
+const VIN_REGEX = /^[A-HJ-NPR-Z0-9]{17}$/;
+
+export function vehicleChecks(payload = {}) {
+  const errors = {};
+  const currentYear = new Date().getFullYear();
+
+  ["make", "model"].forEach((field) => {
+    const value = String(payload[field] ?? "").trim();
+    if (!value) errors[field] = `${field[0].toUpperCase() + field.slice(1)} is required`;
+    else if (value.length > 50) errors[field] = "Must be 50 characters or fewer";
+  });
+
+  const yearNum = Number(payload.year);
+  if (payload.year === undefined || payload.year === null || payload.year === "" || Number.isNaN(yearNum)) {
+    errors.year = "Year is required";
+  } else if (yearNum < 1900 || yearNum > currentYear + 1) {
+    errors.year = `Year must be between 1900 and ${currentYear + 1}`;
+  }
+
+  const vin = String(payload.vin ?? "").trim().toUpperCase();
+  if (!vin) errors.vin = "VIN is required";
+  else if (!VIN_REGEX.test(vin)) errors.vin = "VIN must be 17 characters (A-Z except I, O, Q and 0-9)";
+
+  const registration = String(payload.registration ?? "").trim();
+  if (!registration) errors.registration = "Registration is required";
+  else if (registration.length > 20) errors.registration = "Must be 20 characters or fewer";
+
+  return errors;
+}
+
 export function isPastDate(dateString) {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return false;

@@ -108,3 +108,29 @@ INSERT INTO policies (provider_id, policy_type, title, coverage, premium, term_m
     (3, 'auto', 'Two-Wheeler Accident Cover', '{"accident_cover": true}', 2000, 12, 500, ''),
     (1, 'home', 'HomeSafe Structure Plan', '{"structure": true}', 5000, 12, 2500, ''),
     (3, 'home', 'Complete Home Protection', '{"structure": true, "contents": true}', 8000, 12, 3000, '');
+
+-- EPT-13: policy endorsement (customer-requested vehicle updates)
+CREATE TABLE vehicles (
+    id SERIAL PRIMARY KEY,
+    user_policy_id INTEGER NOT NULL UNIQUE REFERENCES userpolicies(id) ON DELETE CASCADE,
+    make VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INTEGER NOT NULL,
+    vin VARCHAR(17) NOT NULL,
+    registration VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT now(),
+    updated_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE policy_endorsements (
+    id SERIAL PRIMARY KEY,
+    user_policy_id INTEGER NOT NULL REFERENCES userpolicies(id) ON DELETE CASCADE,
+    requested_by INTEGER NOT NULL REFERENCES users(id),
+    old_values JSONB NOT NULL,
+    new_values JSONB NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'Pending',
+    request_date TIMESTAMP DEFAULT now(),
+    decision_date TIMESTAMP,
+    decided_by INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT now()
+);

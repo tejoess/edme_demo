@@ -14,7 +14,13 @@ function Sidebar({ active, isAdmin, onNavigate, onLogout }) {
   const email = localStorage.getItem("email");
   const initials = (email || "?").slice(0, 2).toUpperCase();
 
-  const links = isAdmin ? [...LINKS, { key: "admin", label: "Admin Dashboard", icon: "🛠️" }] : LINKS;
+  const links = isAdmin
+    ? [
+        ...LINKS,
+        { key: "admin", label: "Admin Dashboard", icon: "🛠️" },
+        { key: "admin-endorsements", label: "Endorsements", icon: "📝" },
+      ]
+    : LINKS;
 
   const go = (key) => {
     setMobileOpen(false);

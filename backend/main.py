@@ -15,7 +15,8 @@ from routers import (
     recommendations,
     claims,
     userpolicies,
-    admin  # ✅ NEW
+    admin,  # ✅ NEW
+    endorsements  # ✅ EPT-13
 )
 
 app = FastAPI(
@@ -41,6 +42,7 @@ app.include_router(recommendations.router)
 app.include_router(claims.router)
 app.include_router(userpolicies.router)
 app.include_router(admin.router)  # ✅ NEW
+app.include_router(endorsements.router)  # ✅ EPT-13
 
 
 # ---------------------------------

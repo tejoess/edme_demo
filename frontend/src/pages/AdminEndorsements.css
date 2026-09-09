@@ -1,0 +1,38 @@
+.endorsement-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.endorsement-admin-card {
+  padding: 16px;
+}
+
+.endorsement-admin-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted, #667085);
+  margin: 4px 0 12px;
+}
+
+.endorsement-admin-changes {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.endorsement-admin-changes .old-value {
+  text-decoration: line-through;
+  color: var(--text-muted, #667085);
+}
+
+.endorsement-admin-changes .new-value {
+  font-weight: 600;
+}
+
+.endorsement-admin-actions {
+  display: flex;
+  gap: 10px;
+}

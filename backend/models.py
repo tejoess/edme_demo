@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey, Date, Text, Boolean, TIMESTAMP
+from sqlalchemy import Column, Integer, String, Numeric, DateTime, ForeignKey, Date, Text, Boolean, TIMESTAMP, JSON
 from sqlalchemy.dialects.postgresql import JSONB
 from datetime import datetime
 from database import Base
@@ -14,7 +14,7 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
     dob = Column(Date, nullable=False)
-    risk_profile = Column(JSONB, nullable=True)
+    risk_profile = Column(JSONB().with_variant(JSON(), "sqlite"), nullable=True)
 
 
 class Policy(Base):
@@ -24,7 +24,7 @@ class Policy(Base):
     provider_id = Column(Integer, ForeignKey("providers.id"))
     policy_type = Column(String)
     title = Column(String)
-    coverage = Column(JSONB)
+    coverage = Column(JSONB().with_variant(JSON(), "sqlite"))
     premium = Column(Numeric)
     term_months = Column(Integer)
     deductible = Column(Numeric)
@@ -99,6 +99,42 @@ class FraudFlags(Base):
     created_at = Column(TIMESTAMP, server_default=func.now())
 
     claim = relationship("Claims")
+
+class Vehicle(Base):
+    __tablename__ = "vehicles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_policy_id = Column(
+        Integer,
+        ForeignKey("userpolicies.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+    )
+    make = Column(String(50), nullable=False)
+    model = Column(String(50), nullable=False)
+    year = Column(Integer, nullable=False)
+    vin = Column(String(17), nullable=False)
+    registration = Column(String(20), nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+    updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+
+
+class PolicyEndorsement(Base):
+    __tablename__ = "policy_endorsements"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_policy_id = Column(
+        Integer, ForeignKey("userpolicies.id", ondelete="CASCADE"), nullable=False
+    )
+    requested_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    old_values = Column(JSON, nullable=False)
+    new_values = Column(JSON, nullable=False)
+    status = Column(String(20), nullable=False, default="Pending")
+    request_date = Column(TIMESTAMP, server_default=func.now())
+    decision_date = Column(TIMESTAMP, nullable=True)
+    decided_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    created_at = Column(TIMESTAMP, server_default=func.now())
+
 
 class AdminLogs(Base):
     __tablename__ = "adminlogs"

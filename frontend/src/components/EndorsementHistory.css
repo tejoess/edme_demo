@@ -1,0 +1,74 @@
+.endorsement-history {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.endorsement-row {
+  padding: 14px;
+}
+
+.endorsement-row-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.endorsement-date {
+  font-size: 0.85rem;
+  color: var(--text-muted, #667085);
+}
+
+.endorsement-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.endorsement-changes li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.change-label {
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.old-value {
+  text-decoration: line-through;
+  color: var(--text-muted, #667085);
+}
+
+.new-value {
+  font-weight: 600;
+}
+
+.endorsement-changes-summary {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted, #667085);
+}
+
+.badge-pending {
+  background: #fef0c7;
+  color: #b54708;
+}
+
+.badge-approved {
+  background: #d1fadf;
+  color: #027a48;
+}
+
+.badge-rejected {
+  background: #fee4e2;
+  color: #b42318;
+}
