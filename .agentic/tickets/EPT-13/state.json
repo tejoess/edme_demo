@@ -3,13 +3,13 @@
   "risk": "HIGH",
   "branch": "feature/EPT-13",
   "checkpoint_sha": "87962856d1dc437b42fe9e211aed95414beb563d",
-  "phase": "APPROVED",
+  "phase": "PR",
   "plan_approved": true,
   "red_captured": true,
   "attempt": 0,
   "max_attempts": 3,
   "verification": "pass (all 7 layers; migration up/down live against PostgreSQL; UI walked end-to-end via Playwright \u2014 see evidence.md)",
-  "review": "approved (Gate 2 \u2014 3 should-fix items accepted as follow-ups; see evidence.md / PR body)",
+  "review": "approved",
   "_phases": [
     "ANALYSIS",
     "WAITING_FOR_APPROVAL",
@@ -29,5 +29,15 @@
     "green_at": "2026-09-10",
     "files_changed": 39,
     "diff_lines": 2982
+  },
+  "pr": {
+    "state": "draft-pending-open",
+    "branch": "feature/EPT-13",
+    "compare_url": "https://github.com/tejoess/edme_demo/pull/new/feature/EPT-13",
+    "note": "gh CLI not installed; human opens the draft PR from the compare URL, body at .agentic/tickets/EPT-13/pr-description.md"
+  },
+  "jira": {
+    "status": "In Progress",
+    "comment_id": "10069"
   }
 }
