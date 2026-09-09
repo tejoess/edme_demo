@@ -11,3 +11,4 @@ separate from `DECISIONS.md` (which records *why*, not just *that*).
 - [2026-09-09T12:39:43Z] tool=Write file=c:\Users\Tejas\Desktop\Edme\Insurance-Comparison-Claim-Assistant\.agentic\tickets\EPT-12\ticket.md
 - [2026-09-09T12:50:10Z] session ended
 - [2026-09-09T16:13:59Z] session ended
+- [2026-09-09T17:30:49Z] session ended
