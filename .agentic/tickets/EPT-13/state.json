@@ -3,12 +3,12 @@
   "risk": "HIGH",
   "branch": "feature/EPT-13",
   "checkpoint_sha": "87962856d1dc437b42fe9e211aed95414beb563d",
-  "phase": "IMPLEMENTATION",
+  "phase": "EVIDENCE",
   "plan_approved": true,
   "red_captured": true,
   "attempt": 0,
   "max_attempts": 3,
-  "verification": "not_run",
+  "verification": "pass (ui_tests + migration up/down NOT RUN; no local stack; see evidence.md)",
   "review": "pending",
   "_phases": [
     "ANALYSIS",
@@ -26,8 +26,8 @@
   "_metrics": {
     "planned_at": "2026-09-09",
     "approved_at": "2026-09-09T18:01:01Z",
-    "green_at": null,
-    "files_changed": null,
-    "diff_lines": null
+    "green_at": "2026-09-10",
+    "files_changed": 39,
+    "diff_lines": 2982
   }
 }
