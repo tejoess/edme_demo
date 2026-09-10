@@ -28,9 +28,14 @@ Sequence:
 5. Commit the tests on their own: `test(<KEY>): failing tests for AC-001..n`.
    A separate commit is what makes the RED state reviewable in the diff later.
 
-6. Add the test file paths to `frozen_tests` in `.claude/current-scope.yaml` and
-   set `red_captured: true` in `state.json`. From this point
-   `guard-frozen-tests.sh` blocks edits to them.
+6. Add the test file paths to `frozen_tests` in `.claude/current-scope.yaml`
+   AND write the same list to `.agentic/tickets/<KEY>/frozen.lock`, one path per
+   line. Set `red_captured: true` in `state.json`.
+
+   Both files, deliberately: the scope contract is writable by the pipeline, so
+   a list kept only there could be unfrozen by deleting a line. `frozen.lock` is
+   matched by `sensitive-paths.txt` and cannot be edited without a human setting
+   `ALLOW_SENSITIVE=1`. `guard-frozen-tests.sh` reads the union of the two.
 
 `red.log` is part of the evidence bundle. The pair — these tests failing, then
 the same tests passing — is the strongest single artifact the review gate reads.

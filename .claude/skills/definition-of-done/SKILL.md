@@ -24,6 +24,11 @@ Steps:
 5. Set the `verification` block based on what this ticket actually needs —
    don't mark `ui_tests: required` for a backend-only change, and don't
    leave `api_tests` off for one that adds or changes an endpoint.
+   If the ticket touches schema, `migration_up` AND `migration_down` are both
+   `required`. A migration is not done when it applies — it is done when it
+   applies, reverses, and the reversal has been run against a database that had
+   rows in it. An up-migration verified on an empty schema proves almost
+   nothing.
 6. Present the completed contract alongside the plan for human approval —
    it's part of what's being approved, not a hidden implementation detail.
 7. Once the ticket's PR merges, delete or archive `current-scope.yaml` so

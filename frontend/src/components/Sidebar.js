@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useConfirm } from "../context/ConfirmContext";
 
-const LINKS = [
+const CUSTOMER_LINKS = [
   { key: "policies", label: "Policies", icon: "📄" },
   { key: "recommendations", label: "Recommendations", icon: "✨" },
   { key: "claims", label: "My Claims", icon: "🗂️" },
   { key: "risk", label: "Preferences", icon: "⚙️" },
 ];
+
+const ADMIN_LINKS = [{ key: "admin", label: "Admin Dashboard", icon: "🛠️" }];
 
 function Sidebar({ active, isAdmin, onNavigate, onLogout }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -14,7 +16,7 @@ function Sidebar({ active, isAdmin, onNavigate, onLogout }) {
   const email = localStorage.getItem("email");
   const initials = (email || "?").slice(0, 2).toUpperCase();
 
-  const links = isAdmin ? [...LINKS, { key: "admin", label: "Admin Dashboard", icon: "🛠️" }] : LINKS;
+  const links = isAdmin ? ADMIN_LINKS : CUSTOMER_LINKS;
 
   const go = (key) => {
     setMobileOpen(false);

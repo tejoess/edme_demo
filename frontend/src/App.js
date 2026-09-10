@@ -50,7 +50,7 @@ function App() {
       try {
         await apiFetch("/policies");
         setUserId(storedUserId);
-        setPage("policies");
+        setPage(localStorage.getItem("is_admin") === "true" ? "admin" : "policies");
       } catch (error) {
         localStorage.clear();
         setPage("login");
@@ -84,7 +84,7 @@ function App() {
       <Login
         onLoginSuccess={(id) => {
           setUserId(id);
-          setPage("policies");
+          setPage(localStorage.getItem("is_admin") === "true" ? "admin" : "policies");
         }}
         goToSignup={() => setPage("signup")}
       />
@@ -106,7 +106,7 @@ function App() {
         return <UploadClaim claimId={selectedClaimId} onBack={() => setPage("claims")} />;
 
       case "admin":
-        return <AdminDashboard onBack={() => setPage("policies")} />;
+        return <AdminDashboard />;
 
       case "compare":
         return <ComparePage policies={comparePolicies} onBack={() => setPage("policies")} />;

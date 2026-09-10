@@ -15,12 +15,8 @@ TODO: one paragraph — what the system does, who it's for.
    assumption technical PRD, via MCQ clarifying questions.
 2. **Task breakdown** — approved PRD → Jira ticket(s), pushed via the
    Atlassian MCP connector.
-3. **Development planning** (`/plan` → `planner`) — fetch ticket + PRD → load
-   project context → initial interpretation → **developer clarification via
-   `AskUserQuestion` pop-ups** (pick an option or type your own — never blocking
-   prose questions) → codebase investigation → validate/refine (loop back to
-   more pop-ups if the code contradicts an answer) → reproduction (if bug) →
-   risk tier → final plan → test plan with AC→TC ids → scope contract
+3. **Development planning** (`planner`) — ticket + PRD → reproduction (if
+   bug) → risk tier → plan → test plan with AC→TC ids → scope contract
    (`current-scope.yaml`) → human approval. **Gate 1.**
 4. **Implementation** (`implementer`) — RED first (the test plan written as
    real failing tests, captured in `red.log`, then frozen), then a bounded
@@ -59,7 +55,7 @@ conventional:
 | `/create-pr` | phase `APPROVED` | Draft PR, Jira, DECISIONS.md |
 | `/status` | any | Phase, attempts, next action — how you resume |
 | `/abandon` | any | Reset to checkpoint, clear the contract |
-
+| `/update-plan <feedback>` | phase `WAITING_FOR_APPROVAL` or `REVIEW` | Revise the plan package, back to Gate 1 |
 ### State
 
 `.agentic/tickets/<KEY>/state.json` (from `.agentic/state-template.json`) holds

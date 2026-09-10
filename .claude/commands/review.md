@@ -11,6 +11,11 @@ Run the `pr-reviewer` agent. Present ONE consolidated package:
   `collect-evidence.sh` from raw runner output, with `red.log` alongside it
 - `diff.patch` — the full change
 - The reviewer agent's own risk and blast-radius findings
+- **Migration verification** — the up and down results from `evidence.md`, the
+  DDL diff, and confirmation that the down migration restored the prior schema.
+  If the plan flagged the migration as lossy, restate that here: the human is
+  approving that loss, and it should not be something they have to remember
+  from Gate 1.
 - Assumptions from `plan.md` that are still unconfirmed
 - The draft PR description
 
