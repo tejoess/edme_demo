@@ -1,0 +1,134 @@
+.admin-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.admin-header h2 {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.admin-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--gray-500);
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-select {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-200);
+  background: white;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.claims-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.claim-card {
+  padding: 24px;
+}
+
+.claim-summary h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--gray-900);
+}
+
+.amount {
+  color: var(--gray-500);
+  font-size: 13.5px;
+  margin: 0 0 8px;
+}
+
+.status-approved {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+.status-rejected {
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+}
+.status-under_review {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+.status-submitted {
+  background: var(--color-info-bg);
+  color: var(--color-info-text);
+}
+.status-draft {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.card-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.expand-section {
+  margin-top: 18px;
+  border-top: 1px solid var(--gray-100);
+  padding-top: 18px;
+}
+
+.fraud-box {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  font-size: 13.5px;
+}
+
+.fraud-box h4 {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+}
+
+.fraud-box ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.fraud-danger {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #b91c1c;
+}
+
+.fraud-safe {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.decision-section {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}

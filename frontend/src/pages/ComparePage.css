@@ -1,0 +1,90 @@
+.calculator-box {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 24px;
+  margin-bottom: 30px;
+}
+
+.calculator-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.calculator-field label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--gray-700);
+}
+
+.calculator-field input,
+.calculator-field select {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-300);
+  font-size: 14px;
+}
+
+.calculator-field input:focus,
+.calculator-field select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.compare-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 0.2s ease;
+}
+
+.compare-card:hover {
+  transform: translateY(-4px);
+}
+
+.compare-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.compare-card-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--gray-900);
+}
+
+.price-section {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.base-price {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+.estimated-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-success);
+  margin: 6px 0;
+}
+
+.features-section p {
+  font-size: 13.5px;
+  margin: 0 0 8px;
+  color: var(--gray-600);
+}

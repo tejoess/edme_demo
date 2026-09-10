@@ -1,0 +1,63 @@
+.risk-summary {
+  display: flex;
+  gap: 40px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.risk-summary-label {
+  font-size: 12.5px;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+
+.risk-summary-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.recommendation-card {
+  padding: 22px 24px;
+  transition: transform 0.2s ease;
+}
+
+.recommendation-card:hover {
+  transform: translateY(-2px);
+}
+
+.recommendation-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.policy-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.policy-details-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  color: var(--gray-600);
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+
+.reason-text {
+  font-size: 13.5px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}

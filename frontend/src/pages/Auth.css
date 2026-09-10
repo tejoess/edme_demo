@@ -1,0 +1,67 @@
+/* ========================= */
+/* PAGE BACKGROUND */
+/* ========================= */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc 55%, #eef2ff);
+}
+
+/* ========================= */
+/* FORM CONTAINER */
+/* ========================= */
+
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 32px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.auth-brand-icon {
+  font-size: 26px;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--gray-900);
+}
+
+.app-subtitle {
+  font-size: 13.5px;
+  color: var(--gray-500);
+  margin: 4px 0 24px;
+}
+
+.auth-container h2 {
+  margin: 0 0 20px;
+  font-size: 19px;
+  color: var(--gray-800);
+}
+
+.auth-container .field {
+  text-align: left;
+}
+
+.auth-footer {
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: var(--gray-500);
+}
