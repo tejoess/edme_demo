@@ -21,7 +21,7 @@ function ClaimCardSkeleton() {
   );
 }
 
-const AdminDashboard = ({ onBack }) => {
+const AdminDashboard = () => {
   const toast = useToast();
   const confirm = useConfirm();
 
@@ -125,10 +125,6 @@ const AdminDashboard = ({ onBack }) => {
             <button className="btn btn-primary" onClick={exportCSV} disabled={exporting}>
               {exporting ? <span className="spinner" /> : null}
               {exporting ? "Exporting…" : "Export CSV"}
-            </button>
-
-            <button className="btn btn-secondary" onClick={onBack}>
-              Back
             </button>
           </div>
         </div>
