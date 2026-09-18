@@ -33,19 +33,44 @@ Rules:
    up to 3 times, incrementing `attempt` in `state.json` each time. On the
    3rd failure, stop, summarize what you tried and what's still failing, and
    hand back for human input rather than continuing to loop.
-5. **Frozen tests are not yours to fix.** Once `frozen_tests` is populated, you
+5. **A blocked write is an escalation point, not an obstacle.** When a guard
+   hook stops you, stop and report in this shape:
+
+   - which file you tried to write, and which guard blocked it
+   - what you were trying to accomplish, in one sentence
+   - why you believe it belongs in this ticket
+   - what it would cost to do it inside the current scope instead, or why
+     that is not possible
+   - which of these you think it is:
+       (a) the plan missed something and needs revising → the human runs
+           `/update-plan "<what to add>"`
+       (b) you were reaching, and there is an in-scope way to do it
+       (c) real work, but a separate ticket
+
+   Then wait. Never route around a block: do not write the change into a
+   different file to get past it, do not drop the requirement silently and
+   carry on, do not retry the same write hoping the guard was transient, and
+   do not keep implementing around the gap and mention it at the end.
+
+   A blocked write means the plan and the work have diverged. That is a
+   question for a human, and it is cheapest to ask at the moment it happens.
+   Widening `allowed_paths` yourself is not the answer either — new scope
+   needs a new acceptance criterion and a new test behind it, which is what
+   `/update-plan` produces and a YAML edit does not.
+
+6. **Frozen tests are not yours to fix.** Once `frozen_tests` is populated, you
    may not edit those files — `guard-frozen-tests.sh` will block you, and
    working around it is not an option. If you become convinced a test is wrong,
    that is a finding: stop, say which assertion is wrong and why, and let a
    human decide. Editing an assertion to turn the suite green invalidates every
    piece of evidence the review gate reads, and it is the single most likely way
    this loop "succeeds" incorrectly.
-6. Generate what the tester will need: test scenarios covering the
+7. Generate what the tester will need: test scenarios covering the
    acceptance criteria, and — if the ticket touches an API — a Postman
    collection for the affected endpoints (new or updated). If the ticket
    touches user-facing UI and `ui_tests` is required in the scope
    contract, note the flow(s) the tester should exercise via the
    Playwright MCP server.
-7. When implementation is complete, hand off to `tester` with a summary
+8. When implementation is complete, hand off to `tester` with a summary
    of what changed and what you've already sanity-checked. Do not run
    the full verification pyramid yourself, and do not open a PR.

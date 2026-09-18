@@ -53,9 +53,10 @@ conventional:
 | `/implement` | `plan_approved: true` | Branch, RED, code, verify, fix loop |
 | `/review` | phase `EVIDENCE` | Gate 2, three outcomes |
 | `/create-pr` | phase `APPROVED` | Draft PR, Jira, DECISIONS.md |
+| `/update-plan <notes>` | a ticket in flight | Revise the plan package → back to Gate 1 |
 | `/status` | any | Phase, attempts, next action — how you resume |
 | `/abandon` | any | Reset to checkpoint, clear the contract |
-| `/update-plan <feedback>` | phase `WAITING_FOR_APPROVAL` or `REVIEW` | Revise the plan package, back to Gate 1 |
+
 ### State
 
 `.agentic/tickets/<KEY>/state.json` (from `.agentic/state-template.json`) holds
@@ -124,6 +125,11 @@ evidence bundle reports layers as SKIPPED.
   `.claude/current-scope.yaml` or `sensitive-paths.txt`, not the scripts.
 - Do not exceed 3 fix attempts on a failing check without stopping and
   reporting back (`implementer.md`, `tester.md`).
+- **A guard hook blocking a write is an escalation point.** Stop, report as
+  `implementer.md` describes, and wait for a human. Never route around a block,
+  and never widen `allowed_paths` to clear one — scope grows through
+  `/update-plan`, which adds the acceptance criterion and test that the new
+  work needs.
 - **Never edit a frozen test.** Once `frozen_tests` is populated in the scope
   contract, those files are off limits — enforced by
   `.claude/hooks/guard-frozen-tests.sh`. Making a failing assertion pass by
