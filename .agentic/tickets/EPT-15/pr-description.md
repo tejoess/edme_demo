@@ -1,10 +1,12 @@
 # Draft PR — EPT-15: Policy Cancellation
 
-> **Draft artifact only.** This repo has no git remote for this project
-> (see `diff-summary.md` for why), so this cannot actually be opened via
-> `gh pr create`. This file is what would be posted, for the human's
-> approval and record-keeping, and to reuse verbatim once/if this project
-> is ever pushed to a real remote.
+> Branch `feature/EPT-15` is pushed to
+> https://github.com/tejoess/edme_demo.git (base `policy-management`).
+> `gh` CLI is not installed in this environment and no API token was
+> available, so the PR itself could not be opened programmatically. Open it
+> at https://github.com/tejoess/edme_demo/pull/new/feature/EPT-15 and paste
+> this file's Title/body — it is otherwise ready to post as-is, as a
+> **draft** PR (never mark ready for review or merge automatically).
 
 ## Title
 `EPT-15: Add policy cancellation (PATCH /userpolicies/{id}/cancel)`
@@ -61,6 +63,33 @@ container, not against a database with real cancellation data — see
 Refund/payment processing, external insurer integrations, multi-step admin
 approval workflows, undo/reverse cancellation, notifications, partial
 cancellation/modification of policy terms.
+
+## Assumptions still unconfirmed (signed off at Gate 1, restate for the merge decision)
+1. "Explicitly authorized" (non-owner) access implemented as strict
+   ownership-only — no delegation mechanism exists in this codebase.
+2. "Inactive/expired/lapsed" handled generically (`status != "active"`
+   rejected) — no code path produces those statuses today.
+3. "Confirmation screen" implemented as the existing confirm-modal, not a
+   new routed page.
+4. Admin-initiated cancellation on a customer's behalf is out of scope.
+
+## Flagged by review, not blockers, but need a decision
+- `changed_by` on `policy_status_history` uses `ON DELETE SET NULL`
+  (deviates from plan.md's plain FK) — reasonable, but means "who
+  cancelled this" can become `NULL` if that user's account is later
+  deleted. No account-deletion endpoint exists yet, so currently
+  theoretical.
+- `backend/routers/claims.py` never checked policy status before this
+  ticket (harmless, since every owned policy was implicitly active).
+  After this ships, a customer can file a new claim against an
+  already-cancelled policy — `claims.py` is untouched and out of this
+  ticket's scope. Recommend a fast-follow ticket.
+
+This branch also carries one pre-ticket commit
+(`chore: isolate demo environment from Insurance-Policy-Management`)
+needed so this Demo instance doesn't collide with the sibling app's
+Docker/port setup — unrelated to EPT-15's feature work, included because
+this was the first push connecting this folder to a real remote.
 
 ---
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

@@ -1,9 +1,9 @@
 {
   "ticket": "EPT-15",
   "risk": "HIGH",
-  "branch": null,
-  "checkpoint_sha": null,
-  "phase": "REVIEW",
+  "branch": "feature/EPT-15",
+  "checkpoint_sha": "8892615",
+  "phase": "PR",
   "plan_approved": true,
   "red_captured": true,
   "attempt": 0,

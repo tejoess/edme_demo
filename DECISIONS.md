@@ -23,6 +23,40 @@ Notes: anything a future ticket touching this area should know —
 
 <!-- Entries below this line, most recent first -->
 
+## EPT-15 — Policy Cancellation (Gate 2 / PR opened)
+Date: 2026-09-18
+Risk tier: HIGH
+Decision: Gate 2 review passed (pr-reviewer's own risk findings: race
+  condition genuinely closed at the DB level, authorization verified real
+  not decorative, no regression in the buy-policy flow). Human approved
+  and directed connecting this previously ungitted folder to
+  https://github.com/tejoess/edme_demo.git as branch `feature/EPT-15`,
+  based on `origin/policy-management` (the branch the sibling
+  Insurance-Policy-Management folder also tracks). Branch pushed
+  (2 commits: an environment-isolation chore -- separate Docker
+  container/ports/CORS so this Demo instance doesn't collide with the
+  sibling app -- plus the EPT-15 feature commit). PR could not be opened
+  programmatically (`gh` CLI not installed, no API token available in the
+  agent environment) -- draft PR title/body is ready in
+  `.agentic/tickets/EPT-15/pr-description.md`, to be opened manually at
+  https://github.com/tejoess/edme_demo/pull/new/feature/EPT-15 as a draft.
+  Jira EPT-15 transitioned to "In Progress" (not "Done" -- PR isn't merged
+  yet) with the evidence link and open items commented.
+Against acceptance criteria: AC-001 through AC-007, all covered and
+  passing per `.agentic/tickets/EPT-15/evidence.md`.
+Notes: Two non-blocking items flagged at review, carried into the PR
+  description for the merge decision: `policy_status_history.changed_by`
+  uses `ON DELETE SET NULL` (a plan deviation, reasonable but should be
+  explicitly blessed); and `backend/routers/claims.py` (untouched, out of
+  scope) never checked policy status, so a customer can now file a claim
+  against an already-cancelled policy -- recommend a fast-follow ticket.
+  Local pipeline-tooling drift (`.claude/agents/*`, `.claude/commands/
+  update-plan.md`, `.claude/skills/jira-ticket-intake/SKILL.md`,
+  `CLAUDE.md`, `audit-log.md`) was deliberately left uncommitted: Claude
+  Code's own self-modification guard blocks committing changes to its own
+  agent/command/skill definitions from within a session, so that sync was
+  not attempted here.
+
 ## EPT-15 — Policy Cancellation
 Date: 2026-09-18
 Risk tier: HIGH

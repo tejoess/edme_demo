@@ -36,11 +36,7 @@ allowed_paths:
   - frontend/src/pages/Policies.css
   - frontend/src/pages/Policies.cancel.test.js
   - .agentic/tickets/EPT-15/**
-  # TEMP additions below for the /create-pr repo-bootstrap step (git init,
-  # remote setup, .gitignore) -- see DECISIONS.md. Narrow back before the
-  # final PR diff review.
   - .gitignore
-  - .claude/current-scope.yaml
 
 forbidden_operations:
   - deploy
