@@ -132,3 +132,28 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+
+.policies-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.policies-table th,
+.policies-table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.policies-table th {
+  color: var(--gray-500);
+  font-weight: 600;
+  font-size: 12.5px;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}

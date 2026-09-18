@@ -33,6 +33,11 @@ const AdminDashboard = () => {
   const [updatingId, setUpdatingId] = useState(null);
   const [exporting, setExporting] = useState(false);
 
+  const [allPolicies, setAllPolicies] = useState([]);
+  const [policiesLoading, setPoliciesLoading] = useState(true);
+  const [policiesLoadError, setPoliciesLoadError] = useState("");
+  const [downloadingPolicyId, setDownloadingPolicyId] = useState(null);
+
   const loadClaims = useCallback(async () => {
     setLoading(true);
     setLoadError("");
@@ -46,9 +51,23 @@ const AdminDashboard = () => {
     }
   }, []);
 
+  const loadAllPolicies = useCallback(async () => {
+    setPoliciesLoading(true);
+    setPoliciesLoadError("");
+    try {
+      const data = await apiFetch("/admin/policies");
+      setAllPolicies(data || []);
+    } catch (err) {
+      setPoliciesLoadError(err.message || "Failed to load policies");
+    } finally {
+      setPoliciesLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     loadClaims();
-  }, [loadClaims]);
+    loadAllPolicies();
+  }, [loadClaims, loadAllPolicies]);
 
   const updateStatus = async (claim, status) => {
     const labels = { approved: "approve", rejected: "reject", under_review: "mark under review" };
@@ -95,6 +114,25 @@ const AdminDashboard = () => {
       toast.error(err.message || "Export failed");
     } finally {
       setExporting(false);
+    }
+  };
+
+  const downloadPolicyPdf = async (userPolicy) => {
+    try {
+      setDownloadingPolicyId(userPolicy.id);
+      const blob = await apiFetchBlob(`/userpolicies/${userPolicy.id}/pdf`);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Policy_${userPolicy.policy_number}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error(err.message || "Download failed. Please try again.");
+    } finally {
+      setDownloadingPolicyId(null);
     }
   };
 
@@ -238,6 +276,68 @@ const AdminDashboard = () => {
               </div>
             ))}
           </div>
+        )}
+
+        <div className="admin-header">
+          <div>
+            <h2>All Policies</h2>
+            <p className="admin-subtitle">{allPolicies.length} total policies</p>
+          </div>
+        </div>
+
+        {policiesLoading && <p>Loading policies…</p>}
+
+        {!policiesLoading && policiesLoadError && (
+          <div className="empty-state">
+            <div className="empty-icon">⚠️</div>
+            <h3>Couldn't load policies</h3>
+            <p>{policiesLoadError}</p>
+            <button className="btn btn-primary" onClick={loadAllPolicies}>
+              Try again
+            </button>
+          </div>
+        )}
+
+        {!policiesLoading && !policiesLoadError && allPolicies.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-icon">📭</div>
+            <h3>No policies found</h3>
+          </div>
+        )}
+
+        {!policiesLoading && !policiesLoadError && allPolicies.length > 0 && (
+          <table className="policies-table">
+            <thead>
+              <tr>
+                <th>Policyholder</th>
+                <th>Policy Number</th>
+                <th>Policy</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {allPolicies.map((up) => (
+                <tr key={up.id}>
+                  <td>{up.owner_name}</td>
+                  <td>{up.policy_number}</td>
+                  <td>{up.policy_title}</td>
+                  <td>
+                    <span className={`badge status-${up.status}`}>{up.status}</span>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => downloadPolicyPdf(up)}
+                      disabled={downloadingPolicyId === up.id}
+                    >
+                      {downloadingPolicyId === up.id ? "Downloading…" : "Download PDF"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

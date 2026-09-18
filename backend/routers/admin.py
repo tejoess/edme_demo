@@ -157,6 +157,33 @@ def monthly_claims(
 
 
 # -------------------------------------------------
+# GET ALL POLICIES (ALL USERPOLICIES ROWS)
+# -------------------------------------------------
+@router.get("/policies")
+def get_all_policies(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(admin_only)
+):
+    user_policies = db.query(models.UserPolicies).all()
+    result = []
+
+    for up in user_policies:
+        owner = db.query(models.User).filter(models.User.id == up.user_id).first()
+        policy = db.query(models.Policy).filter(models.Policy.id == up.policy_id).first()
+
+        result.append({
+            "id": up.id,
+            "policy_number": up.policy_number,
+            "status": up.status,
+            "owner_name": owner.name if owner else None,
+            "policy_title": policy.title if policy else None,
+            "policy_type": policy.policy_type if policy else None,
+        })
+
+    return result
+
+
+# -------------------------------------------------
 # EXPORT CLAIMS CSV
 # -------------------------------------------------
 @router.get("/export-claims")

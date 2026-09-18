@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import "./Policies.css";
-import { apiFetch } from "../utils/apiClient";
+import { apiFetch, apiFetchBlob } from "../utils/apiClient";
 import { useToast } from "../context/ToastContext";
 import { useConfirm } from "../context/ConfirmContext";
 import FileClaimModal from "../components/FileClaimModal";
@@ -28,6 +28,7 @@ function Policies({ goToUpload, goToComparePage }) {
   const [loadError, setLoadError] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
   const [busyPolicyId, setBusyPolicyId] = useState(null);
+  const [downloadingPolicyId, setDownloadingPolicyId] = useState(null);
   const [claimModalPolicy, setClaimModalPolicy] = useState(null);
   const [filingClaim, setFilingClaim] = useState(false);
 
@@ -86,6 +87,28 @@ function Policies({ goToUpload, goToComparePage }) {
       toast.error(err.message || "Purchase failed.");
     } finally {
       setBusyPolicyId(null);
+    }
+  };
+
+  const downloadPolicyPdf = async (policy) => {
+    const owned = userPolicies.find((up) => Number(up.policy_id) === Number(policy.id));
+    if (!owned) return;
+
+    try {
+      setDownloadingPolicyId(policy.id);
+      const blob = await apiFetchBlob(`/userpolicies/${owned.id}/pdf`);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `Policy_${owned.policy_number}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error(err.message || "Download failed. Please try again.");
+    } finally {
+      setDownloadingPolicyId(null);
     }
   };
 
@@ -236,6 +259,17 @@ function Policies({ goToUpload, goToComparePage }) {
                     <button className="btn btn-secondary" onClick={() => openClaimModal(policy)}>
                       File Claim
                     </button>
+
+                    {owned && (
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => downloadPolicyPdf(policy)}
+                        disabled={downloadingPolicyId === policy.id}
+                      >
+                        {downloadingPolicyId === policy.id ? <span className="spinner" /> : null}
+                        {downloadingPolicyId === policy.id ? "Downloading…" : "Download PDF"}
+                      </button>
+                    )}
                   </div>
                 </div>
               );
