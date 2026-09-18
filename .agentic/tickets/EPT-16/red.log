@@ -1,0 +1,766 @@
+==========================================
+EPT-16 RED capture -- 2026-09-18T04:58:47Z
+==========================================
+
+---- BACKEND (pytest) ----
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend
+plugins: anyio-4.15.1
+collecting ... collected 6 items
+
+tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields FAILED [ 16%]
+tests/test_policy_pdf_download.py::test_tc003_policyholder_cannot_download_others_policy FAILED [ 33%]
+tests/test_policy_pdf_download.py::test_tc005_staff_can_download_any_policy FAILED [ 50%]
+tests/test_policy_pdf_download.py::test_tc006_filename_includes_policy_number FAILED [ 66%]
+tests/test_policy_pdf_download.py::test_tc008_ongoing_policy_shows_ongoing_end_date FAILED [ 83%]
+tests/test_policy_pdf_download.py::test_tc009_missing_coverage_shows_not_specified FAILED [100%]
+
+================================== FAILURES ===================================
+___________________ test_tc002_pdf_contains_all_six_fields ____________________
+
+client = <starlette.testclient.TestClient object at 0x000001CCF204C490>
+db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF200AC50>
+
+    def test_tc002_pdf_contains_all_six_fields(client, db_session):
+        from main import app
+    
+        user = make_user(db_session, name="Priya Sharma")
+        user_policy = make_user_policy(
+            db_session,
+            user,
+            policy_id=SEED_POLICY_ID,
+            policy_number="POL-77001",
+            start_date="2026-01-01",
+            end_date="2026-12-31",
+            premium=1500,
+        )
+    
+        with auth_as(app, user):
+            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
+    
+>       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_policy_pdf_download.py:59: AssertionError
+____________ test_tc003_policyholder_cannot_download_others_policy ____________
+
+client = <starlette.testclient.TestClient object at 0x000001CCF2F4D050>
+db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF2F4C8D0>
+
+    def test_tc003_policyholder_cannot_download_others_policy(client, db_session):
+        from main import app
+    
+        owner = make_user(db_session, name="Owner User")
+        other = make_user(db_session, name="Other User")
+        user_policy = make_user_policy(db_session, owner, policy_id=SEED_POLICY_ID)
+    
+        with auth_as(app, other):
+            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
+    
+>       assert response.status_code == 403
+E       assert 404 == 403
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_policy_pdf_download.py:83: AssertionError
+__________________ test_tc005_staff_can_download_any_policy ___________________
+
+client = <starlette.testclient.TestClient object at 0x000001CCF2F4DDD0>
+db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF2F4DF50>
+
+    def test_tc005_staff_can_download_any_policy(client, db_session):
+        from main import app
+    
+        owner = make_user(db_session, name="Owner User")
+        admin = make_user(db_session, name="Admin User", email=ADMIN_EMAIL)
+        user_policy = make_user_policy(db_session, owner, policy_id=SEED_POLICY_ID)
+    
+        with auth_as(app, admin):
+            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
+    
+>       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_policy_pdf_download.py:100: AssertionError
+_________________ test_tc006_filename_includes_policy_number __________________
+
+client = <starlette.testclient.TestClient object at 0x000001CCF2F4D750>
+db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF2D62E10>
+
+    def test_tc006_filename_includes_policy_number(client, db_session):
+        from main import app
+    
+        user = make_user(db_session)
+        user_policy = make_user_policy(db_session, user, policy_id=SEED_POLICY_ID, policy_number="POL-99887")
+    
+        with auth_as(app, user):
+            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
+    
+>       assert response.status_code == 200
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_policy_pdf_download.py:116: AssertionError
+______________ test_tc008_ongoing_policy_shows_ongoing_end_date _______________
+
+    def test_tc008_ongoing_policy_shows_ongoing_end_date():
+>       from routers.userpolicies import render_policy_pdf
+E       ImportError: cannot import name 'render_policy_pdf' from 'routers.userpolicies' (C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\routers\userpolicies.py)
+
+tests\test_policy_pdf_download.py:124: ImportError
+_______________ test_tc009_missing_coverage_shows_not_specified _______________
+
+    def test_tc009_missing_coverage_shows_not_specified():
+>       from routers.userpolicies import render_policy_pdf
+E       ImportError: cannot import name 'render_policy_pdf' from 'routers.userpolicies' (C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\routers\userpolicies.py)
+
+tests\test_policy_pdf_download.py:146: ImportError
+============================== warnings summary ===============================
+tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\schemas.py:47: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class ClaimResponse(BaseModel):
+
+tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\schemas.py:62: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class AdminLogResponse(BaseModel):
+
+tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
+FAILED tests/test_policy_pdf_download.py::test_tc003_policyholder_cannot_download_others_policy
+FAILED tests/test_policy_pdf_download.py::test_tc005_staff_can_download_any_policy
+FAILED tests/test_policy_pdf_download.py::test_tc006_filename_includes_policy_number
+FAILED tests/test_policy_pdf_download.py::test_tc008_ongoing_policy_shows_ongoing_end_date
+FAILED tests/test_policy_pdf_download.py::test_tc009_missing_coverage_shows_not_specified
+======================== 6 failed, 4 warnings in 3.06s ========================
+
+---- FRONTEND (react-scripts test / Policies.test.js) ----
+FAIL src/pages/Policies.test.js
+  × TC-001: Download PDF button renders only on owned policy cards (182 ms)
+  × TC-003b/TC-010: the un-owned policy card renders no download button while the owned one does (65 ms)
+  × TC-006b: clicking Download PDF sets the anchor's download name from the policy number (1074 ms)
+  × TC-007: download uses the standard Blob + <a download> mechanism, not a browser-specific save API (1070 ms)
+  × TC-011: a failed download shows an error toast and leaves the button clickable to retry (1057 ms)
+
+  ● TC-001: Download PDF button renders only on owned policy cards
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 1
+    Received length: 0
+    Received array:  []
+
+    [0m [90m 67 |[39m
+     [90m 68 |[39m   [36mconst[39m downloadButtons [33m=[39m screen[33m.[39mqueryAllByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
+    [31m[1m>[22m[39m[90m 69 |[39m   expect(downloadButtons)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m    |[39m                           [31m[1m^[22m[39m
+     [90m 70 |[39m
+     [90m 71 |[39m   [36mconst[39m ownedCard [33m=[39m screen[33m.[39mgetByText([32m"Health Basic"[39m)[33m.[39mclosest([32m".policy-card"[39m)[33m;[39m
+     [90m 72 |[39m   expect(ownedCard)[33m.[39mnot[33m.[39mtoBeNull()[33m;[39m[0m
+
+      at Object.<anonymous> (src/pages/Policies.test.js:69:27)
+
+  ● TC-003b/TC-010: the un-owned policy card renders no download button while the owned one does
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 1
+    Received length: 0
+    Received array:  []
+
+    [0m [90m 91 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Auto Standard"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 92 |[39m
+    [31m[1m>[22m[39m[90m 93 |[39m   expect(screen[33m.[39mqueryAllByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m }))[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
+     [90m    |[39m                                                                      [31m[1m^[22m[39m
+     [90m 94 |[39m
+     [90m 95 |[39m   [36mconst[39m unownedCard [33m=[39m screen[33m.[39mgetByText([32m"Auto Standard"[39m)[33m.[39mclosest([32m".policy-card"[39m)[33m;[39m
+     [90m 96 |[39m   expect([0m
+
+      at Object.<anonymous> (src/pages/Policies.test.js:93:70)
+
+  ● TC-006b: clicking Download PDF sets the anchor's download name from the policy number
+
+    Unable to find role="button" and name `/download pdf/i`
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Basic[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Standard[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m800[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m2000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 117 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Basic"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 118 |[39m
+    [31m[1m>[22m[39m[90m 119 |[39m   [36mconst[39m downloadButton [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
+     [90m     |[39m                                       [31m[1m^[22m[39m
+     [90m 120 |[39m   [36mawait[39m userEvent[33m.[39mclick(downloadButton)[33m;[39m
+     [90m 121 |[39m
+     [90m 122 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(apiClient[33m.[39mapiFetchBlob)[33m.[39mtoHaveBeenCalledWith([32m"/userpolicies/10/pdf"[39m))[33m;[39m[0m
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/pages/Policies.test.js:119:39)
+
+  ● TC-007: download uses the standard Blob + <a download> mechanism, not a browser-specific save API
+
+    Unable to find role="button" and name `/download pdf/i`
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Basic[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Standard[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m800[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m2000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 139 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Basic"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 140 |[39m
+    [31m[1m>[22m[39m[90m 141 |[39m   [36mconst[39m downloadButton [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
+     [90m     |[39m                                       [31m[1m^[22m[39m
+     [90m 142 |[39m   [36mawait[39m userEvent[33m.[39mclick(downloadButton)[33m;[39m
+     [90m 143 |[39m
+     [90m 144 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(window[33m.[39m[33mURL[39m[33m.[39mcreateObjectURL)[33m.[39mtoHaveBeenCalledWith(blob))[33m;[39m[0m
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/pages/Policies.test.js:141:39)
+
+  ● TC-011: a failed download shows an error toast and leaves the button clickable to retry
+
+    Unable to find role="button" and name `/download pdf/i`
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Basic[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Standard[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m800[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m2000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 158 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Basic"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 159 |[39m
+    [31m[1m>[22m[39m[90m 160 |[39m   [36mconst[39m downloadButton [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
+     [90m     |[39m                                       [31m[1m^[22m[39m
+     [90m 161 |[39m   [36mawait[39m userEvent[33m.[39mclick(downloadButton)[33m;[39m
+     [90m 162 |[39m
+     [90m 163 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByRole([32m"status"[39m))[33m.[39mtoHaveTextContent([35m/request failed/i[39m))[33m;[39m[0m
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
+      at Object.<anonymous> (src/pages/Policies.test.js:160:39)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 5 total
+Snapshots:   0 total
+Time:        5.925 s
+Ran all test suites matching /src\\pages\\Policies.test.js/i.

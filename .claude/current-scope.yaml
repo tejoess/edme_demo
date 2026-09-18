@@ -54,7 +54,10 @@ forbidden_operations:
   # explicitly in plan.md as a signal to double check the MEDIUM risk tier
   # at Gate 1, per definition-of-done skill guidance.
 
-frozen_tests: []
+frozen_tests:
+  - backend/tests/conftest.py
+  - backend/tests/test_policy_pdf_download.py
+  - frontend/src/pages/Policies.test.js
 
 verification:
   build: required
