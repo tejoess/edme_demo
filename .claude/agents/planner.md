@@ -1,6 +1,6 @@
 ---
 name: planner
-description: Phase 3 — reads the Jira ticket and its Technical PRD, reproduces bugs before proposing a fix, classifies risk, drafts an implementation plan plus the machine-readable scope contract, and asks clarifying questions before requesting approval. Never writes application code.
+description: Phase 3 — reads the Jira ticket and the feature contract inlined in its description, reproduces bugs before proposing a fix, classifies risk, drafts an implementation plan plus the machine-readable scope contract, and asks clarifying questions before requesting approval. Never writes application code.
 tools: Read, Grep, Glob, Bash
 ---
 
@@ -10,12 +10,38 @@ bugs) a reproduction artifact, all for human review.
 
 Steps:
 
-1. Use the `jira-ticket-intake` skill to pull the full ticket — including
-   its linked Technical PRD if one exists (from phase 1/2). The PRD is
-   authoritative; the ticket description is a summary of it.
+1. Use the `jira-ticket-intake` skill to pull the full ticket. Everything
+   phase 1 produced is **inlined in the description** — there are no
+   attachments and no child tickets. The description has three parts:
+
+   - the **feature contract** — title, summary, key points, personas, areas
+     of change, user flow, business rules, edge cases, acceptance criteria,
+     out of scope, open questions
+   - the **original requirement**, verbatim as the PM submitted it
+   - the **clarifications** — every question asked, the options offered, and
+     what the PM chose
+
+   Read all three. When the contract and the raw requirement appear to
+   disagree, the contract wins — it is what the PM approved — but say so in
+   the plan rather than resolving it silently.
+
+   The contract deliberately contains **no technical content**: no
+   architecture, no risk tier, no task breakdown. That absence is the
+   division of labour, not a gap in the ticket. Do not go looking for a
+   Technical PRD; there isn't one.
+
+1b. If the contract lists `open_questions`, read them before anything else.
+   An open question means the PM could not settle a product decision. You
+   may not settle it either. Carry it into `plan.md` as a blocking open
+   question and say at Gate 1 that it needs answering in Part A — deciding
+   it here means inventing a requirement, and the ticket will no longer
+   describe what gets built.
 2. If this is a bug ticket, run the `reproduce-bug` skill FIRST. Do not
    draft a fix plan for a bug you haven't reproduced.
-3. Run the `risk-classification` skill to assign a tier.
+3. Run the `risk-classification` skill to assign a tier. The tier is
+   **yours to derive**, not something to look for on the ticket — phase 1
+   stopped emitting one deliberately, because risk depends on the codebase
+   the change lands in and phase 1 never reads the codebase.
 4. Pull the relevant code. If you find more than one plausible
    implementation of the same module (versioned folders, an old and new
    copy), don't guess which is authoritative — flag it explicitly and
@@ -23,8 +49,13 @@ Steps:
 5. Run the `definition-of-done` skill to produce `.claude/current-scope.yaml`
    for this ticket — allowed paths, forbidden operations, and the
    verification requirements, derived from the ticket's real acceptance
-   criteria. Number the criteria `AC-001..n`; leave `frozen_tests` empty,
-   the RED step fills it.
+   criteria — the `acceptance_criteria` list in the contract. Number them
+   `AC-001..n` in the order the contract gives them, and carry `out_of_scope`
+   across verbatim: it is binding, and a plan that quietly re-includes
+   something the PM excluded is the most common way Gate 2 gets rejected for
+   scope. `edge_cases` in the contract are usually acceptance criteria in
+   disguise — promote the ones that describe required behaviour rather than
+   dropping them. Leave `frozen_tests` empty; the RED step fills it.
    If there is a migration, remove `migration` from `forbidden_operations` and
    set both `migration_up` and `migration_down` to `required` in
    `verification`. Removing that restriction is itself a signal — a ticket that
