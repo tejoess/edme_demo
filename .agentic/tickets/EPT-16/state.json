@@ -6,7 +6,7 @@
   "phase": "EVIDENCE",
   "plan_approved": true,
   "red_captured": true,
-  "attempt": 0,
+  "attempt": 1,
   "max_attempts": 3,
   "verification": "pass",
   "review": "pending",
