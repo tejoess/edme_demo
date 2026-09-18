@@ -1,0 +1,1738 @@
+diff --git a/.agentic/tickets/EPT-16/frozen.lock b/.agentic/tickets/EPT-16/frozen.lock
+new file mode 100644
+index 0000000..2cd0b88
+--- /dev/null
++++ b/.agentic/tickets/EPT-16/frozen.lock
+@@ -0,0 +1,3 @@
++backend/tests/conftest.py
++backend/tests/test_policy_pdf_download.py
++frontend/src/pages/Policies.test.js
+diff --git a/.agentic/tickets/EPT-16/red.log b/.agentic/tickets/EPT-16/red.log
+new file mode 100644
+index 0000000..d9b13b1
+--- /dev/null
++++ b/.agentic/tickets/EPT-16/red.log
+@@ -0,0 +1,766 @@
++==========================================
++EPT-16 RED capture -- 2026-09-18T04:58:47Z
++==========================================
++
++---- BACKEND (pytest) ----
++============================= test session starts =============================
++platform win32 -- Python 3.11.0, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\.venv\Scripts\python.exe
++cachedir: .pytest_cache
++rootdir: C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend
++plugins: anyio-4.15.1
++collecting ... collected 6 items
++
++tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields FAILED [ 16%]
++tests/test_policy_pdf_download.py::test_tc003_policyholder_cannot_download_others_policy FAILED [ 33%]
++tests/test_policy_pdf_download.py::test_tc005_staff_can_download_any_policy FAILED [ 50%]
++tests/test_policy_pdf_download.py::test_tc006_filename_includes_policy_number FAILED [ 66%]
++tests/test_policy_pdf_download.py::test_tc008_ongoing_policy_shows_ongoing_end_date FAILED [ 83%]
++tests/test_policy_pdf_download.py::test_tc009_missing_coverage_shows_not_specified FAILED [100%]
++
++================================== FAILURES ===================================
++___________________ test_tc002_pdf_contains_all_six_fields ____________________
++
++client = <starlette.testclient.TestClient object at 0x000001CCF204C490>
++db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF200AC50>
++
++    def test_tc002_pdf_contains_all_six_fields(client, db_session):
++        from main import app
++    
++        user = make_user(db_session, name="Priya Sharma")
++        user_policy = make_user_policy(
++            db_session,
++            user,
++            policy_id=SEED_POLICY_ID,
++            policy_number="POL-77001",
++            start_date="2026-01-01",
++            end_date="2026-12-31",
++            premium=1500,
++        )
++    
++        with auth_as(app, user):
++            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++    
++>       assert response.status_code == 200
++E       assert 404 == 200
++E        +  where 404 = <Response [404 Not Found]>.status_code
++
++tests\test_policy_pdf_download.py:59: AssertionError
++____________ test_tc003_policyholder_cannot_download_others_policy ____________
++
++client = <starlette.testclient.TestClient object at 0x000001CCF2F4D050>
++db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF2F4C8D0>
++
++    def test_tc003_policyholder_cannot_download_others_policy(client, db_session):
++        from main import app
++    
++        owner = make_user(db_session, name="Owner User")
++        other = make_user(db_session, name="Other User")
++        user_policy = make_user_policy(db_session, owner, policy_id=SEED_POLICY_ID)
++    
++        with auth_as(app, other):
++            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++    
++>       assert response.status_code == 403
++E       assert 404 == 403
++E        +  where 404 = <Response [404 Not Found]>.status_code
++
++tests\test_policy_pdf_download.py:83: AssertionError
++__________________ test_tc005_staff_can_download_any_policy ___________________
++
++client = <starlette.testclient.TestClient object at 0x000001CCF2F4DDD0>
++db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF2F4DF50>
++
++    def test_tc005_staff_can_download_any_policy(client, db_session):
++        from main import app
++    
++        owner = make_user(db_session, name="Owner User")
++        admin = make_user(db_session, name="Admin User", email=ADMIN_EMAIL)
++        user_policy = make_user_policy(db_session, owner, policy_id=SEED_POLICY_ID)
++    
++        with auth_as(app, admin):
++            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++    
++>       assert response.status_code == 200
++E       assert 404 == 200
++E        +  where 404 = <Response [404 Not Found]>.status_code
++
++tests\test_policy_pdf_download.py:100: AssertionError
++_________________ test_tc006_filename_includes_policy_number __________________
++
++client = <starlette.testclient.TestClient object at 0x000001CCF2F4D750>
++db_session = <sqlalchemy.orm.session.Session object at 0x000001CCF2D62E10>
++
++    def test_tc006_filename_includes_policy_number(client, db_session):
++        from main import app
++    
++        user = make_user(db_session)
++        user_policy = make_user_policy(db_session, user, policy_id=SEED_POLICY_ID, policy_number="POL-99887")
++    
++        with auth_as(app, user):
++            response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++    
++>       assert response.status_code == 200
++E       assert 404 == 200
++E        +  where 404 = <Response [404 Not Found]>.status_code
++
++tests\test_policy_pdf_download.py:116: AssertionError
++______________ test_tc008_ongoing_policy_shows_ongoing_end_date _______________
++
++    def test_tc008_ongoing_policy_shows_ongoing_end_date():
++>       from routers.userpolicies import render_policy_pdf
++E       ImportError: cannot import name 'render_policy_pdf' from 'routers.userpolicies' (C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\routers\userpolicies.py)
++
++tests\test_policy_pdf_download.py:124: ImportError
++_______________ test_tc009_missing_coverage_shows_not_specified _______________
++
++    def test_tc009_missing_coverage_shows_not_specified():
++>       from routers.userpolicies import render_policy_pdf
++E       ImportError: cannot import name 'render_policy_pdf' from 'routers.userpolicies' (C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\routers\userpolicies.py)
++
++tests\test_policy_pdf_download.py:146: ImportError
++============================== warnings summary ===============================
++tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
++  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\schemas.py:47: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
++    class ClaimResponse(BaseModel):
++
++tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
++  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\schemas.py:62: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
++    class AdminLogResponse(BaseModel):
++
++tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
++  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
++    from starlette.testclient import TestClient as TestClient  # noqa
++
++tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
++  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management\backend\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
++    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
++
++-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
++=========================== short test summary info ===========================
++FAILED tests/test_policy_pdf_download.py::test_tc002_pdf_contains_all_six_fields
++FAILED tests/test_policy_pdf_download.py::test_tc003_policyholder_cannot_download_others_policy
++FAILED tests/test_policy_pdf_download.py::test_tc005_staff_can_download_any_policy
++FAILED tests/test_policy_pdf_download.py::test_tc006_filename_includes_policy_number
++FAILED tests/test_policy_pdf_download.py::test_tc008_ongoing_policy_shows_ongoing_end_date
++FAILED tests/test_policy_pdf_download.py::test_tc009_missing_coverage_shows_not_specified
++======================== 6 failed, 4 warnings in 3.06s ========================
++
++---- FRONTEND (react-scripts test / Policies.test.js) ----
++FAIL src/pages/Policies.test.js
++  × TC-001: Download PDF button renders only on owned policy cards (182 ms)
++  × TC-003b/TC-010: the un-owned policy card renders no download button while the owned one does (65 ms)
++  × TC-006b: clicking Download PDF sets the anchor's download name from the policy number (1074 ms)
++  × TC-007: download uses the standard Blob + <a download> mechanism, not a browser-specific save API (1070 ms)
++  × TC-011: a failed download shows an error toast and leaves the button clickable to retry (1057 ms)
++
++  ● TC-001: Download PDF button renders only on owned policy cards
++
++    expect(received).toHaveLength(expected)
++
++    Expected length: 1
++    Received length: 0
++    Received array:  []
++
++    [0m [90m 67 |[39m
++     [90m 68 |[39m   [36mconst[39m downloadButtons [33m=[39m screen[33m.[39mqueryAllByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
++    [31m[1m>[22m[39m[90m 69 |[39m   expect(downloadButtons)[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
++     [90m    |[39m                           [31m[1m^[22m[39m
++     [90m 70 |[39m
++     [90m 71 |[39m   [36mconst[39m ownedCard [33m=[39m screen[33m.[39mgetByText([32m"Health Basic"[39m)[33m.[39mclosest([32m".policy-card"[39m)[33m;[39m
++     [90m 72 |[39m   expect(ownedCard)[33m.[39mnot[33m.[39mtoBeNull()[33m;[39m[0m
++
++      at Object.<anonymous> (src/pages/Policies.test.js:69:27)
++
++  ● TC-003b/TC-010: the un-owned policy card renders no download button while the owned one does
++
++    expect(received).toHaveLength(expected)
++
++    Expected length: 1
++    Received length: 0
++    Received array:  []
++
++    [0m [90m 91 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Auto Standard"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
++     [90m 92 |[39m
++    [31m[1m>[22m[39m[90m 93 |[39m   expect(screen[33m.[39mqueryAllByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m }))[33m.[39mtoHaveLength([35m1[39m)[33m;[39m
++     [90m    |[39m                                                                      [31m[1m^[22m[39m
++     [90m 94 |[39m
++     [90m 95 |[39m   [36mconst[39m unownedCard [33m=[39m screen[33m.[39mgetByText([32m"Auto Standard"[39m)[33m.[39mclosest([32m".policy-card"[39m)[33m;[39m
++     [90m 96 |[39m   expect([0m
++
++      at Object.<anonymous> (src/pages/Policies.test.js:93:70)
++
++  ● TC-006b: clicking Download PDF sets the anchor's download name from the policy number
++
++    Unable to find role="button" and name `/download pdf/i`
++
++    Ignored nodes: comments, script, style
++    [36m<body>[39m
++      [36m<div>[39m
++        [36m<div[39m
++          [33mclass[39m=[32m"page-shell"[39m
++        [36m>[39m
++          [36m<div[39m
++            [33mclass[39m=[32m"page-content"[39m
++          [36m>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"page-heading"[39m
++            [36m>[39m
++              [36m<div>[39m
++                [36m<h2>[39m
++                  [0mInsurance Policies[0m
++                [36m</h2>[39m
++                [36m<p>[39m
++                  [0mBrowse, compare, and manage your coverage.[0m
++                [36m</p>[39m
++              [36m</div>[39m
++            [36m</div>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"filter-tabs"[39m
++            [36m>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m"active-tab"[39m
++              [36m>[39m
++                [0mAll[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mHealth[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mLife[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mTravel[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mAuto[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mHome[0m
++              [36m</button>[39m
++            [36m</div>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"policy-grid"[39m
++            [36m>[39m
++              [36m<div[39m
++                [33maria-checked[39m=[32m"false"[39m
++                [33mclass[39m=[32m"card policy-card "[39m
++                [33mrole[39m=[32m"checkbox"[39m
++                [33mtabindex[39m=[32m"0"[39m
++              [36m>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-header"[39m
++                [36m>[39m
++                  [36m<h4>[39m
++                    [0mHealth Basic[0m
++                  [36m</h4>[39m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"badge badge-info"[39m
++                  [36m>[39m
++                    [0mhealth[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"price"[39m
++                [36m>[39m
++                  [0m₹[0m
++                  [0m500[0m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"price-term"[39m
++                  [36m>[39m
++                    [0m / [0m
++                    [0m12[0m
++                    [0mmo[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"deductible-line"[39m
++                [36m>[39m
++                  [0mDeductible: ₹[0m
++                  [0m1000[0m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-actions"[39m
++                [36m>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-success"[39m
++                    [33mdisabled[39m=[32m""[39m
++                  [36m>[39m
++                    [0m✓ Purchased[0m
++                  [36m</button>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-secondary"[39m
++                  [36m>[39m
++                    [0mFile Claim[0m
++                  [36m</button>[39m
++                [36m</div>[39m
++              [36m</div>[39m
++              [36m<div[39m
++                [33maria-checked[39m=[32m"false"[39m
++                [33mclass[39m=[32m"card policy-card "[39m
++                [33mrole[39m=[32m"checkbox"[39m
++                [33mtabindex[39m=[32m"0"[39m
++              [36m>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-header"[39m
++                [36m>[39m
++                  [36m<h4>[39m
++                    [0mAuto Standard[0m
++                  [36m</h4>[39m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"badge badge-info"[39m
++                  [36m>[39m
++                    [0mauto[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"price"[39m
++                [36m>[39m
++                  [0m₹[0m
++                  [0m800[0m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"price-term"[39m
++                  [36m>[39m
++                    [0m / [0m
++                    [0m12[0m
++                    [0mmo[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"deductible-line"[39m
++                [36m>[39m
++                  [0mDeductible: ₹[0m
++                  [0m2000[0m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-actions"[39m
++                [36m>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-primary"[39m
++                  [36m>[39m
++                    [0mBuy Policy[0m
++                  [36m</button>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-secondary"[39m
++                  [36m>[39m
++                    [0mFile Claim[0m
++                  [36m</button>[39m
++                [36m</div>[39m
++              [36m</div>[39m
++            [36m</div>[39m
++          [36m</div>[39m
++        [36m</div>[39m
++        [36m<div[39m
++          [33maria-atomic[39m=[32m"true"[39m
++          [33maria-live[39m=[32m"polite"[39m
++          [33mclass[39m=[32m"toast-viewport"[39m
++        [36m/>[39m
++      [36m</div>[39m
++    [36m</body>[39m
++
++    [0m [90m 117 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Basic"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
++     [90m 118 |[39m
++    [31m[1m>[22m[39m[90m 119 |[39m   [36mconst[39m downloadButton [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
++     [90m     |[39m                                       [31m[1m^[22m[39m
++     [90m 120 |[39m   [36mawait[39m userEvent[33m.[39mclick(downloadButton)[33m;[39m
++     [90m 121 |[39m
++     [90m 122 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(apiClient[33m.[39mapiFetchBlob)[33m.[39mtoHaveBeenCalledWith([32m"/userpolicies/10/pdf"[39m))[33m;[39m[0m
++
++      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
++      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
++      at Object.<anonymous> (src/pages/Policies.test.js:119:39)
++
++  ● TC-007: download uses the standard Blob + <a download> mechanism, not a browser-specific save API
++
++    Unable to find role="button" and name `/download pdf/i`
++
++    Ignored nodes: comments, script, style
++    [36m<body>[39m
++      [36m<div>[39m
++        [36m<div[39m
++          [33mclass[39m=[32m"page-shell"[39m
++        [36m>[39m
++          [36m<div[39m
++            [33mclass[39m=[32m"page-content"[39m
++          [36m>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"page-heading"[39m
++            [36m>[39m
++              [36m<div>[39m
++                [36m<h2>[39m
++                  [0mInsurance Policies[0m
++                [36m</h2>[39m
++                [36m<p>[39m
++                  [0mBrowse, compare, and manage your coverage.[0m
++                [36m</p>[39m
++              [36m</div>[39m
++            [36m</div>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"filter-tabs"[39m
++            [36m>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m"active-tab"[39m
++              [36m>[39m
++                [0mAll[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mHealth[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mLife[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mTravel[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mAuto[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mHome[0m
++              [36m</button>[39m
++            [36m</div>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"policy-grid"[39m
++            [36m>[39m
++              [36m<div[39m
++                [33maria-checked[39m=[32m"false"[39m
++                [33mclass[39m=[32m"card policy-card "[39m
++                [33mrole[39m=[32m"checkbox"[39m
++                [33mtabindex[39m=[32m"0"[39m
++              [36m>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-header"[39m
++                [36m>[39m
++                  [36m<h4>[39m
++                    [0mHealth Basic[0m
++                  [36m</h4>[39m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"badge badge-info"[39m
++                  [36m>[39m
++                    [0mhealth[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"price"[39m
++                [36m>[39m
++                  [0m₹[0m
++                  [0m500[0m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"price-term"[39m
++                  [36m>[39m
++                    [0m / [0m
++                    [0m12[0m
++                    [0mmo[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"deductible-line"[39m
++                [36m>[39m
++                  [0mDeductible: ₹[0m
++                  [0m1000[0m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-actions"[39m
++                [36m>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-success"[39m
++                    [33mdisabled[39m=[32m""[39m
++                  [36m>[39m
++                    [0m✓ Purchased[0m
++                  [36m</button>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-secondary"[39m
++                  [36m>[39m
++                    [0mFile Claim[0m
++                  [36m</button>[39m
++                [36m</div>[39m
++              [36m</div>[39m
++              [36m<div[39m
++                [33maria-checked[39m=[32m"false"[39m
++                [33mclass[39m=[32m"card policy-card "[39m
++                [33mrole[39m=[32m"checkbox"[39m
++                [33mtabindex[39m=[32m"0"[39m
++              [36m>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-header"[39m
++                [36m>[39m
++                  [36m<h4>[39m
++                    [0mAuto Standard[0m
++                  [36m</h4>[39m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"badge badge-info"[39m
++                  [36m>[39m
++                    [0mauto[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"price"[39m
++                [36m>[39m
++                  [0m₹[0m
++                  [0m800[0m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"price-term"[39m
++                  [36m>[39m
++                    [0m / [0m
++                    [0m12[0m
++                    [0mmo[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"deductible-line"[39m
++                [36m>[39m
++                  [0mDeductible: ₹[0m
++                  [0m2000[0m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-actions"[39m
++                [36m>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-primary"[39m
++                  [36m>[39m
++                    [0mBuy Policy[0m
++                  [36m</button>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-secondary"[39m
++                  [36m>[39m
++                    [0mFile Claim[0m
++                  [36m</button>[39m
++                [36m</div>[39m
++              [36m</div>[39m
++            [36m</div>[39m
++          [36m</div>[39m
++        [36m</div>[39m
++        [36m<div[39m
++          [33maria-atomic[39m=[32m"true"[39m
++          [33maria-live[39m=[32m"polite"[39m
++          [33mclass[39m=[32m"toast-viewport"[39m
++        [36m/>[39m
++      [36m</div>[39m
++    [36m</body>[39m
++
++    [0m [90m 139 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Basic"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
++     [90m 140 |[39m
++    [31m[1m>[22m[39m[90m 141 |[39m   [36mconst[39m downloadButton [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
++     [90m     |[39m                                       [31m[1m^[22m[39m
++     [90m 142 |[39m   [36mawait[39m userEvent[33m.[39mclick(downloadButton)[33m;[39m
++     [90m 143 |[39m
++     [90m 144 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(window[33m.[39m[33mURL[39m[33m.[39mcreateObjectURL)[33m.[39mtoHaveBeenCalledWith(blob))[33m;[39m[0m
++
++      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
++      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
++      at Object.<anonymous> (src/pages/Policies.test.js:141:39)
++
++  ● TC-011: a failed download shows an error toast and leaves the button clickable to retry
++
++    Unable to find role="button" and name `/download pdf/i`
++
++    Ignored nodes: comments, script, style
++    [36m<body>[39m
++      [36m<div>[39m
++        [36m<div[39m
++          [33mclass[39m=[32m"page-shell"[39m
++        [36m>[39m
++          [36m<div[39m
++            [33mclass[39m=[32m"page-content"[39m
++          [36m>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"page-heading"[39m
++            [36m>[39m
++              [36m<div>[39m
++                [36m<h2>[39m
++                  [0mInsurance Policies[0m
++                [36m</h2>[39m
++                [36m<p>[39m
++                  [0mBrowse, compare, and manage your coverage.[0m
++                [36m</p>[39m
++              [36m</div>[39m
++            [36m</div>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"filter-tabs"[39m
++            [36m>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m"active-tab"[39m
++              [36m>[39m
++                [0mAll[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mHealth[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mLife[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mTravel[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mAuto[0m
++              [36m</button>[39m
++              [36m<button[39m
++                [33mclass[39m=[32m""[39m
++              [36m>[39m
++                [0mHome[0m
++              [36m</button>[39m
++            [36m</div>[39m
++            [36m<div[39m
++              [33mclass[39m=[32m"policy-grid"[39m
++            [36m>[39m
++              [36m<div[39m
++                [33maria-checked[39m=[32m"false"[39m
++                [33mclass[39m=[32m"card policy-card "[39m
++                [33mrole[39m=[32m"checkbox"[39m
++                [33mtabindex[39m=[32m"0"[39m
++              [36m>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-header"[39m
++                [36m>[39m
++                  [36m<h4>[39m
++                    [0mHealth Basic[0m
++                  [36m</h4>[39m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"badge badge-info"[39m
++                  [36m>[39m
++                    [0mhealth[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"price"[39m
++                [36m>[39m
++                  [0m₹[0m
++                  [0m500[0m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"price-term"[39m
++                  [36m>[39m
++                    [0m / [0m
++                    [0m12[0m
++                    [0mmo[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"deductible-line"[39m
++                [36m>[39m
++                  [0mDeductible: ₹[0m
++                  [0m1000[0m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-actions"[39m
++                [36m>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-success"[39m
++                    [33mdisabled[39m=[32m""[39m
++                  [36m>[39m
++                    [0m✓ Purchased[0m
++                  [36m</button>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-secondary"[39m
++                  [36m>[39m
++                    [0mFile Claim[0m
++                  [36m</button>[39m
++                [36m</div>[39m
++              [36m</div>[39m
++              [36m<div[39m
++                [33maria-checked[39m=[32m"false"[39m
++                [33mclass[39m=[32m"card policy-card "[39m
++                [33mrole[39m=[32m"checkbox"[39m
++                [33mtabindex[39m=[32m"0"[39m
++              [36m>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-header"[39m
++                [36m>[39m
++                  [36m<h4>[39m
++                    [0mAuto Standard[0m
++                  [36m</h4>[39m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"badge badge-info"[39m
++                  [36m>[39m
++                    [0mauto[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"price"[39m
++                [36m>[39m
++                  [0m₹[0m
++                  [0m800[0m
++                  [36m<span[39m
++                    [33mclass[39m=[32m"price-term"[39m
++                  [36m>[39m
++                    [0m / [0m
++                    [0m12[0m
++                    [0mmo[0m
++                  [36m</span>[39m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"deductible-line"[39m
++                [36m>[39m
++                  [0mDeductible: ₹[0m
++                  [0m2000[0m
++                [36m</div>[39m
++                [36m<div[39m
++                  [33mclass[39m=[32m"card-actions"[39m
++                [36m>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-primary"[39m
++                  [36m>[39m
++                    [0mBuy Policy[0m
++                  [36m</button>[39m
++                  [36m<button[39m
++                    [33mclass[39m=[32m"btn btn-secondary"[39m
++                  [36m>[39m
++                    [0mFile Claim[0m
++                  [36m</button>[39m
++                [36m</div>[39m
++              [36m</div>[39m
++            [36m</div>[39m
++          [36m</div>[39m
++        [36m</div>[39m
++        [36m<div[39m
++          [33maria-atomic[39m=[32m"true"[39m
++          [33maria-live[39m=[32m"polite"[39m
++          [33mclass[39m=[32m"toast-viewport"[39m
++        [36m/>[39m
++      [36m</div>[39m
++    [36m</body>[39m
++
++    [0m [90m 158 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Basic"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
++     [90m 159 |[39m
++    [31m[1m>[22m[39m[90m 160 |[39m   [36mconst[39m downloadButton [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/download pdf/i[39m })[33m;[39m
++     [90m     |[39m                                       [31m[1m^[22m[39m
++     [90m 161 |[39m   [36mawait[39m userEvent[33m.[39mclick(downloadButton)[33m;[39m
++     [90m 162 |[39m
++     [90m 163 |[39m   [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByRole([32m"status"[39m))[33m.[39mtoHaveTextContent([35m/request failed/i[39m))[33m;[39m[0m
++
++      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
++      at findByRole (node_modules/@testing-library/dom/dist/query-helpers.js:86:33)
++      at Object.<anonymous> (src/pages/Policies.test.js:160:39)
++
++Test Suites: 1 failed, 1 total
++Tests:       5 failed, 5 total
++Snapshots:   0 total
++Time:        5.925 s
++Ran all test suites matching /src\\pages\\Policies.test.js/i.
+diff --git a/.agentic/tickets/EPT-16/state.json b/.agentic/tickets/EPT-16/state.json
+index fa3befd..e7858f8 100644
+--- a/.agentic/tickets/EPT-16/state.json
++++ b/.agentic/tickets/EPT-16/state.json
+@@ -1,11 +1,11 @@
+ {
+   "ticket": "EPT-16",
+   "risk": "MEDIUM",
+-  "branch": null,
+-  "checkpoint_sha": null,
++  "branch": "feature/EPT-16",
++  "checkpoint_sha": "41f9b7dd7e794727147e8ebdf6a53525dbf029ac",
+   "phase": "IMPLEMENTATION",
+   "plan_approved": true,
+-  "red_captured": false,
++  "red_captured": true,
+   "attempt": 0,
+   "max_attempts": 3,
+   "verification": "not_run",
+diff --git a/.claude/current-scope.yaml b/.claude/current-scope.yaml
+index d86028d..d08ce1f 100644
+--- a/.claude/current-scope.yaml
++++ b/.claude/current-scope.yaml
+@@ -54,7 +54,10 @@ forbidden_operations:
+   # explicitly in plan.md as a signal to double check the MEDIUM risk tier
+   # at Gate 1, per definition-of-done skill guidance.
+ 
+-frozen_tests: []
++frozen_tests:
++  - backend/tests/conftest.py
++  - backend/tests/test_policy_pdf_download.py
++  - frontend/src/pages/Policies.test.js
+ 
+ verification:
+   build: required
+diff --git a/backend/requirements.txt b/backend/requirements.txt
+index c61579b..2fa07d2 100644
+--- a/backend/requirements.txt
++++ b/backend/requirements.txt
+@@ -7,3 +7,9 @@ passlib[bcrypt]
+ bcrypt==4.0.1
+ python-multipart
+ python-dotenv
++reportlab
++
++# Test-only dependencies (EPT-16)
++pytest
++httpx
++pypdf
+diff --git a/backend/routers/admin.py b/backend/routers/admin.py
+index 5fdad03..48de8d4 100644
+--- a/backend/routers/admin.py
++++ b/backend/routers/admin.py
+@@ -156,6 +156,33 @@ def monthly_claims(
+     ]
+ 
+ 
++# -------------------------------------------------
++# GET ALL POLICIES (ALL USERPOLICIES ROWS)
++# -------------------------------------------------
++@router.get("/policies")
++def get_all_policies(
++    db: Session = Depends(get_db),
++    current_user: models.User = Depends(admin_only)
++):
++    user_policies = db.query(models.UserPolicies).all()
++    result = []
++
++    for up in user_policies:
++        owner = db.query(models.User).filter(models.User.id == up.user_id).first()
++        policy = db.query(models.Policy).filter(models.Policy.id == up.policy_id).first()
++
++        result.append({
++            "id": up.id,
++            "policy_number": up.policy_number,
++            "status": up.status,
++            "owner_name": owner.name if owner else None,
++            "policy_title": policy.title if policy else None,
++            "policy_type": policy.policy_type if policy else None,
++        })
++
++    return result
++
++
+ # -------------------------------------------------
+ # EXPORT CLAIMS CSV
+ # -------------------------------------------------
+diff --git a/backend/routers/userpolicies.py b/backend/routers/userpolicies.py
+index 3cfeb9f..c0f4237 100644
+--- a/backend/routers/userpolicies.py
++++ b/backend/routers/userpolicies.py
+@@ -1,12 +1,20 @@
++import os
+ from fastapi import APIRouter, Depends, HTTPException
++from fastapi.responses import StreamingResponse
+ from sqlalchemy.orm import Session
+ from datetime import date, timedelta
++from io import BytesIO
+ import random
+ 
++from reportlab.lib.pagesizes import letter
++from reportlab.pdfgen import canvas
++
+ import models
+ from database import get_db
+ from oauth2 import get_current_user
+ 
++ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
++
+ router = APIRouter(
+     prefix="/userpolicies",
+     tags=["User Policies"]
+@@ -67,4 +75,93 @@ def get_user_policies(
+         models.UserPolicies.user_id == current_user.id
+     ).all()
+ 
+-    return policies
+\ No newline at end of file
++    return policies
++
++
++# ===========================
++# RENDER POLICY PDF (pure helper)
++# ===========================
++def render_policy_pdf(user, policy, user_policy) -> bytes:
++    """Build a one-page PDF summarizing a single policy.
++
++    Deliberately works with plain attribute-bearing objects (SimpleNamespace
++    in tests, SQLAlchemy model instances in the real endpoint) -- only the
++    named attributes are touched.
++    """
++    buffer = BytesIO()
++    pdf = canvas.Canvas(buffer, pagesize=letter)
++    width, height = letter
++
++    y = height - 72
++    line_height = 20
++
++    def write_line(text):
++        nonlocal y
++        pdf.drawString(72, y, text)
++        y -= line_height
++
++    end_date = user_policy.end_date if user_policy.end_date is not None else "Ongoing"
++
++    coverage = getattr(policy, "coverage", None)
++    if coverage:
++        coverage_text = ", ".join(f"{key}: {value}" for key, value in coverage.items())
++    else:
++        coverage_text = "Not specified"
++
++    pdf.setFont("Helvetica-Bold", 16)
++    write_line("Policy Summary")
++    y -= 10
++
++    pdf.setFont("Helvetica", 12)
++    write_line(f"Policy Number: {user_policy.policy_number}")
++    write_line(f"Policyholder: {user.name}")
++    write_line(f"Coverage Type: {policy.policy_type}")
++    write_line(f"Premium: {user_policy.premium}")
++    write_line(f"Start Date: {user_policy.start_date}")
++    write_line(f"End Date: {end_date}")
++    write_line(f"Coverage / Limits: {coverage_text}")
++
++    pdf.showPage()
++    pdf.save()
++
++    buffer.seek(0)
++    return buffer.getvalue()
++
++
++# ===========================
++# DOWNLOAD POLICY PDF
++# ===========================
++@router.get("/{id}/pdf")
++def download_policy_pdf(
++    id: int,
++    db: Session = Depends(get_db),
++    current_user: models.User = Depends(get_current_user)
++):
++    user_policy = db.query(models.UserPolicies).filter(
++        models.UserPolicies.id == id
++    ).first()
++
++    if not user_policy:
++        raise HTTPException(status_code=404, detail="Policy not found")
++
++    is_owner = user_policy.user_id == current_user.id
++    is_admin = current_user.email == ADMIN_EMAIL
++    if not is_owner and not is_admin:
++        raise HTTPException(status_code=403, detail="Not authorized to download this policy")
++
++    policy = db.query(models.Policy).filter(
++        models.Policy.id == user_policy.policy_id
++    ).first()
++    owner = db.query(models.User).filter(
++        models.User.id == user_policy.user_id
++    ).first()
++
++    pdf_bytes = render_policy_pdf(owner, policy, user_policy)
++
++    return StreamingResponse(
++        BytesIO(pdf_bytes),
++        media_type="application/pdf",
++        headers={
++            "Content-Disposition": f"attachment; filename=Policy_{user_policy.policy_number}.pdf"
++        }
++    )
+\ No newline at end of file
+diff --git a/backend/tests/__init__.py b/backend/tests/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/backend/tests/conftest.py b/backend/tests/conftest.py
+new file mode 100644
+index 0000000..84e373b
+--- /dev/null
++++ b/backend/tests/conftest.py
+@@ -0,0 +1,165 @@
++"""
++Shared pytest fixtures for EPT-16 (Policy PDF Download).
++
++Tests run against a dedicated Postgres database (insurance_test_db) on the
++same docker-compose Postgres container used for local dev, so JSONB columns
++and enum types behave identically to production. It is recreated from
++database/init.sql at the start of the test session and truncated between
++tests -- the developer's own dev data (insurance_db) is never touched.
++"""
++import os
++import sys
++from pathlib import Path
++
++import psycopg2
++import pytest
++from sqlalchemy import create_engine, text
++from sqlalchemy.orm import sessionmaker
++
++BACKEND_DIR = Path(__file__).resolve().parents[1]
++REPO_ROOT = BACKEND_DIR.parent
++sys.path.insert(0, str(BACKEND_DIR))
++
++from dotenv import load_dotenv  # noqa: E402
++
++load_dotenv(BACKEND_DIR / ".env")
++
++_base_url = os.environ["DATABASE_URL"]
++_base, _, _dbname = _base_url.rpartition("/")
++TEST_DATABASE_URL = f"{_base}/insurance_test_db"
++ADMIN_DATABASE_URL = f"{_base}/postgres"
++
++# database.py reads DATABASE_URL at import time; set it before anything in
++# the app is imported so the whole app (and its own load_dotenv, which does
++# not override an already-set var) talks to the test database.
++os.environ["DATABASE_URL"] = TEST_DATABASE_URL
++
++
++def _recreate_test_database():
++    conn = psycopg2.connect(ADMIN_DATABASE_URL)
++    conn.autocommit = True
++    try:
++        with conn.cursor() as cur:
++            cur.execute(
++                "SELECT pg_terminate_backend(pid) FROM pg_stat_activity "
++                "WHERE datname = 'insurance_test_db' AND pid <> pg_backend_pid();"
++            )
++            cur.execute("DROP DATABASE IF EXISTS insurance_test_db;")
++            cur.execute("CREATE DATABASE insurance_test_db;")
++    finally:
++        conn.close()
++
++    init_sql_path = REPO_ROOT / "database" / "init.sql"
++    init_sql = init_sql_path.read_text(encoding="utf-8")
++
++    conn = psycopg2.connect(TEST_DATABASE_URL)
++    conn.autocommit = True
++    try:
++        with conn.cursor() as cur:
++            cur.execute(init_sql)
++    finally:
++        conn.close()
++
++
++@pytest.fixture(scope="session", autouse=True)
++def _test_database():
++    _recreate_test_database()
++    yield
++
++
++@pytest.fixture()
++def db_session():
++    engine = create_engine(TEST_DATABASE_URL)
++    SessionLocal = sessionmaker(bind=engine)
++    session = SessionLocal()
++    # Clean slate per test. providers/policies keep the seed data from
++    # init.sql (policy catalog) since nothing here mutates it.
++    session.execute(
++        text(
++            "TRUNCATE TABLE claims, userpolicies, recommendations, "
++            "adminlogs, users RESTART IDENTITY CASCADE;"
++        )
++    )
++    session.commit()
++    yield session
++    session.close()
++    engine.dispose()
++
++
++@pytest.fixture()
++def client(db_session):
++    from database import get_db
++    from main import app
++
++    def _override_get_db():
++        yield db_session
++
++    app.dependency_overrides[get_db] = _override_get_db
++    from fastapi.testclient import TestClient
++
++    with TestClient(app) as test_client:
++        yield test_client
++    app.dependency_overrides.clear()
++
++
++def make_user(db_session, *, name="Test User", email=None, password="hashed", dob="1990-01-01"):
++    import uuid
++
++    import models
++
++    user = models.User(
++        name=name,
++        email=email or f"{uuid.uuid4().hex}@example.com",
++        password=password,
++        dob=dob,
++    )
++    db_session.add(user)
++    db_session.commit()
++    db_session.refresh(user)
++    return user
++
++
++def make_user_policy(
++    db_session,
++    user,
++    *,
++    policy_id=1,
++    policy_number=None,
++    start_date="2026-01-01",
++    end_date="2026-12-31",
++    premium=1200,
++    status="active",
++):
++    import uuid
++
++    import models
++
++    user_policy = models.UserPolicies(
++        user_id=user.id,
++        policy_id=policy_id,
++        policy_number=policy_number or f"POL-{uuid.uuid4().hex[:8].upper()}",
++        start_date=start_date,
++        end_date=end_date,
++        premium=premium,
++        status=status,
++        auto_renew=False,
++    )
++    db_session.add(user_policy)
++    db_session.commit()
++    db_session.refresh(user_policy)
++    return user_policy
++
++
++def auth_as(app, user):
++    """Override oauth2.get_current_user for the duration of a `with` block."""
++    import oauth2
++
++    class _Override:
++        def __enter__(self):
++            app.dependency_overrides[oauth2.get_current_user] = lambda: user
++            return user
++
++        def __exit__(self, *exc):
++            app.dependency_overrides.pop(oauth2.get_current_user, None)
++
++    return _Override()
+diff --git a/backend/tests/test_policy_pdf_download.py b/backend/tests/test_policy_pdf_download.py
+new file mode 100644
+index 0000000..30c18c8
+--- /dev/null
++++ b/backend/tests/test_policy_pdf_download.py
+@@ -0,0 +1,161 @@
++"""
++RED tests for EPT-16 (Policy PDF Download) -- backend, pytest.
++
++Covers AC-002, AC-003, AC-005, AC-006, AC-008, AC-009 via
++GET /userpolicies/{id}/pdf, plus the PDF-rendering edge cases (AC-008,
++AC-009) via a pure helper function -- see NOTE below.
++
++NOTE for the implementer: TC-008 and TC-009 exercise a helper function,
++`routers.userpolicies.render_policy_pdf(user, policy, user_policy) -> bytes`,
++directly with lightweight stand-in objects rather than through the HTTP
++endpoint. This is deliberate: `UserPolicies.end_date` is `nullable=False`
++in models.py, so a real DB row with `end_date=None` cannot be constructed
++to drive the "Ongoing" edge case through the API. The endpoint itself
++should call this same helper to build the PDF it streams back, so
++implementing it once satisfies both the API-level tests (TC-002/003/005/006)
++and these two edge-case tests.
++"""
++import os
++from datetime import date
++from types import SimpleNamespace
++
++import pytest
++from pypdf import PdfReader
++from io import BytesIO
++
++from tests.conftest import auth_as, make_user, make_user_policy
++
++ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@example.com")
++
++# Seeded by database/init.sql -- id 1 is the first policy inserted there.
++SEED_POLICY_ID = 1
++
++
++def _pdf_text(pdf_bytes: bytes) -> str:
++    reader = PdfReader(BytesIO(pdf_bytes))
++    return "\n".join(page.extract_text() or "" for page in reader.pages)
++
++
++# ---------------------------------------------------------------------------
++# TC-002 / AC-002 -- PDF contains all six required fields
++# ---------------------------------------------------------------------------
++def test_tc002_pdf_contains_all_six_fields(client, db_session):
++    from main import app
++
++    user = make_user(db_session, name="Priya Sharma")
++    user_policy = make_user_policy(
++        db_session,
++        user,
++        policy_id=SEED_POLICY_ID,
++        policy_number="POL-77001",
++        start_date="2026-01-01",
++        end_date="2026-12-31",
++        premium=1500,
++    )
++
++    with auth_as(app, user):
++        response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++
++    assert response.status_code == 200
++    assert response.headers["content-type"] == "application/pdf"
++
++    text = _pdf_text(response.content)
++    assert "POL-77001" in text
++    assert "Priya Sharma" in text
++    assert "1500" in text
++    assert "2026-01-01" in text
++    assert "2026-12-31" in text
++
++
++# ---------------------------------------------------------------------------
++# TC-003 / AC-003 -- policyholders can only download their own policies
++# ---------------------------------------------------------------------------
++def test_tc003_policyholder_cannot_download_others_policy(client, db_session):
++    from main import app
++
++    owner = make_user(db_session, name="Owner User")
++    other = make_user(db_session, name="Other User")
++    user_policy = make_user_policy(db_session, owner, policy_id=SEED_POLICY_ID)
++
++    with auth_as(app, other):
++        response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++
++    assert response.status_code == 403
++    assert response.headers["content-type"] != "application/pdf"
++
++
++# ---------------------------------------------------------------------------
++# TC-005 / AC-005 -- internal staff can download any policy PDF
++# ---------------------------------------------------------------------------
++def test_tc005_staff_can_download_any_policy(client, db_session):
++    from main import app
++
++    owner = make_user(db_session, name="Owner User")
++    admin = make_user(db_session, name="Admin User", email=ADMIN_EMAIL)
++    user_policy = make_user_policy(db_session, owner, policy_id=SEED_POLICY_ID)
++
++    with auth_as(app, admin):
++        response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++
++    assert response.status_code == 200
++    assert response.headers["content-type"] == "application/pdf"
++
++
++# ---------------------------------------------------------------------------
++# TC-006 / AC-006 -- PDF filename includes policy number
++# ---------------------------------------------------------------------------
++def test_tc006_filename_includes_policy_number(client, db_session):
++    from main import app
++
++    user = make_user(db_session)
++    user_policy = make_user_policy(db_session, user, policy_id=SEED_POLICY_ID, policy_number="POL-99887")
++
++    with auth_as(app, user):
++        response = client.get(f"/userpolicies/{user_policy.id}/pdf")
++
++    assert response.status_code == 200
++    assert response.headers["content-disposition"] == "attachment; filename=Policy_POL-99887.pdf"
++
++
++# ---------------------------------------------------------------------------
++# TC-008 / AC-008 -- no end date shows "Ongoing"
++# ---------------------------------------------------------------------------
++def test_tc008_ongoing_policy_shows_ongoing_end_date():
++    from routers.userpolicies import render_policy_pdf
++
++    user = SimpleNamespace(name="Ongoing Holder")
++    policy = SimpleNamespace(policy_type="health", title="Health Basic", coverage={"opd": True})
++    user_policy = SimpleNamespace(
++        policy_number="POL-ONGOING",
++        start_date=date(2026, 1, 1),
++        end_date=None,
++        premium=1000,
++        status="active",
++    )
++
++    pdf_bytes = render_policy_pdf(user, policy, user_policy)
++    text = _pdf_text(pdf_bytes)
++
++    assert "Ongoing" in text
++
++
++# ---------------------------------------------------------------------------
++# TC-009 / AC-009 -- missing coverage limits shows "Not specified"
++# ---------------------------------------------------------------------------
++def test_tc009_missing_coverage_shows_not_specified():
++    from routers.userpolicies import render_policy_pdf
++
++    user = SimpleNamespace(name="No Coverage Holder")
++    policy = SimpleNamespace(policy_type="travel", title="Travel Basic", coverage=None)
++    user_policy = SimpleNamespace(
++        policy_number="POL-NOCOVER",
++        start_date=date(2026, 1, 1),
++        end_date=date(2026, 12, 31),
++        premium=800,
++        status="active",
++    )
++
++    pdf_bytes = render_policy_pdf(user, policy, user_policy)
++    text = _pdf_text(pdf_bytes)
++
++    assert "Not specified" in text
+diff --git a/frontend/src/pages/AdminDashboard.css b/frontend/src/pages/AdminDashboard.css
+index cd6060c..54ccae3 100644
+--- a/frontend/src/pages/AdminDashboard.css
++++ b/frontend/src/pages/AdminDashboard.css
+@@ -132,3 +132,28 @@
+   gap: 10px;
+   flex-wrap: wrap;
+ }
++
++.policies-table {
++  width: 100%;
++  border-collapse: collapse;
++  font-size: 13.5px;
++}
++
++.policies-table th,
++.policies-table td {
++  text-align: left;
++  padding: 12px 14px;
++  border-bottom: 1px solid var(--gray-100);
++}
++
++.policies-table th {
++  color: var(--gray-500);
++  font-weight: 600;
++  font-size: 12.5px;
++  text-transform: uppercase;
++}
++
++.status-active {
++  background: var(--color-success-bg);
++  color: var(--color-success-text);
++}
+diff --git a/frontend/src/pages/AdminDashboard.js b/frontend/src/pages/AdminDashboard.js
+index 5bd93aa..641f113 100644
+--- a/frontend/src/pages/AdminDashboard.js
++++ b/frontend/src/pages/AdminDashboard.js
+@@ -33,6 +33,11 @@ const AdminDashboard = () => {
+   const [updatingId, setUpdatingId] = useState(null);
+   const [exporting, setExporting] = useState(false);
+ 
++  const [allPolicies, setAllPolicies] = useState([]);
++  const [policiesLoading, setPoliciesLoading] = useState(true);
++  const [policiesLoadError, setPoliciesLoadError] = useState("");
++  const [downloadingPolicyId, setDownloadingPolicyId] = useState(null);
++
+   const loadClaims = useCallback(async () => {
+     setLoading(true);
+     setLoadError("");
+@@ -46,9 +51,23 @@ const AdminDashboard = () => {
+     }
+   }, []);
+ 
++  const loadAllPolicies = useCallback(async () => {
++    setPoliciesLoading(true);
++    setPoliciesLoadError("");
++    try {
++      const data = await apiFetch("/admin/policies");
++      setAllPolicies(data || []);
++    } catch (err) {
++      setPoliciesLoadError(err.message || "Failed to load policies");
++    } finally {
++      setPoliciesLoading(false);
++    }
++  }, []);
++
+   useEffect(() => {
+     loadClaims();
+-  }, [loadClaims]);
++    loadAllPolicies();
++  }, [loadClaims, loadAllPolicies]);
+ 
+   const updateStatus = async (claim, status) => {
+     const labels = { approved: "approve", rejected: "reject", under_review: "mark under review" };
+@@ -98,6 +117,25 @@ const AdminDashboard = () => {
+     }
+   };
+ 
++  const downloadPolicyPdf = async (userPolicy) => {
++    try {
++      setDownloadingPolicyId(userPolicy.id);
++      const blob = await apiFetchBlob(`/userpolicies/${userPolicy.id}/pdf`);
++      const url = window.URL.createObjectURL(blob);
++      const link = document.createElement("a");
++      link.href = url;
++      link.download = `Policy_${userPolicy.policy_number}.pdf`;
++      document.body.appendChild(link);
++      link.click();
++      link.remove();
++      window.URL.revokeObjectURL(url);
++    } catch (err) {
++      toast.error(err.message || "Download failed. Please try again.");
++    } finally {
++      setDownloadingPolicyId(null);
++    }
++  };
++
+   const sortedClaims = [...claims].sort((a, b) => {
+     if (sortBy === "amount") return b.amount_claimed - a.amount_claimed;
+     return new Date(b.created_at) - new Date(a.created_at);
+@@ -239,6 +277,68 @@ const AdminDashboard = () => {
+             ))}
+           </div>
+         )}
++
++        <div className="admin-header">
++          <div>
++            <h2>All Policies</h2>
++            <p className="admin-subtitle">{allPolicies.length} total policies</p>
++          </div>
++        </div>
++
++        {policiesLoading && <p>Loading policies…</p>}
++
++        {!policiesLoading && policiesLoadError && (
++          <div className="empty-state">
++            <div className="empty-icon">⚠️</div>
++            <h3>Couldn't load policies</h3>
++            <p>{policiesLoadError}</p>
++            <button className="btn btn-primary" onClick={loadAllPolicies}>
++              Try again
++            </button>
++          </div>
++        )}
++
++        {!policiesLoading && !policiesLoadError && allPolicies.length === 0 && (
++          <div className="empty-state">
++            <div className="empty-icon">📭</div>
++            <h3>No policies found</h3>
++          </div>
++        )}
++
++        {!policiesLoading && !policiesLoadError && allPolicies.length > 0 && (
++          <table className="policies-table">
++            <thead>
++              <tr>
++                <th>Policyholder</th>
++                <th>Policy Number</th>
++                <th>Policy</th>
++                <th>Status</th>
++                <th></th>
++              </tr>
++            </thead>
++            <tbody>
++              {allPolicies.map((up) => (
++                <tr key={up.id}>
++                  <td>{up.owner_name}</td>
++                  <td>{up.policy_number}</td>
++                  <td>{up.policy_title}</td>
++                  <td>
++                    <span className={`badge status-${up.status}`}>{up.status}</span>
++                  </td>
++                  <td>
++                    <button
++                      className="btn btn-secondary btn-sm"
++                      onClick={() => downloadPolicyPdf(up)}
++                      disabled={downloadingPolicyId === up.id}
++                    >
++                      {downloadingPolicyId === up.id ? "Downloading…" : "Download PDF"}
++                    </button>
++                  </td>
++                </tr>
++              ))}
++            </tbody>
++          </table>
++        )}
+       </div>
+     </div>
+   );
+diff --git a/frontend/src/pages/Policies.js b/frontend/src/pages/Policies.js
+index 88e7cea..e03d6d7 100644
+--- a/frontend/src/pages/Policies.js
++++ b/frontend/src/pages/Policies.js
+@@ -1,6 +1,6 @@
+ import { useState, useEffect, useCallback } from "react";
+ import "./Policies.css";
+-import { apiFetch } from "../utils/apiClient";
++import { apiFetch, apiFetchBlob } from "../utils/apiClient";
+ import { useToast } from "../context/ToastContext";
+ import { useConfirm } from "../context/ConfirmContext";
+ import FileClaimModal from "../components/FileClaimModal";
+@@ -28,6 +28,7 @@ function Policies({ goToUpload, goToComparePage }) {
+   const [loadError, setLoadError] = useState("");
+   const [activeFilter, setActiveFilter] = useState("all");
+   const [busyPolicyId, setBusyPolicyId] = useState(null);
++  const [downloadingPolicyId, setDownloadingPolicyId] = useState(null);
+   const [claimModalPolicy, setClaimModalPolicy] = useState(null);
+   const [filingClaim, setFilingClaim] = useState(false);
+ 
+@@ -89,6 +90,28 @@ function Policies({ goToUpload, goToComparePage }) {
+     }
+   };
+ 
++  const downloadPolicyPdf = async (policy) => {
++    const owned = userPolicies.find((up) => Number(up.policy_id) === Number(policy.id));
++    if (!owned) return;
++
++    try {
++      setDownloadingPolicyId(policy.id);
++      const blob = await apiFetchBlob(`/userpolicies/${owned.id}/pdf`);
++      const url = window.URL.createObjectURL(blob);
++      const link = document.createElement("a");
++      link.href = url;
++      link.download = `Policy_${owned.policy_number}.pdf`;
++      document.body.appendChild(link);
++      link.click();
++      link.remove();
++      window.URL.revokeObjectURL(url);
++    } catch (err) {
++      toast.error(err.message || "Download failed. Please try again.");
++    } finally {
++      setDownloadingPolicyId(null);
++    }
++  };
++
+   const openClaimModal = (policy) => {
+     const owned = userPolicies.find((up) => Number(up.policy_id) === Number(policy.id));
+     if (!owned) {
+@@ -236,6 +259,17 @@ function Policies({ goToUpload, goToComparePage }) {
+                     <button className="btn btn-secondary" onClick={() => openClaimModal(policy)}>
+                       File Claim
+                     </button>
++
++                    {owned && (
++                      <button
++                        className="btn btn-secondary"
++                        onClick={() => downloadPolicyPdf(policy)}
++                        disabled={downloadingPolicyId === policy.id}
++                      >
++                        {downloadingPolicyId === policy.id ? <span className="spinner" /> : null}
++                        {downloadingPolicyId === policy.id ? "Downloading…" : "Download PDF"}
++                      </button>
++                    )}
+                   </div>
+                 </div>
+               );
+diff --git a/frontend/src/pages/Policies.test.js b/frontend/src/pages/Policies.test.js
+new file mode 100644
+index 0000000..59c8d27
+--- /dev/null
++++ b/frontend/src/pages/Policies.test.js
+@@ -0,0 +1,165 @@
++/**
++ * RED tests for EPT-16 (Policy PDF Download) -- frontend, RTL.
++ *
++ * Contract expected of the implementation (documented here so the
++ * implementer and these tests agree on it):
++ *   - A button with accessible name "Download PDF" renders inside
++ *     card-actions, but ONLY on cards for policies the user already owns
++ *     (isOwned(policy.id) === true) -- never rendered (not merely
++ *     disabled) for un-owned catalog entries.
++ *   - Clicking it calls apiFetchBlob(`/userpolicies/${ownedId}/pdf`),
++ *     builds a Blob URL, sets an <a>'s `download` attribute to
++ *     `Policy_${policy_number}.pdf` and clicks it -- the same pattern
++ *     AdminDashboard's CSV export already uses, with no browser-specific
++ *     save API (no `navigator.msSaveBlob`).
++ *   - On failure, a toast error is shown and the button stays clickable
++ *     (no disabled/stuck state) so the user can retry.
++ */
++import { render, screen, waitFor } from "@testing-library/react";
++import userEvent from "@testing-library/user-event";
++import Policies from "./Policies";
++import { ToastProvider } from "../context/ToastContext";
++import { ConfirmProvider } from "../context/ConfirmContext";
++import * as apiClient from "../utils/apiClient";
++
++jest.mock("../utils/apiClient");
++
++const CATALOG = [
++  { id: 1, title: "Health Basic", policy_type: "health", premium: 500, term_months: 12, deductible: 1000 },
++  { id: 2, title: "Auto Standard", policy_type: "auto", premium: 800, term_months: 12, deductible: 2000 },
++];
++
++const OWNED_HEALTH_ONLY = [
++  { id: 10, policy_id: 1, policy_number: "POL-12345", status: "active" },
++];
++
++function mockCatalog({ owned = OWNED_HEALTH_ONLY } = {}) {
++  apiClient.apiFetch.mockImplementation((path) => {
++    if (path === "/policies") return Promise.resolve(CATALOG);
++    if (path === "/userpolicies/") return Promise.resolve(owned);
++    return Promise.resolve(null);
++  });
++}
++
++function renderPolicies() {
++  return render(
++    <ToastProvider>
++      <ConfirmProvider>
++        <Policies goToUpload={() => {}} goToComparePage={() => {}} />
++      </ConfirmProvider>
++    </ToastProvider>
++  );
++}
++
++beforeEach(() => {
++  jest.clearAllMocks();
++});
++
++// ---------------------------------------------------------------------------
++// TC-001 / AC-001 -- download button shown only for owned policies
++// ---------------------------------------------------------------------------
++test("TC-001: Download PDF button renders only on owned policy cards", async () => {
++  mockCatalog();
++  renderPolicies();
++
++  await waitFor(() => expect(screen.getByText("Health Basic")).toBeInTheDocument());
++  await waitFor(() => expect(screen.getByText("Auto Standard")).toBeInTheDocument());
++
++  const downloadButtons = screen.queryAllByRole("button", { name: /download pdf/i });
++  expect(downloadButtons).toHaveLength(1);
++
++  const ownedCard = screen.getByText("Health Basic").closest(".policy-card");
++  expect(ownedCard).not.toBeNull();
++  expect(
++    downloadButtons[0].closest(".policy-card")
++  ).toBe(ownedCard);
++});
++
++// ---------------------------------------------------------------------------
++// TC-003b / AC-003, TC-010 / AC-010 -- no permission -> button hidden, not
++// disabled (covered together: an un-owned policy is exactly the "no
++// permission" case per the ticket's business rules). Deliberately asserted
++// against a MIXED owned/un-owned render, not an all-un-owned one: a render
++// with zero owned policies would show zero buttons even before this
++// feature exists, so it can't prove anything by itself.
++// ---------------------------------------------------------------------------
++test("TC-003b/TC-010: the un-owned policy card renders no download button while the owned one does", async () => {
++  mockCatalog();
++  renderPolicies();
++
++  await waitFor(() => expect(screen.getByText("Health Basic")).toBeInTheDocument());
++  await waitFor(() => expect(screen.getByText("Auto Standard")).toBeInTheDocument());
++
++  expect(screen.queryAllByRole("button", { name: /download pdf/i })).toHaveLength(1);
++
++  const unownedCard = screen.getByText("Auto Standard").closest(".policy-card");
++  expect(
++    unownedCard.querySelector("button")
++      ? Array.from(unownedCard.querySelectorAll("button")).some((b) => /download pdf/i.test(b.textContent))
++      : false
++  ).toBe(false);
++});
++
++// ---------------------------------------------------------------------------
++// TC-006b / AC-006 -- client-side download filename
++// ---------------------------------------------------------------------------
++test("TC-006b: clicking Download PDF sets the anchor's download name from the policy number", async () => {
++  mockCatalog();
++  const blob = new Blob(["%PDF-fake"], { type: "application/pdf" });
++  apiClient.apiFetchBlob.mockResolvedValue(blob);
++
++  const createObjectURL = jest.fn(() => "blob:mock-url");
++  const revokeObjectURL = jest.fn();
++  window.URL.createObjectURL = createObjectURL;
++  window.URL.revokeObjectURL = revokeObjectURL;
++
++  renderPolicies();
++  await waitFor(() => expect(screen.getByText("Health Basic")).toBeInTheDocument());
++
++  const downloadButton = await screen.findByRole("button", { name: /download pdf/i });
++  await userEvent.click(downloadButton);
++
++  await waitFor(() => expect(apiClient.apiFetchBlob).toHaveBeenCalledWith("/userpolicies/10/pdf"));
++});
++
++// ---------------------------------------------------------------------------
++// TC-007 / AC-007 -- uses standard Blob/<a download>, no browser-specific API
++// ---------------------------------------------------------------------------
++test("TC-007: download uses the standard Blob + <a download> mechanism, not a browser-specific save API", async () => {
++  mockCatalog();
++  const blob = new Blob(["%PDF-fake"], { type: "application/pdf" });
++  apiClient.apiFetchBlob.mockResolvedValue(blob);
++
++  window.URL.createObjectURL = jest.fn(() => "blob:mock-url");
++  window.URL.revokeObjectURL = jest.fn();
++  const msSaveBlob = jest.fn();
++  window.navigator.msSaveBlob = msSaveBlob;
++
++  renderPolicies();
++  await waitFor(() => expect(screen.getByText("Health Basic")).toBeInTheDocument());
++
++  const downloadButton = await screen.findByRole("button", { name: /download pdf/i });
++  await userEvent.click(downloadButton);
++
++  await waitFor(() => expect(window.URL.createObjectURL).toHaveBeenCalledWith(blob));
++  expect(msSaveBlob).not.toHaveBeenCalled();
++
++  delete window.navigator.msSaveBlob;
++});
++
++// ---------------------------------------------------------------------------
++// TC-011 / AC-011 -- generation failure surfaces a retryable error toast
++// ---------------------------------------------------------------------------
++test("TC-011: a failed download shows an error toast and leaves the button clickable to retry", async () => {
++  mockCatalog();
++  apiClient.apiFetchBlob.mockRejectedValue(new Error("Request failed. Please try again."));
++
++  renderPolicies();
++  await waitFor(() => expect(screen.getByText("Health Basic")).toBeInTheDocument());
++
++  const downloadButton = await screen.findByRole("button", { name: /download pdf/i });
++  await userEvent.click(downloadButton);
++
++  await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(/request failed/i));
++  expect(downloadButton).not.toBeDisabled();
++});
