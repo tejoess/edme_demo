@@ -55,6 +55,20 @@ class UserPolicies(Base):
     premium = Column(Numeric(12, 2), nullable=False)
     status = Column(String(20), default="active")
     auto_renew = Column(Boolean, default=False)
+    cancelled_at = Column(DateTime, nullable=True)
+
+
+class PolicyStatusHistory(Base):
+    __tablename__ = "policy_status_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_policy_id = Column(Integer, ForeignKey("userpolicies.id", ondelete="CASCADE"), nullable=False)
+    previous_status = Column(String(20), nullable=False)
+    new_status = Column(String(20), nullable=False)
+    changed_by = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"))
+    changed_at = Column(TIMESTAMP, server_default=func.now())
+
+    user_policy = relationship("UserPolicies")
 
 
 class Claims(Base):

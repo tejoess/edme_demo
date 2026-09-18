@@ -57,6 +57,18 @@ class ClaimResponse(BaseModel):
 
 
 # -----------------------------
+# CANCEL POLICY RESPONSE
+# -----------------------------
+class CancelPolicyResponse(BaseModel):
+    message: str
+    status: str
+    cancelled_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+# -----------------------------
 # ADMIN LOG RESPONSE
 # -----------------------------
 class AdminLogResponse(BaseModel):

@@ -1,0 +1,1250 @@
+====================================================================
+EPT-15 RED phase -- raw test runner output
+Captured: 2026-09-17T19:42:19Z
+====================================================================
+
+---------------------------------------------------------------
+BACKEND: pytest backend/tests/test_userpolicies_cancel.py -v
+---------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend
+plugins: anyio-4.15.1
+collecting ... collected 9 items
+
+tests/test_userpolicies_cancel.py::test_tc001_owner_can_cancel_active_policy FAILED [ 11%]
+tests/test_userpolicies_cancel.py::test_tc003_status_persisted_after_cancel FAILED [ 22%]
+tests/test_userpolicies_cancel.py::test_tc004_cancellation_recorded_with_timestamp_and_history_row FAILED [ 33%]
+tests/test_userpolicies_cancel.py::test_tc006_cancel_already_cancelled_returns_400 FAILED [ 44%]
+tests/test_userpolicies_cancel.py::test_tc007_cancel_non_active_status_returns_400 FAILED [ 55%]
+tests/test_userpolicies_cancel.py::test_tc008_non_owner_cannot_cancel_others_policy FAILED [ 66%]
+tests/test_userpolicies_cancel.py::test_tc009_cancel_nonexistent_policy_returns_404 FAILED [ 77%]
+tests/test_userpolicies_cancel.py::test_tc010_success_response_has_human_readable_message FAILED [ 88%]
+tests/test_userpolicies_cancel.py::test_tc014_concurrent_cancel_requests_only_one_succeeds FAILED [100%]
+
+================================== FAILURES ===================================
+__________________ test_tc001_owner_can_cancel_active_policy __________________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 11, 'email': 'ept15-b1f3bf9367@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS1iMWYzYmY5MzY3QGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0Mn0.wSXsM5-mJeR4cb97h08lA8VENO03oZXfOVwCoZ_i8YA'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886A8D8750>
+
+    def test_tc001_owner_can_cancel_active_policy(client, customer, seed_policy_id, db):
+        """TC-001 / AC-001 -- an authorized customer can cancel their own active policy."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="active")
+    
+        resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(customer["token"])
+        )
+    
+>       assert resp.status_code == 200, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_userpolicies_cancel.py:27: AssertionError
+__________________ test_tc003_status_persisted_after_cancel ___________________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 12, 'email': 'ept15-c5712cdb28@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS1jNTcxMmNkYjI4QGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0M30.BypV3ESPybd28dBvXTJ4WU9LG_VrqjtOofd8BjtRScE'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886AECE310>
+
+    def test_tc003_status_persisted_after_cancel(client, customer, seed_policy_id, db):
+        """TC-003 / AC-002 -- the cancelled status is persisted, not just returned."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="active")
+    
+        cancel_resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(customer["token"])
+        )
+>       assert cancel_resp.status_code == 200, cancel_resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_userpolicies_cancel.py:38: AssertionError
+_______ test_tc004_cancellation_recorded_with_timestamp_and_history_row _______
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 13, 'email': 'ept15-c49d0380d5@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS1jNDlkMDM4MGQ1QGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0NH0.oinhZQTKW152FfxH7xyo5l25rD_a900zAQQsc4VRUS0'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886AC38690>
+
+    def test_tc004_cancellation_recorded_with_timestamp_and_history_row(
+        client, customer, seed_policy_id, db
+    ):
+        """TC-004 / AC-003 -- cancelled_at is set and exactly one history row is created."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="active")
+    
+        cancel_resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(customer["token"])
+        )
+>       assert cancel_resp.status_code == 200, cancel_resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_userpolicies_cancel.py:57: AssertionError
+_______________ test_tc006_cancel_already_cancelled_returns_400 _______________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 14, 'email': 'ept15-b7704f67d2@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS1iNzcwNGY2N2QyQGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0NH0.qECz6CNPPZ1R7RJ1m01dL9aWRiQCsSXMntVykNjmL5o'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886AECECD0>
+
+    def test_tc006_cancel_already_cancelled_returns_400(client, customer, seed_policy_id, db):
+        """TC-006 / AC-004 -- cancelling an already-cancelled policy is rejected."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="cancelled")
+    
+        resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(customer["token"])
+        )
+    
+>       assert resp.status_code == 400, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 400
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_userpolicies_cancel.py:86: AssertionError
+_______________ test_tc007_cancel_non_active_status_returns_400 _______________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 15, 'email': 'ept15-5b08985050@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS01YjA4OTg1MDUwQGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0NX0.pA91hWGveBYEvFmTV6soMdxvosckUUYh5kLhDAzYMh0'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886B2D0410>
+
+    def test_tc007_cancel_non_active_status_returns_400(client, customer, seed_policy_id, db):
+        """TC-007 / AC-004 -- a non-active, non-cancelled status (e.g. 'lapsed') is rejected."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="lapsed")
+    
+        resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(customer["token"])
+        )
+    
+>       assert resp.status_code == 400, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 400
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_userpolicies_cancel.py:104: AssertionError
+______________ test_tc008_non_owner_cannot_cancel_others_policy _______________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 16, 'email': 'ept15-e727a57f1a@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS1lNzI3YTU3ZjFhQGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0Nn0.WT8RPQwp_2-tMjXiBhD8bwiIpf62SXQ_73ayVKgUG4s'}
+other_customer = {'id': 17, 'email': 'ept15-0509e0ad90@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS0wNTA5ZTBhZDkwQGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0Nn0.nWdrOpIsVFPqvSMpn496cy71ua3qaJg5Fim0N0-3nCQ'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886B313E50>
+
+    def test_tc008_non_owner_cannot_cancel_others_policy(
+        client, customer, other_customer, seed_policy_id, db
+    ):
+        """TC-008 / AC-005 -- User B cannot cancel User A's policy; A's row is unchanged."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="active")
+    
+        resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(other_customer["token"])
+        )
+    
+        assert resp.status_code == 404, resp.text
+>       assert resp.json()["detail"] == "Policy not found"
+E       AssertionError: assert 'Not Found' == 'Policy not found'
+E         
+E         - Policy not found
+E         + Not Found
+
+tests\test_userpolicies_cancel.py:119: AssertionError
+______________ test_tc009_cancel_nonexistent_policy_returns_404 _______________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 18, 'email': 'ept15-52f187bb64@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS01MmYxODdiYjY0QGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0N30.zzmuVC5-DJFiz1a72S4_CXrxdykyb_p5OPij57yNb1w'}
+
+    def test_tc009_cancel_nonexistent_policy_returns_404(client, customer):
+        """TC-009 / AC-005 -- cancelling a non-existent user_policy_id returns a clear 404."""
+        nonexistent_id = 999_999_999
+    
+        resp = client.patch(
+            f"/userpolicies/{nonexistent_id}/cancel", headers=auth_headers(customer["token"])
+        )
+    
+        assert resp.status_code == 404, resp.text
+>       assert resp.json()["detail"] == "Policy not found"
+E       AssertionError: assert 'Not Found' == 'Policy not found'
+E         
+E         - Policy not found
+E         + Not Found
+
+tests\test_userpolicies_cancel.py:142: AssertionError
+___________ test_tc010_success_response_has_human_readable_message ____________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 19, 'email': 'ept15-64ae581156@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS02NGFlNTgxMTU2QGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0OH0.SoVR4nZsldbtAas-HA6KfohaSvQ8dBZds-RHPu3q44U'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886AECF510>
+
+    def test_tc010_success_response_has_human_readable_message(
+        client, customer, seed_policy_id, db
+    ):
+        """TC-010 / AC-006 -- the success response includes a human-readable message."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="active")
+    
+        resp = client.patch(
+            f"/userpolicies/{up_id}/cancel", headers=auth_headers(customer["token"])
+        )
+    
+>       assert resp.status_code == 200, resp.text
+E       AssertionError: {"detail":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404 Not Found]>.status_code
+
+tests\test_userpolicies_cancel.py:155: AssertionError
+___________ test_tc014_concurrent_cancel_requests_only_one_succeeds ___________
+
+client = <starlette.testclient.TestClient object at 0x000002886AC40790>
+customer = {'id': 20, 'email': 'ept15-ca9b984652@example.test', 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlcHQxNS1jYTliOTg0NjUyQGV4YW1wbGUudGVzdCIsImV4cCI6MTc4OTY3NTk0OH0.kd930V-e97XMrBUktROohhS_L6rUbWxj_n95WMhCM08'}
+seed_policy_id = 1
+db = <sqlalchemy.orm.session.Session object at 0x000002886B2DC810>
+
+    def test_tc014_concurrent_cancel_requests_only_one_succeeds(
+        client, customer, seed_policy_id, db
+    ):
+        """TC-014 / AC-004 -- race condition: only one of two back-to-back cancel
+        requests for the same user_policy_id succeeds; the DB-level conditional
+        UPDATE must make the check-then-act atomic."""
+        up_id = make_user_policy(db, customer["id"], seed_policy_id, status="active")
+        headers = auth_headers(customer["token"])
+    
+        responses = [
+            client.patch(f"/userpolicies/{up_id}/cancel", headers=headers) for _ in range(2)
+        ]
+    
+        status_codes = sorted(r.status_code for r in responses)
+>       assert status_codes == [200, 400], [r.text for r in responses]
+E       AssertionError: ['{"detail":"Not Found"}', '{"detail":"Not Found"}']
+E       assert [404, 404] == [200, 400]
+E         
+E         At index 0 diff: 404 != 200
+E         
+E         Full diff:
+E           [
+E         -     200,
+E         -     400,...
+E         
+E         ...Full output truncated (5 lines hidden), use '-vv' to show
+
+tests\test_userpolicies_cancel.py:173: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv\Lib\site-packages\starlette\testclient.py:53
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+schemas.py:47
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\schemas.py:47: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class ClaimResponse(BaseModel):
+
+schemas.py:62
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\schemas.py:62: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class AdminLogResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_userpolicies_cancel.py::test_tc001_owner_can_cancel_active_policy
+FAILED tests/test_userpolicies_cancel.py::test_tc003_status_persisted_after_cancel
+FAILED tests/test_userpolicies_cancel.py::test_tc004_cancellation_recorded_with_timestamp_and_history_row
+FAILED tests/test_userpolicies_cancel.py::test_tc006_cancel_already_cancelled_returns_400
+FAILED tests/test_userpolicies_cancel.py::test_tc007_cancel_non_active_status_returns_400
+FAILED tests/test_userpolicies_cancel.py::test_tc008_non_owner_cannot_cancel_others_policy
+FAILED tests/test_userpolicies_cancel.py::test_tc009_cancel_nonexistent_policy_returns_404
+FAILED tests/test_userpolicies_cancel.py::test_tc010_success_response_has_human_readable_message
+FAILED tests/test_userpolicies_cancel.py::test_tc014_concurrent_cancel_requests_only_one_succeeds
+======================== 9 failed, 4 warnings in 7.41s ========================
+backend exit code: 1
+
+---------------------------------------------------------------
+FRONTEND: react-scripts test src/pages/Policies.cancel.test.js
+---------------------------------------------------------------
+FAIL src/pages/Policies.cancel.test.js
+  × TC-002 / AC-001 -- confirming cancellation in the modal calls the cancel API and updates the UI (191 ms)
+  × TC-005 / AC-003 -- a cancelled policy card shows a Cancelled badge and the cancellation date (35 ms)
+  × TC-011 / AC-006 -- successful cancellation shows a readable success toast (118 ms)
+  × TC-012 / AC-007 -- a rejected cancellation shows the backend's error detail as a toast (102 ms)
+  × TC-013 / edge case -- dismissing the confirm modal makes no API call and leaves the policy unchanged (120 ms)
+
+  ● TC-002 / AC-001 -- confirming cancellation in the modal calls the cancel API and updates the UI
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/cancel policy/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "FamilyCare Health Plan":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "✓ Purchased":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-success"[39m
+        [33mdisabled[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "FamilyCare Health Plan health ₹8500 / 12mo Deductible: ₹5000 ✓ Purchased File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamilyCare Health Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m8500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m5000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 87 |[39m
+     [90m 88 |[39m   [90m// Trigger button per plan.md: a "Cancel Policy" action on the owned, active card.[39m
+    [31m[1m>[22m[39m[90m 89 |[39m   [36mconst[39m trigger [33m=[39m screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/cancel policy/i[39m })[33m;[39m
+     [90m    |[39m                          [31m[1m^[22m[39m
+     [90m 90 |[39m   [36mawait[39m userEvent[33m.[39mclick(trigger)[33m;[39m
+     [90m 91 |[39m
+     [90m 92 |[39m   [36mconst[39m dialog [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"alertdialog"[39m)[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.cancel.test.js:89:26)
+
+  ● TC-005 / AC-003 -- a cancelled policy card shows a Cancelled badge and the cancellation date
+
+    TestingLibraryElementError: Unable to find an element with the text: /cancelled/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamilyCare Health Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m8500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m5000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 118 |[39m   [36mawait[39m screen[33m.[39mfindByText([33mPOLICY[39m[33m.[39mtitle)[33m;[39m
+     [90m 119 |[39m
+    [31m[1m>[22m[39m[90m 120 |[39m   expect(screen[33m.[39mgetByText([35m/cancelled/i[39m))[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 121 |[39m   expect(screen[33m.[39mgetByText([35m/2026-09-01/[39m))[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 122 |[39m })[33m;[39m
+     [90m 123 |[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByText (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.cancel.test.js:120:17)
+
+  ● TC-011 / AC-006 -- successful cancellation shows a readable success toast
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/cancel policy/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "FamilyCare Health Plan":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "✓ Purchased":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-success"[39m
+        [33mdisabled[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "FamilyCare Health Plan health ₹8500 / 12mo Deductible: ₹5000 ✓ Purchased File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamilyCare Health Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m8500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m5000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 140 |[39m   })[33m;[39m
+     [90m 141 |[39m
+    [31m[1m>[22m[39m[90m 142 |[39m   [36mconst[39m trigger [33m=[39m screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/cancel policy/i[39m })[33m;[39m
+     [90m     |[39m                          [31m[1m^[22m[39m
+     [90m 143 |[39m   [36mawait[39m userEvent[33m.[39mclick(trigger)[33m;[39m
+     [90m 144 |[39m
+     [90m 145 |[39m   [36mconst[39m dialog [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"alertdialog"[39m)[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.cancel.test.js:142:26)
+
+  ● TC-012 / AC-007 -- a rejected cancellation shows the backend's error detail as a toast
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/cancel policy/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "FamilyCare Health Plan":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "✓ Purchased":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-success"[39m
+        [33mdisabled[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "FamilyCare Health Plan health ₹8500 / 12mo Deductible: ₹5000 ✓ Purchased File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamilyCare Health Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m8500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m5000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 163 |[39m   })[33m;[39m
+     [90m 164 |[39m
+    [31m[1m>[22m[39m[90m 165 |[39m   [36mconst[39m trigger [33m=[39m screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/cancel policy/i[39m })[33m;[39m
+     [90m     |[39m                          [31m[1m^[22m[39m
+     [90m 166 |[39m   [36mawait[39m userEvent[33m.[39mclick(trigger)[33m;[39m
+     [90m 167 |[39m
+     [90m 168 |[39m   [36mconst[39m dialog [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"alertdialog"[39m)[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.cancel.test.js:165:26)
+
+  ● TC-013 / edge case -- dismissing the confirm modal makes no API call and leaves the policy unchanged
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/cancel policy/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "FamilyCare Health Plan":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "✓ Purchased":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-success"[39m
+        [33mdisabled[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "FamilyCare Health Plan health ₹8500 / 12mo Deductible: ₹5000 ✓ Purchased File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamilyCare Health Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m8500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m5000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-success"[39m
+                    [33mdisabled[39m=[32m""[39m
+                  [36m>[39m
+                    [0m✓ Purchased[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 179 |[39m   apiFetch[33m.[39mmockClear()[33m;[39m
+     [90m 180 |[39m
+    [31m[1m>[22m[39m[90m 181 |[39m   [36mconst[39m trigger [33m=[39m screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/cancel policy/i[39m })[33m;[39m
+     [90m     |[39m                          [31m[1m^[22m[39m
+     [90m 182 |[39m   [36mawait[39m userEvent[33m.[39mclick(trigger)[33m;[39m
+     [90m 183 |[39m
+     [90m 184 |[39m   [36mconst[39m dialog [33m=[39m [36mawait[39m screen[33m.[39mfindByRole([32m"alertdialog"[39m)[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.cancel.test.js:181:26)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 5 total
+Snapshots:   0 total
+Time:        2.495 s
+Ran all test suites matching /src\\pages\\Policies.cancel.test.js/i.
+frontend exit code: 1

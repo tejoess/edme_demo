@@ -127,3 +127,15 @@
 .card-actions .btn {
   flex: 1;
 }
+
+.cancelled-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.cancelled-date {
+  font-size: 13px;
+  color: var(--gray-500);
+}

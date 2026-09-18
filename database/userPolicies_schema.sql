@@ -8,7 +8,8 @@ CREATE TABLE UserPolicies (
     premium NUMERIC(12,2) NOT NULL,
     status VARCHAR(20) DEFAULT 'active',
     auto_renew BOOLEAN DEFAULT FALSE,
-    
+    cancelled_at TIMESTAMP NULL DEFAULT NULL, -- EPT-15: set once, at cancellation time
+
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
         REFERENCES users(id)

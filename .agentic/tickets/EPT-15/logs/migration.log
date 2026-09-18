@@ -1,0 +1,90 @@
+== applying base schema (database/init.sql) ==
+psql: error: C:/Users/Tejas/AppData/Local/Temp/init.sql: No such file or directory
+== base schema applied, exit code: 1 ==
+CREATE TYPE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+INSERT 0 3
+INSERT 0 10
+== MIGRATION UP ==
+psql:/tmp/up.sql:6: NOTICE:  column "cancelled_at" of relation "userpolicies" already exists, skipping
+ALTER TABLE
+CREATE TABLE
+psql:/tmp/up.sql:16: NOTICE:  relation "policy_status_history" already exists, skipping
+CREATE INDEX
+psql:/tmp/up.sql:19: NOTICE:  relation "idx_policy_status_history_user_policy_id" already exists, skipping
+== VERIFY AFTER UP ==
+                                          Table "public.userpolicies"
+    Column     |            Type             | Collation | Nullable |                 Default                  
+---------------+-----------------------------+-----------+----------+------------------------------------------
+ id            | integer                     |           | not null | nextval('userpolicies_id_seq'::regclass)
+ user_id       | integer                     |           | not null | 
+ policy_id     | integer                     |           | not null | 
+ policy_number | character varying(50)       |           | not null | 
+ start_date    | date                        |           | not null | 
+ end_date      | date                        |           | not null | 
+ premium       | numeric(12,2)               |           | not null | 
+ status        | character varying(20)       |           |          | 'active'::character varying
+ auto_renew    | boolean                     |           |          | false
+ cancelled_at  | timestamp without time zone |           |          | 
+Indexes:
+    "userpolicies_pkey" PRIMARY KEY, btree (id)
+    "userpolicies_policy_number_key" UNIQUE CONSTRAINT, btree (policy_number)
+Foreign-key constraints:
+    "userpolicies_policy_id_fkey" FOREIGN KEY (policy_id) REFERENCES policies(id) ON DELETE CASCADE
+    "userpolicies_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+Referenced by:
+    TABLE "claims" CONSTRAINT "claims_user_policy_id_fkey" FOREIGN KEY (user_policy_id) REFERENCES userpolicies(id) ON DELETE CASCADE
+    TABLE "policy_status_history" CONSTRAINT "policy_status_history_user_policy_id_fkey" FOREIGN KEY (user_policy_id) REFERENCES userpolicies(id) ON DELETE CASCADE
+
+                                           Table "public.policy_status_history"
+     Column      |            Type             | Collation | Nullable |                      Default                      
+-----------------+-----------------------------+-----------+----------+---------------------------------------------------
+ id              | integer                     |           | not null | nextval('policy_status_history_id_seq'::regclass)
+ user_policy_id  | integer                     |           | not null | 
+ previous_status | character varying(20)       |           | not null | 
+ new_status      | character varying(20)       |           | not null | 
+ changed_by      | integer                     |           |          | 
+ changed_at      | timestamp without time zone |           | not null | CURRENT_TIMESTAMP
+Indexes:
+    "policy_status_history_pkey" PRIMARY KEY, btree (id)
+    "idx_policy_status_history_user_policy_id" btree (user_policy_id)
+Foreign-key constraints:
+    "policy_status_history_changed_by_fkey" FOREIGN KEY (changed_by) REFERENCES users(id) ON DELETE SET NULL
+    "policy_status_history_user_policy_id_fkey" FOREIGN KEY (user_policy_id) REFERENCES userpolicies(id) ON DELETE CASCADE
+
+== MIGRATION DOWN ==
+DROP TABLE
+ALTER TABLE
+== VERIFY AFTER DOWN ==
+                                       Table "public.userpolicies"
+    Column     |         Type          | Collation | Nullable |                 Default                  
+---------------+-----------------------+-----------+----------+------------------------------------------
+ id            | integer               |           | not null | nextval('userpolicies_id_seq'::regclass)
+ user_id       | integer               |           | not null | 
+ policy_id     | integer               |           | not null | 
+ policy_number | character varying(50) |           | not null | 
+ start_date    | date                  |           | not null | 
+ end_date      | date                  |           | not null | 
+ premium       | numeric(12,2)         |           | not null | 
+ status        | character varying(20) |           |          | 'active'::character varying
+ auto_renew    | boolean               |           |          | false
+Indexes:
+    "userpolicies_pkey" PRIMARY KEY, btree (id)
+    "userpolicies_policy_number_key" UNIQUE CONSTRAINT, btree (policy_number)
+Foreign-key constraints:
+    "userpolicies_policy_id_fkey" FOREIGN KEY (policy_id) REFERENCES policies(id) ON DELETE CASCADE
+    "userpolicies_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+Referenced by:
+    TABLE "claims" CONSTRAINT "claims_user_policy_id_fkey" FOREIGN KEY (user_policy_id) REFERENCES userpolicies(id) ON DELETE CASCADE
+
+Did not find any relation named "policy_status_history".

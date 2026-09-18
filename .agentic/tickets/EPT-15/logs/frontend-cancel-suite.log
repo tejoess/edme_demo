@@ -1,0 +1,97 @@
+  console.error
+    An update to Policies inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+    [0m [90m 111 |[39m
+     [90m 112 |[39m     [36mtry[39m {
+    [31m[1m>[22m[39m[90m 113 |[39m       setBusyPolicyId(policy[33m.[39mid)[33m;[39m
+     [90m     |[39m       [31m[1m^[22m[39m
+     [90m 114 |[39m       [36mawait[39m apiFetch([32m`/userpolicies/${userPolicy.id}/cancel`[39m[33m,[39m { method[33m:[39m [32m"PATCH"[39m })[33m;[39m
+     [90m 115 |[39m       toast[33m.[39msuccess([32m`"${policy.title}" cancelled successfully.`[39m)[33m;[39m
+     [90m 116 |[39m       [36mawait[39m fetchData()[33m;[39m[0m
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at setBusyPolicyId (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at cancelPolicy (src/pages/Policies.js:113:7)
+
+  console.error
+    An update to Policies inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+    [0m [90m 111 |[39m
+     [90m 112 |[39m     [36mtry[39m {
+    [31m[1m>[22m[39m[90m 113 |[39m       setBusyPolicyId(policy[33m.[39mid)[33m;[39m
+     [90m     |[39m       [31m[1m^[22m[39m
+     [90m 114 |[39m       [36mawait[39m apiFetch([32m`/userpolicies/${userPolicy.id}/cancel`[39m[33m,[39m { method[33m:[39m [32m"PATCH"[39m })[33m;[39m
+     [90m 115 |[39m       toast[33m.[39msuccess([32m`"${policy.title}" cancelled successfully.`[39m)[33m;[39m
+     [90m 116 |[39m       [36mawait[39m fetchData()[33m;[39m[0m
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at setBusyPolicyId (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at cancelPolicy (src/pages/Policies.js:113:7)
+
+  console.error
+    An update to Policies inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+    [0m [90m 111 |[39m
+     [90m 112 |[39m     [36mtry[39m {
+    [31m[1m>[22m[39m[90m 113 |[39m       setBusyPolicyId(policy[33m.[39mid)[33m;[39m
+     [90m     |[39m       [31m[1m^[22m[39m
+     [90m 114 |[39m       [36mawait[39m apiFetch([32m`/userpolicies/${userPolicy.id}/cancel`[39m[33m,[39m { method[33m:[39m [32m"PATCH"[39m })[33m;[39m
+     [90m 115 |[39m       toast[33m.[39msuccess([32m`"${policy.title}" cancelled successfully.`[39m)[33m;[39m
+     [90m 116 |[39m       [36mawait[39m fetchData()[33m;[39m[0m
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at setBusyPolicyId (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at cancelPolicy (src/pages/Policies.js:113:7)
+
+PASS src/pages/Policies.cancel.test.js
+  √ TC-002 / AC-001 -- confirming cancellation in the modal calls the cancel API and updates the UI (246 ms)
+  √ TC-005 / AC-003 -- a cancelled policy card shows a Cancelled badge and the cancellation date (47 ms)
+  √ TC-011 / AC-006 -- successful cancellation shows a readable success toast (123 ms)
+  √ TC-012 / AC-007 -- a rejected cancellation shows the backend's error detail as a toast (153 ms)
+  √ TC-013 / edge case -- dismissing the confirm modal makes no API call and leaves the policy unchanged (126 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        3.038 s
+Ran all test suites matching /src\\pages\\Policies.cancel.test.js/i.
+exit:0

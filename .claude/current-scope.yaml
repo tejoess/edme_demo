@@ -1,0 +1,73 @@
+# Scope contract for EPT-15 -- Policy Cancellation. See plan.md and
+# test-plan.md in .agentic/tickets/EPT-15/ for the full plan this was
+# derived from.
+
+ticket: EPT-15
+risk: HIGH             # schema change + authz-gated state mutation, see plan.md
+branch: feature/EPT-15
+
+acceptance_criteria:
+  - id: AC-001
+    text: "An authorized customer can successfully cancel their own active policy"
+  - id: AC-002
+    text: "Policy status changes to 'Cancelled' after successful cancellation"
+  - id: AC-003
+    text: "Cancellation date is recorded and visible in policy history"
+  - id: AC-004
+    text: "Customer cannot cancel a policy that is already cancelled or inactive"
+  - id: AC-005
+    text: "Customer cannot cancel a policy they are not authorized to access"
+  - id: AC-006
+    text: "Customer receives clear success message after cancellation"
+  - id: AC-007
+    text: "Customer receives clear error message when cancellation is not allowed"
+
+allowed_paths:
+  - backend/models.py
+  - backend/schemas.py
+  - backend/routers/userpolicies.py
+  - backend/requirements.txt
+  - backend/tests/**
+  - database/userPolicies_schema.sql
+  - database/policyStatusHistory_schema.sql
+  - database/init.sql
+  - database/migrations/**
+  - frontend/src/pages/Policies.js
+  - frontend/src/pages/Policies.css
+  - frontend/src/pages/Policies.cancel.test.js
+  - .agentic/tickets/EPT-15/**
+  # TEMP additions below for the /create-pr repo-bootstrap step (git init,
+  # remote setup, .gitignore) -- see DECISIONS.md. Narrow back before the
+  # final PR diff review.
+  - .gitignore
+  - .claude/current-scope.yaml
+
+forbidden_operations:
+  - deploy
+  # migration and dependency_install intentionally removed from the default
+  # denylist for this ticket -- see plan.md "Database changes" (schema
+  # migration required) and "Backend has zero test infrastructure"
+  # (pytest/httpx must be added to write the required automated tests).
+  # Their removal is itself part of why this ticket is HIGH, not a reason
+  # to treat it as routine.
+
+frozen_tests:
+  - backend/tests/conftest.py
+  - backend/tests/test_userpolicies_cancel.py
+  - frontend/src/pages/Policies.cancel.test.js
+
+verification:
+  build: required
+  lint: required
+  type_check: optional     # no mypy/TS config exists anywhere in this repo
+  unit_tests: required
+  integration_tests: required
+  api_tests: required
+  ui_tests: required        # touches user-facing Policies.js UI
+  migration_up: required
+  migration_down: required
+
+completion:
+  all_required_tests_pass: true
+  scope_check_passes: true
+  every_ac_has_a_passing_tc: true

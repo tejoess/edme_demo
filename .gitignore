@@ -58,3 +58,11 @@ backend/client_secret.json
 backend/client_secret_*.json
 backend/token.pickle
 backend/uploaded_claim_docs/
+
+# EPT-15 ticket working artifacts we don't want committed as source
+backend/.pytest_cache/
+
+# Keep evidence-bundle logs even though the blanket "logs/" rule above would
+# otherwise hide them -- they're Gate 2 review evidence, not runtime logs.
+!.agentic/tickets/**/logs/
+!.agentic/tickets/**/logs/**

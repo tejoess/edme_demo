@@ -42,7 +42,8 @@ CREATE TABLE userpolicies (
     end_date DATE NOT NULL,
     premium NUMERIC(12,2) NOT NULL,
     status VARCHAR(20) DEFAULT 'active',
-    auto_renew BOOLEAN DEFAULT FALSE
+    auto_renew BOOLEAN DEFAULT FALSE,
+    cancelled_at TIMESTAMP NULL DEFAULT NULL
 );
 
 CREATE TABLE claims (
@@ -90,6 +91,19 @@ CREATE TABLE adminlogs (
     target_id INTEGER NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- EPT-15: Policy Cancellation -- audit trail of userpolicies status changes.
+CREATE TABLE policy_status_history (
+    id SERIAL PRIMARY KEY,
+    user_policy_id INTEGER NOT NULL REFERENCES userpolicies(id) ON DELETE CASCADE,
+    previous_status VARCHAR(20) NOT NULL,
+    new_status VARCHAR(20) NOT NULL,
+    changed_by INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    changed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_policy_status_history_user_policy_id
+    ON policy_status_history(user_policy_id);
 
 -- Seed data so the Policies / Compare pages show something immediately.
 INSERT INTO providers (name, country) VALUES

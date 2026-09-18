@@ -1,0 +1,37 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.0, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Tejas\AppData\Local\Programs\Python\Python311\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend
+plugins: anyio-4.13.0, Faker-40.15.0, langsmith-0.8.3, asyncio-1.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 9 items
+
+tests/test_userpolicies_cancel.py::test_tc001_owner_can_cancel_active_policy PASSED [ 11%]
+tests/test_userpolicies_cancel.py::test_tc003_status_persisted_after_cancel PASSED [ 22%]
+tests/test_userpolicies_cancel.py::test_tc004_cancellation_recorded_with_timestamp_and_history_row PASSED [ 33%]
+tests/test_userpolicies_cancel.py::test_tc006_cancel_already_cancelled_returns_400 PASSED [ 44%]
+tests/test_userpolicies_cancel.py::test_tc007_cancel_non_active_status_returns_400 PASSED [ 55%]
+tests/test_userpolicies_cancel.py::test_tc008_non_owner_cannot_cancel_others_policy PASSED [ 66%]
+tests/test_userpolicies_cancel.py::test_tc009_cancel_nonexistent_policy_returns_404 PASSED [ 77%]
+tests/test_userpolicies_cancel.py::test_tc010_success_response_has_human_readable_message PASSED [ 88%]
+tests/test_userpolicies_cancel.py::test_tc014_concurrent_cancel_requests_only_one_succeeds PASSED [100%]
+
+============================== warnings summary ===============================
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\Tejas\AppData\Local\Programs\Python\Python311\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+schemas.py:47
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\schemas.py:47: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class ClaimResponse(BaseModel):
+
+schemas.py:62
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\schemas.py:62: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class CancelPolicyResponse(BaseModel):
+
+schemas.py:74
+  C:\Users\Tejas\Desktop\Edme\Insurance-Policy-Management-Demo\backend\schemas.py:74: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class AdminLogResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 9 passed, 4 warnings in 21.24s ========================

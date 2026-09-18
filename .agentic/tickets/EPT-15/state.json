@@ -1,0 +1,33 @@
+{
+  "ticket": "EPT-15",
+  "risk": "HIGH",
+  "branch": null,
+  "checkpoint_sha": null,
+  "phase": "REVIEW",
+  "plan_approved": true,
+  "red_captured": true,
+  "attempt": 0,
+  "max_attempts": 3,
+  "verification": "pass",
+  "review": "pending",
+  "_phases": [
+    "ANALYSIS",
+    "WAITING_FOR_APPROVAL",
+    "IMPLEMENTATION",
+    "VERIFICATION",
+    "FIX",
+    "EVIDENCE",
+    "REVIEW",
+    "APPROVED",
+    "PR",
+    "BLOCKED",
+    "ABANDONED"
+  ],
+  "_metrics": {
+    "planned_at": "2026-09-18",
+    "approved_at": "2026-09-17T19:31:57Z",
+    "green_at": "2026-09-17T19:31:57Z",
+    "files_changed": null,
+    "diff_lines": null
+  }
+}

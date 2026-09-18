@@ -54,6 +54,16 @@ function Policies({ goToUpload, goToComparePage }) {
   const isOwned = (policyId) =>
     userPolicies.some((up) => Number(up.policy_id) === Number(policyId));
 
+  const getOwnedUserPolicy = (policyId) =>
+    userPolicies.find((up) => Number(up.policy_id) === Number(policyId));
+
+  const formatDate = (value) => {
+    if (!value) return "";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return String(value);
+    return d.toISOString().slice(0, 10);
+  };
+
   const toggleSelect = (policy) => {
     const exists = selectedPolicies.find((p) => p.id === policy.id);
 
@@ -84,6 +94,28 @@ function Policies({ goToUpload, goToComparePage }) {
       await fetchData();
     } catch (err) {
       toast.error(err.message || "Purchase failed.");
+    } finally {
+      setBusyPolicyId(null);
+    }
+  };
+
+  const cancelPolicy = async (policy, userPolicy) => {
+    const ok = await confirm({
+      title: "Confirm cancellation",
+      message: `Cancel "${policy.title}" (policy #${userPolicy.id}, ₹${policy.premium}/term)? This action is final and cannot be undone, though your policy history will be retained.`,
+      confirmLabel: "Cancel Policy",
+      cancelLabel: "Cancel",
+      tone: "danger",
+    });
+    if (!ok) return;
+
+    try {
+      setBusyPolicyId(policy.id);
+      await apiFetch(`/userpolicies/${userPolicy.id}/cancel`, { method: "PATCH" });
+      toast.success(`"${policy.title}" cancelled successfully.`);
+      await fetchData();
+    } catch (err) {
+      toast.error(err.message || "Cancellation failed.");
     } finally {
       setBusyPolicyId(null);
     }
@@ -189,6 +221,8 @@ function Policies({ goToUpload, goToComparePage }) {
             {filteredPolicies.map((policy) => {
               const selected = selectedPolicies.some((p) => p.id === policy.id);
               const owned = isOwned(policy.id);
+              const ownedUserPolicy = getOwnedUserPolicy(policy.id);
+              const isCancelled = owned && ownedUserPolicy?.status === "cancelled";
               const isBusy = busyPolicyId === policy.id;
 
               return (
@@ -217,8 +251,17 @@ function Policies({ goToUpload, goToComparePage }) {
                   </div>
                   <div className="deductible-line">Deductible: ₹{policy.deductible}</div>
 
+                  {isCancelled && (
+                    <div className="cancelled-info" onClick={(e) => e.stopPropagation()}>
+                      <span className="badge badge-danger">Cancelled</span>
+                      <span className="cancelled-date">
+                        Effective {formatDate(ownedUserPolicy.cancelled_at)}
+                      </span>
+                    </div>
+                  )}
+
                   <div className="card-actions" onClick={(e) => e.stopPropagation()}>
-                    {!owned ? (
+                    {!owned && (
                       <button
                         className="btn btn-primary"
                         onClick={() => buyPolicy(policy)}
@@ -227,10 +270,22 @@ function Policies({ goToUpload, goToComparePage }) {
                         {isBusy ? <span className="spinner" /> : null}
                         {isBusy ? "Processing…" : "Buy Policy"}
                       </button>
-                    ) : (
-                      <button className="btn btn-success" disabled>
-                        ✓ Purchased
-                      </button>
+                    )}
+
+                    {owned && !isCancelled && (
+                      <>
+                        <button className="btn btn-success" disabled>
+                          ✓ Purchased
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => cancelPolicy(policy, ownedUserPolicy)}
+                          disabled={isBusy}
+                        >
+                          {isBusy ? <span className="spinner" /> : null}
+                          {isBusy ? "Processing…" : "Cancel Policy"}
+                        </button>
+                      </>
                     )}
 
                     <button className="btn btn-secondary" onClick={() => openClaimModal(policy)}>
