@@ -7,3 +7,9 @@ passlib[bcrypt]
 bcrypt==4.0.1
 python-multipart
 python-dotenv
+reportlab
+
+# Test-only dependencies (EPT-16)
+pytest
+httpx
+pypdf
