@@ -24,6 +24,12 @@ Steps:
 5. Set the `verification` block based on what this ticket actually needs —
    don't mark `ui_tests: required` for a backend-only change, and don't
    leave `api_tests` off for one that adds or changes an endpoint.
+   If `allowed_paths` includes any frontend component, page, or stylesheet
+   file, `ui_tests: required` is not optional — set it, no exceptions.
+   Jest/RTL component tests run in jsdom, which has no real CSS box model;
+   they verify wiring and roles, not layout. Only a real rendered browser
+   check (see the `verify` skill's Playwright + screenshot step) catches
+   alignment, spacing, and visual regressions.
    If the ticket touches schema, `migration_up` AND `migration_down` are both
    `required`. A migration is not done when it applies — it is done when it
    applies, reverses, and the reversal has been run against a database that had
