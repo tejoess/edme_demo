@@ -57,6 +57,26 @@ class ClaimResponse(BaseModel):
 
 
 # -----------------------------
+# MY POLICIES (USER POLICY + POLICY DETAILS)
+# -----------------------------
+class UserPolicyResponse(BaseModel):
+    id: int
+    policy_id: int
+    policy_number: str
+    start_date: date
+    end_date: date
+    premium: Decimal
+    status: str
+    auto_renew: bool
+    title: str | None = None
+    policy_type: str | None = None
+    coverage: dict | None = None
+
+    class Config:
+        from_attributes = True
+
+
+# -----------------------------
 # ADMIN LOG RESPONSE
 # -----------------------------
 class AdminLogResponse(BaseModel):

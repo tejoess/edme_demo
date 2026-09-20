@@ -6,6 +6,7 @@ import RiskProfile from "./pages/RiskProfile";
 import Recommendations from "./pages/Recommendations";
 import UploadClaim from "./pages/UploadClaim";
 import MyClaims from "./pages/MyClaims";
+import MyPolicies from "./pages/MyPolicies";
 import AdminDashboard from "./pages/AdminDashboard";
 import ComparePage from "./pages/ComparePage";
 import AppLayout from "./components/AppLayout";
@@ -98,6 +99,9 @@ function App() {
 
       case "recommendations":
         return <Recommendations userId={userId} onBack={() => setPage("policies")} />;
+
+      case "mypolicies":
+        return <MyPolicies onBack={() => setPage("policies")} />;
 
       case "claims":
         return <MyClaims onBack={() => setPage("policies")} />;

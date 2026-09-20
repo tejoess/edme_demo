@@ -3,6 +3,7 @@ import { useConfirm } from "../context/ConfirmContext";
 
 const CUSTOMER_LINKS = [
   { key: "policies", label: "Policies", icon: "📄" },
+  { key: "mypolicies", label: "My Policies", icon: "📑" },
   { key: "recommendations", label: "Recommendations", icon: "✨" },
   { key: "claims", label: "My Claims", icon: "🗂️" },
   { key: "risk", label: "Preferences", icon: "⚙️" },
