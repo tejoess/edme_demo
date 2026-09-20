@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import date, timedelta
+from typing import List
 import random
 
 import models
+import schemas
 from database import get_db
 from oauth2 import get_current_user
 
@@ -58,13 +60,31 @@ def activate_policy(
 # ===========================
 # GET USER POLICIES
 # ===========================
-@router.get("/")
+@router.get("/", response_model=List[schemas.UserPolicyResponse])
 def get_user_policies(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    policies = db.query(models.UserPolicies).filter(
-        models.UserPolicies.user_id == current_user.id
-    ).all()
+    rows = (
+        db.query(models.UserPolicies, models.Policy)
+        .join(models.Policy, models.UserPolicies.policy_id == models.Policy.id)
+        .filter(models.UserPolicies.user_id == current_user.id)
+        .all()
+    )
 
-    return policies
+    return [
+        schemas.UserPolicyResponse(
+            id=user_policy.id,
+            policy_id=user_policy.policy_id,
+            policy_number=user_policy.policy_number,
+            start_date=user_policy.start_date,
+            end_date=user_policy.end_date,
+            premium=user_policy.premium,
+            status=user_policy.status,
+            auto_renew=user_policy.auto_renew,
+            title=policy.title,
+            policy_type=policy.policy_type,
+            coverage=policy.coverage,
+        )
+        for user_policy, policy in rows
+    ]
