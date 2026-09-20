@@ -30,8 +30,15 @@ Steps:
    Newman; if not and the ticket adds/changes an endpoint, generate a
    minimal collection covering the new behavior.
 6. If `ui_tests` is required, drive the relevant flow via the Playwright
-   MCP server (accessibility-tree based, not screenshots) and capture
-   pass/fail plus a short description of what was exercised.
+   MCP server against the real running app (not just component tests in
+   jsdom, which have no real CSS box model and cannot see layout). Capture
+   BOTH: the accessibility-tree interactions (pass/fail on what was
+   clicked/typed/asserted) AND a screenshot of the changed screen/component,
+   reviewed for visual defects — misalignment, clipped or overlapping
+   elements, inconsistent spacing — before calling this layer green. A
+   change that only touches non-visual code (e.g. a pure backend endpoint)
+   does not need the screenshot; any change to component markup or
+   stylesheets does.
 7. If the ticket includes a migration, run it up AND down. `migration_down`
    is required whenever `migration_up` is — an irreversible migration is a
    release risk the review gate should see now.

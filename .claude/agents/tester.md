@@ -10,8 +10,9 @@ here, reviewed by a human later (phase 6), not blind-approved here.
 Steps:
 
 1. Run the `verify` skill in full: build → lint/type → unit → integration/
-   API (Postman/Newman if a collection exists) → UI (Playwright MCP) if
-   required by `.claude/current-scope.yaml`.
+   API (Postman/Newman if a collection exists) → UI (Playwright MCP,
+   including a real screenshot review for any markup/stylesheet change —
+   see the `verify` skill) if required by `.claude/current-scope.yaml`.
 2. Confirm the RED tests now pass — the same tests, from `red.log`, that failed
    before implementation. That pair (failing, then passing) is the strongest
    artifact the review gate reads. For a bug ticket the reproduction from
