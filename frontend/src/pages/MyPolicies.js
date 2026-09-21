@@ -1,5 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { apiFetch } from "../utils/apiClient";
+import PolicySearchFilter from "../components/PolicySearchFilter";
+import { applyFilters } from "../utils/policyFilter";
 import "./MyPolicies.css";
 
 const STATUS_BADGE = {
@@ -8,6 +10,8 @@ const STATUS_BADGE = {
   cancelled: "badge-neutral",
   pending: "badge-warning",
 };
+
+const STATUS_OPTIONS = ["active", "expired", "cancelled", "pending"];
 
 function PolicySkeleton() {
   return (
@@ -24,6 +28,9 @@ function MyPolicies() {
   const [policies, setPolicies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState([]);
+  const [typeFilter, setTypeFilter] = useState([]);
 
   const fetchPolicies = useCallback(async () => {
     setLoading(true);
@@ -42,6 +49,31 @@ function MyPolicies() {
     fetchPolicies();
   }, [fetchPolicies]);
 
+  const typeOptions = useMemo(
+    () => Array.from(new Set(policies.map((p) => p.policy_type).filter(Boolean))),
+    [policies]
+  );
+
+  const visiblePolicies = useMemo(
+    () =>
+      applyFilters(policies, {
+        search,
+        searchField: "policy_number",
+        status: statusFilter,
+        type: typeFilter,
+      }),
+    [policies, search, statusFilter, typeFilter]
+  );
+
+  const hasNoOwnedPolicies = policies.length === 0;
+  const hasNoMatches = !hasNoOwnedPolicies && visiblePolicies.length === 0;
+
+  const clearFilters = () => {
+    setSearch("");
+    setStatusFilter([]);
+    setTypeFilter([]);
+  };
+
   return (
     <div className="page-shell">
       <div className="page-content">
@@ -51,6 +83,20 @@ function MyPolicies() {
             <p>Policies you currently own.</p>
           </div>
         </div>
+
+        {!error && (
+          <PolicySearchFilter
+            search={search}
+            onSearchChange={setSearch}
+            statusOptions={STATUS_OPTIONS}
+            status={statusFilter}
+            onStatusChange={setStatusFilter}
+            typeOptions={typeOptions}
+            type={typeFilter}
+            onTypeChange={setTypeFilter}
+            onClear={clearFilters}
+          />
+        )}
 
         {loading && (
           <div className="mypolicies-grid">
@@ -71,7 +117,7 @@ function MyPolicies() {
           </div>
         )}
 
-        {!loading && !error && policies.length === 0 && (
+        {!loading && !error && hasNoOwnedPolicies && (
           <div className="empty-state">
             <div className="empty-icon">📄</div>
             <h3>No policies yet</h3>
@@ -79,9 +125,17 @@ function MyPolicies() {
           </div>
         )}
 
-        {!loading && !error && policies.length > 0 && (
+        {!loading && !error && hasNoMatches && (
+          <div className="empty-state">
+            <div className="empty-icon">🔍</div>
+            <h3>No policies match your search or filters</h3>
+            <p>Try adjusting or clearing your search and filters above.</p>
+          </div>
+        )}
+
+        {!loading && !error && !hasNoOwnedPolicies && !hasNoMatches && (
           <div className="mypolicies-grid">
-            {policies.map((policy) => (
+            {visiblePolicies.map((policy) => (
               <div key={policy.id} className="card mypolicy-card">
                 <h4>{policy.title || `Policy #${policy.policy_id}`}</h4>
                 <p className="mypolicy-meta">

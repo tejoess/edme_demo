@@ -3,12 +3,12 @@
   "risk": "MEDIUM",
   "branch": "feature/EPT-25",
   "checkpoint_sha": "918b23da7ce6355b312464ac6a1a2a89a907b5a8",
-  "phase": "IMPLEMENTATION",
+  "phase": "EVIDENCE",
   "plan_approved": true,
   "red_captured": true,
   "attempt": 0,
   "max_attempts": 3,
-  "verification": "not_run",
+  "verification": "pass",
   "review": "pending",
   "_phases": [
     "ANALYSIS",
@@ -26,8 +26,8 @@
   "_metrics": {
     "planned_at": "2026-09-21T00:00:00+05:30",
     "approved_at": "2026-09-21T12:23:40Z",
-    "green_at": null,
-    "files_changed": null,
-    "diff_lines": null
+    "green_at": "2026-09-21T13:00:51Z",
+    "files_changed": 5,
+    "diff_lines": 349
   }
 }
