@@ -1,0 +1,5 @@
+frontend/src/pages/Policies.test.js
+frontend/src/pages/MyPolicies.test.js
+frontend/src/utils/policyFilter.test.js
+frontend/src/components/PolicySearchFilter.test.js
+frontend/e2e/policy-search-filter.spec.js

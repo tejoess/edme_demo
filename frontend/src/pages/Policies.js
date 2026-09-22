@@ -4,8 +4,10 @@ import { apiFetch } from "../utils/apiClient";
 import { useToast } from "../context/ToastContext";
 import { useConfirm } from "../context/ConfirmContext";
 import FileClaimModal from "../components/FileClaimModal";
+import PolicySearchFilter from "../components/PolicySearchFilter";
+import { applyFilters } from "../utils/policyFilter";
 
-const FILTERS = ["all", "health", "life", "travel", "auto", "home"];
+const TYPE_OPTIONS = ["health", "life", "travel", "auto", "home"];
 
 function PolicyCardSkeleton() {
   return (
@@ -26,7 +28,8 @@ function Policies({ goToUpload, goToComparePage }) {
   const [selectedPolicies, setSelectedPolicies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState([]);
   const [busyPolicyId, setBusyPolicyId] = useState(null);
   const [claimModalPolicy, setClaimModalPolicy] = useState(null);
   const [filingClaim, setFilingClaim] = useState(false);
@@ -118,11 +121,19 @@ function Policies({ goToUpload, goToComparePage }) {
     }
   };
 
-  const filteredPolicies = Array.isArray(policies)
-    ? activeFilter === "all"
-      ? policies
-      : policies.filter((p) => p.policy_type === activeFilter)
-    : [];
+  const filteredPolicies = applyFilters(policies, {
+    search,
+    searchField: "title",
+    type: typeFilter,
+  });
+
+  const hasNoPolicies = !Array.isArray(policies) || policies.length === 0;
+  const hasNoMatches = !hasNoPolicies && filteredPolicies.length === 0;
+
+  const clearFilters = () => {
+    setSearch("");
+    setTypeFilter([]);
+  };
 
   return (
     <div className="page-shell">
@@ -134,17 +145,14 @@ function Policies({ goToUpload, goToComparePage }) {
           </div>
         </div>
 
-        <div className="filter-tabs">
-          {FILTERS.map((type) => (
-            <button
-              key={type}
-              className={activeFilter === type ? "active-tab" : ""}
-              onClick={() => setActiveFilter(type)}
-            >
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </button>
-          ))}
-        </div>
+        <PolicySearchFilter
+          search={search}
+          onSearchChange={setSearch}
+          typeOptions={TYPE_OPTIONS}
+          type={typeFilter}
+          onTypeChange={setTypeFilter}
+          onClear={clearFilters}
+        />
 
         {selectedPolicies.length >= 2 && (
           <div className="compare-banner">
@@ -176,11 +184,19 @@ function Policies({ goToUpload, goToComparePage }) {
           </div>
         )}
 
-        {!loading && !loadError && filteredPolicies.length === 0 && (
+        {!loading && !loadError && hasNoPolicies && (
           <div className="empty-state">
             <div className="empty-icon">📭</div>
             <h3>No policies found</h3>
             <p>Try a different category filter.</p>
+          </div>
+        )}
+
+        {!loading && !loadError && hasNoMatches && (
+          <div className="empty-state">
+            <div className="empty-icon">🔍</div>
+            <h3>No policies match your search or filters</h3>
+            <p>Try adjusting or clearing your search and filters above.</p>
           </div>
         )}
 

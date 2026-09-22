@@ -1,0 +1,33 @@
+{
+  "ticket": "EPT-25",
+  "risk": "MEDIUM",
+  "branch": "feature/EPT-25",
+  "checkpoint_sha": "918b23da7ce6355b312464ac6a1a2a89a907b5a8",
+  "phase": "PR",
+  "plan_approved": true,
+  "red_captured": true,
+  "attempt": 0,
+  "max_attempts": 3,
+  "verification": "pass",
+  "review": "approved",
+  "_phases": [
+    "ANALYSIS",
+    "WAITING_FOR_APPROVAL",
+    "IMPLEMENTATION",
+    "VERIFICATION",
+    "FIX",
+    "EVIDENCE",
+    "REVIEW",
+    "APPROVED",
+    "PR",
+    "BLOCKED",
+    "ABANDONED"
+  ],
+  "_metrics": {
+    "planned_at": "2026-09-21T00:00:00+05:30",
+    "approved_at": "2026-09-21T12:23:40Z",
+    "green_at": "2026-09-21T13:00:51Z",
+    "files_changed": 5,
+    "diff_lines": 349
+  }
+}

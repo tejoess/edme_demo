@@ -1,0 +1,5296 @@
+=== JEST (frontend): policyFilter.test.js, PolicySearchFilter.test.js, Policies.test.js, MyPolicies.test.js ===
+Command: cd frontend && CI=true npx react-scripts test --watchAll=false --testPathPattern="(policyFilter|PolicySearchFilter|pages/Policies|pages/MyPolicies)\.test\.js"
+
+FAIL src/utils/policyFilter.test.js
+  ● Test suite failed to run
+
+    Cannot find module './policyFilter' from 'src/utils/policyFilter.test.js'
+
+    However, Jest was able to find:
+    	'./policyFilter.test.js'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+    [0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { matchesSearch[33m,[39m applyFilters } [36mfrom[39m [32m"./policyFilter"[39m[33m;[39m
+     [90m   |[39m [31m[1m^[22m[39m
+     [90m 2 |[39m
+     [90m 3 |[39m [90m// Unit-level coverage backing AC-001/AC-002/AC-003 (search + filter + AND[39m
+     [90m 4 |[39m [90m// combination). These exercise the pure logic in isolation from any[39m[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/utils/policyFilter.test.js:1:1)
+
+FAIL src/components/PolicySearchFilter.test.js
+  ● Test suite failed to run
+
+    Cannot find module './PolicySearchFilter' from 'src/components/PolicySearchFilter.test.js'
+
+    However, Jest was able to find:
+    	'./PolicySearchFilter.test.js'
+
+    You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'].
+
+    See https://jestjs.io/docs/configuration#modulefileextensions-arraystring
+
+    [0m [90m 1 |[39m [36mimport[39m { render[33m,[39m screen } [36mfrom[39m [32m"@testing-library/react"[39m[33m;[39m
+     [90m 2 |[39m [36mimport[39m userEvent [36mfrom[39m [32m"@testing-library/user-event"[39m[33m;[39m
+    [31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m [33mPolicySearchFilter[39m [36mfrom[39m [32m"./PolicySearchFilter"[39m[33m;[39m
+     [90m   |[39m [31m[1m^[22m[39m
+     [90m 4 |[39m
+     [90m 5 |[39m [90m// TC-015 / AC-007: PolicySearchFilter renders a search input and filter[39m
+     [90m 6 |[39m [90m// controls with accessible roles/labels on both tabs. This is a wiring[39m[0m
+
+      at Resolver.resolveModule (node_modules/jest-resolve/build/resolver.js:324:11)
+      at Object.<anonymous> (src/components/PolicySearchFilter.test.js:3:1)
+
+FAIL src/pages/MyPolicies.test.js
+  ● MyPolicies search and filter › TC-001 / AC-001: searching '123' by policy number leaves only matching policies visible
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "Health Basic":
+      [36m<h4 />[39m
+
+      Name "Auto Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Basic[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-12345[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m500[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mAuto Cover[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-67890[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m300[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2023-01-01[0m
+                  [0m to [0m
+                  [0m2024-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mNo[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 70 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/POL-/[39m))[33m;[39m
+     [90m 71 |[39m
+    [31m[1m>[22m[39m[90m 72 |[39m     [36mconst[39m search [33m=[39m screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m;[39m
+     [90m    |[39m                           [31m[1m^[22m[39m
+     [90m 73 |[39m     [36mawait[39m userEvent[33m.[39mtype(search[33m,[39m [32m"123"[39m)[33m;[39m
+     [90m 74 |[39m
+     [90m 75 |[39m     [36mawait[39m waitFor(() [33m=>[39m {[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:72:27)
+
+  ● MyPolicies search and filter › TC-003 / AC-002: selecting the 'active' status filter leaves only active policies visible
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^active$/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield":
+      [36m<h4 />[39m
+
+      Name "Auto Secure":
+      [36m<h4 />[39m
+
+      Name "Health Premium":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Shield[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A1[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mAuto Secure[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A2[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m200[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Premium[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A3[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m300[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-warning"[39m
+                [36m>[39m
+                  [0mpending[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 83 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/POL-A/[39m))[33m;[39m
+     [90m 84 |[39m
+    [31m[1m>[22m[39m[90m 85 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^active$/i[39m }))[33m;[39m
+     [90m    |[39m                                  [31m[1m^[22m[39m
+     [90m 86 |[39m
+     [90m 87 |[39m     [36mawait[39m waitFor(() [33m=>[39m {
+     [90m 88 |[39m       expect(screen[33m.[39mgetByText([32m"Health Shield"[39m))[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:85:34)
+
+  ● MyPolicies search and filter › TC-004 / AC-002: selecting the 'health' type filter leaves only health-type policies visible
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "button" and name `/^health$/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield":
+      [36m<h4 />[39m
+
+      Name "Auto Secure":
+      [36m<h4 />[39m
+
+      Name "Health Premium":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Shield[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A1[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mAuto Secure[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A2[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m200[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Premium[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A3[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m300[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-warning"[39m
+                [36m>[39m
+                  [0mpending[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m  96 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/POL-A/[39m))[33m;[39m
+     [90m  97 |[39m
+    [31m[1m>[22m[39m[90m  98 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^health$/i[39m }))[33m;[39m
+     [90m     |[39m                                  [31m[1m^[22m[39m
+     [90m  99 |[39m
+     [90m 100 |[39m     [36mawait[39m waitFor(() [33m=>[39m {
+     [90m 101 |[39m       expect(screen[33m.[39mgetByText([32m"Health Shield"[39m))[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:98:34)
+
+  ● MyPolicies search and filter › TC-006 / AC-003: search + status + type combine with AND against the full list
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "A":
+      [36m<h4 />[39m
+
+      Name "B":
+      [36m<h4 />[39m
+
+      Name "C":
+      [36m<h4 />[39m
+
+      Name "D":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mA[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-12000[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mB[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-12111[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mC[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-99999[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mD[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-12222[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 109 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/POL-1/[39m))[33m;[39m
+     [90m 110 |[39m
+    [31m[1m>[22m[39m[90m 111 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"12"[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 112 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^active$/i[39m }))[33m;[39m
+     [90m 113 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^health$/i[39m }))[33m;[39m
+     [90m 114 |[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:111:33)
+
+  ● MyPolicies search and filter › TC-008 / AC-004: filtered results never include data outside /userpolicies/ (no catalog leakage)
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 16px; width: 50%; margin-bottom: 14px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 12px; width: 70%; margin-bottom: 8px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 12px; width: 60%; margin-bottom: 14px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 22px; width: 35%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 16px; width: 50%; margin-bottom: 14px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 12px; width: 70%; margin-bottom: 8px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 12px; width: 60%; margin-bottom: 14px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 22px; width: 35%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 16px; width: 50%; margin-bottom: 14px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 12px; width: 70%; margin-bottom: 8px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 12px; width: 60%; margin-bottom: 14px;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"skeleton"[39m
+                  [33mstyle[39m=[32m"height: 22px; width: 35%;"[39m
+                [36m/>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 123 |[39m   test([32m"TC-008 / AC-004: filtered results never include data outside /userpolicies/ (no catalog leakage)"[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 124 |[39m     [36mawait[39m renderReady([33mSEARCH_FIXTURE[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 125 |[39m     [36mconst[39m search [33m=[39m screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m;[39m
+     [90m     |[39m                           [31m[1m^[22m[39m
+     [90m 126 |[39m     [36mawait[39m userEvent[33m.[39mtype(search[33m,[39m [32m"POL"[39m)[33m;[39m
+     [90m 127 |[39m
+     [90m 128 |[39m     [36mawait[39m waitFor(() [33m=>[39m {[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:125:27)
+
+  ● MyPolicies search and filter › TC-010 / AC-005: a search matching nothing shows the 'no results' empty state with a Clear button
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "Health Basic":
+      [36m<h4 />[39m
+
+      Name "Auto Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Basic[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-12345[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m500[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mAuto Cover[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-67890[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m300[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2023-01-01[0m
+                  [0m to [0m
+                  [0m2024-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mNo[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 135 |[39m   test([32m"TC-010 / AC-005: a search matching nothing shows the 'no results' empty state with a Clear button"[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 136 |[39m     [36mawait[39m renderReady([33mSEARCH_FIXTURE[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 137 |[39m     [36mconst[39m search [33m=[39m screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m;[39m
+     [90m     |[39m                           [31m[1m^[22m[39m
+     [90m 138 |[39m     [36mawait[39m userEvent[33m.[39mtype(search[33m,[39m [32m"zzz"[39m)[33m;[39m
+     [90m 139 |[39m
+     [90m 140 |[39m     [36mawait[39m waitFor(() [33m=>[39m {[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:137:27)
+
+  ● MyPolicies search and filter › TC-012 / AC-005: zero owned policies with no search/filter shows the unchanged 'no policies yet' state without a Clear button
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "No policies yet":
+      [36m<h3 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"empty-state"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"empty-icon"[39m
+              [36m>[39m
+                [0m📄[0m
+              [36m</div>[39m
+              [36m<h3>[39m
+                [0mNo policies yet[0m
+              [36m</h3>[39m
+              [36m<p>[39m
+                [0mPurchase a policy from the catalog to see it here.[0m
+              [36m</p>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 148 |[39m
+     [90m 149 |[39m     [90m// Search/filter controls must still render even with an empty list.[39m
+    [31m[1m>[22m[39m[90m 150 |[39m     expect(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m }))[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m     |[39m                   [31m[1m^[22m[39m
+     [90m 151 |[39m
+     [90m 152 |[39m     expect([36mawait[39m screen[33m.[39mfindByText([35m/no policies yet/i[39m))[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 153 |[39m     expect(screen[33m.[39mqueryByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/clear/i[39m }))[33m.[39mnot[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:150:19)
+
+  ● MyPolicies search and filter › TC-013 / AC-006: clicking Clear resets search/filters and restores the full list
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield":
+      [36m<h4 />[39m
+
+      Name "Auto Secure":
+      [36m<h4 />[39m
+
+      Name "Health Premium":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Shield[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A1[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m100[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mAuto Secure[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A2[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m200[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Premium[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-A3[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m300[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-warning"[39m
+                [36m>[39m
+                  [0mpending[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 158 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/POL-A/[39m))[33m;[39m
+     [90m 159 |[39m
+    [31m[1m>[22m[39m[90m 160 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"A1"[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 161 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^health$/i[39m }))[33m;[39m
+     [90m 162 |[39m
+     [90m 163 |[39m     [36mawait[39m waitFor(() [33m=>[39m {[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:160:33)
+
+  ● MyPolicies search and filter › TC-018 / AC-004: unmounting and remounting the page (simulating tab navigation away and back) resets search state
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "My Policies":
+      [36m<h2 />[39m
+
+      Name "Health Basic":
+      [36m<h4 />[39m
+
+      Name "Auto Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      Name "":
+      [36m<p[39m
+        [33mclass[39m=[32m"mypolicy-meta"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      strong:
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      Name "":
+      [36m<strong />[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mMy Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mPolicies you currently own.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mypolicies-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mHealth Basic[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-12345[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mhealth[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m500[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2024-01-01[0m
+                  [0m to [0m
+                  [0m2025-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mYes[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-success"[39m
+                [36m>[39m
+                  [0mactive[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"card mypolicy-card"[39m
+              [36m>[39m
+                [36m<h4>[39m
+                  [0mAuto Cover[0m
+                [36m</h4>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPolicy number:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mPOL-67890[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mType:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mauto[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mPremium:[0m
+                  [36m</strong>[39m
+                  [0m ₹[0m
+                  [0m300[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mCoverage period:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0m2023-01-01[0m
+                  [0m to [0m
+                  [0m2024-01-01[0m
+                [36m</p>[39m
+                [36m<p[39m
+                  [33mclass[39m=[32m"mypolicy-meta"[39m
+                [36m>[39m
+                  [36m<strong>[39m
+                    [0mAuto-renew:[0m
+                  [36m</strong>[39m
+                  [0m [0m
+                  [0mNo[0m
+                [36m</p>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"badge badge-danger"[39m
+                [36m>[39m
+                  [0mexpired[0m
+                [36m</span>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 182 |[39m     [36mconst[39m { unmount } [33m=[39m render([33m<[39m[33mMyPolicies[39m [33m/[39m[33m>[39m)[33m;[39m
+     [90m 183 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/POL-/[39m))[33m;[39m
+    [31m[1m>[22m[39m[90m 184 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"123"[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 185 |[39m     [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mqueryByText([35m/POL-67890/[39m))[33m.[39mnot[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 186 |[39m     unmount()[33m;[39m
+     [90m 187 |[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/MyPolicies.test.js:184:33)
+
+FAIL src/pages/Policies.test.js
+  ● Policies catalog search and filter › TC-002 / AC-001: searching 'health' by title leaves only matching catalog policies visible
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 46 |[39m     [36mawait[39m renderReady()[33m;[39m
+     [90m 47 |[39m
+    [31m[1m>[22m[39m[90m 48 |[39m     [36mconst[39m search [33m=[39m screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m;[39m
+     [90m    |[39m                           [31m[1m^[22m[39m
+     [90m 49 |[39m     [36mawait[39m userEvent[33m.[39mtype(search[33m,[39m [32m"health"[39m)[33m;[39m
+     [90m 50 |[39m
+     [90m 51 |[39m     [36mawait[39m waitFor(() [33m=>[39m {[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:48:27)
+
+  ● Policies catalog search and filter › TC-005 / AC-002: shared PolicySearchFilter control bar (search textbox) is rendered on this tab; selecting the 'auto' type filter within it leaves only auto policies visible, no status control rendered
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 63 |[39m     [90m// does not carry this control, so this fails until the new component[39m
+     [90m 64 |[39m     [90m// ships (see test-plan.md TC-005, revised post-RED).[39m
+    [31m[1m>[22m[39m[90m 65 |[39m     expect(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m }))[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 66 |[39m
+     [90m 67 |[39m     expect(screen[33m.[39mqueryByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^active$/i[39m }))[33m.[39mnot[33m.[39mtoBeInTheDocument()[33m;[39m
+     [90m 68 |[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:65:19)
+
+  ● Policies catalog search and filter › TC-007 / AC-003: search 'shield' + type 'health' combine with AND
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 78 |[39m     [36mawait[39m renderReady()[33m;[39m
+     [90m 79 |[39m
+    [31m[1m>[22m[39m[90m 80 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"shield"[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 81 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^health$/i[39m }))[33m;[39m
+     [90m 82 |[39m
+     [90m 83 |[39m     [36mawait[39m waitFor(() [33m=>[39m {[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:80:33)
+
+  ● Policies catalog search and filter › TC-009 / AC-004: filtered catalog cards never show policy_number or per-user status fields
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 91 |[39m     [36mawait[39m renderReady()[33m;[39m
+     [90m 92 |[39m
+    [31m[1m>[22m[39m[90m 93 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"health"[39m)[33m;[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 94 |[39m
+     [90m 95 |[39m     [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mgetByText([32m"Health Shield Plan"[39m))[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 96 |[39m     expect(screen[33m.[39mqueryByText([35m/policy number/i[39m))[33m.[39mnot[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:93:33)
+
+  ● Policies catalog search and filter › TC-011 / AC-005: search matching nothing shows the 'no results' empty state with a Clear button
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 101 |[39m     [36mawait[39m renderReady()[33m;[39m
+     [90m 102 |[39m
+    [31m[1m>[22m[39m[90m 103 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"zzz-no-match"[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 104 |[39m
+     [90m 105 |[39m     [36mawait[39m waitFor(() [33m=>[39m {
+     [90m 106 |[39m       expect(screen[33m.[39mgetByText([35m/no policies match/i[39m))[33m.[39mtoBeInTheDocument()[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:103:33)
+
+  ● Policies catalog search and filter › TC-014 / AC-006: clicking Clear resets search/type filter and restores the full catalog
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 112 |[39m     [36mawait[39m renderReady()[33m;[39m
+     [90m 113 |[39m
+    [31m[1m>[22m[39m[90m 114 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"shield"[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 115 |[39m     [36mawait[39m userEvent[33m.[39mclick(screen[33m.[39mgetByRole([32m"button"[39m[33m,[39m { name[33m:[39m [35m/^health$/i[39m }))[33m;[39m
+     [90m 116 |[39m
+     [90m 117 |[39m     [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mqueryByText([32m"Auto Secure Plan"[39m))[33m.[39mnot[33m.[39mtoBeInTheDocument())[33m;[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:114:33)
+
+  ● Policies catalog search and filter › TC-018 / AC-004: unmounting and remounting the page (simulating tab navigation away and back) resets search state
+
+    TestingLibraryElementError: Unable to find an accessible element with the role "textbox" and name `/search/i`
+
+    Here are the accessible roles:
+
+      heading:
+
+      Name "Insurance Policies":
+      [36m<h2 />[39m
+
+      Name "Health Shield Plan":
+      [36m<h4 />[39m
+
+      Name "Auto Secure Plan":
+      [36m<h4 />[39m
+
+      Name "Family Health Cover":
+      [36m<h4 />[39m
+
+      --------------------------------------------------
+      paragraph:
+
+      Name "":
+      [36m<p />[39m
+
+      --------------------------------------------------
+      button:
+
+      Name "All":
+      [36m<button[39m
+        [33mclass[39m=[32m"active-tab"[39m
+      [36m/>[39m
+
+      Name "Health":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Life":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Travel":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Auto":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Home":
+      [36m<button[39m
+        [33mclass[39m=[32m""[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      Name "Buy Policy":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-primary"[39m
+      [36m/>[39m
+
+      Name "File Claim":
+      [36m<button[39m
+        [33mclass[39m=[32m"btn btn-secondary"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+      checkbox:
+
+      Name "Health Shield Plan health ₹500 / 12mo Deductible: ₹1000 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Auto Secure Plan auto ₹300 / 12mo Deductible: ₹500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      Name "Family Health Cover health ₹700 / 12mo Deductible: ₹1500 Buy Policy File Claim":
+      [36m<div[39m
+        [33maria-checked[39m=[32m"false"[39m
+        [33mclass[39m=[32m"card policy-card "[39m
+        [33mrole[39m=[32m"checkbox"[39m
+        [33mtabindex[39m=[32m"0"[39m
+      [36m/>[39m
+
+      --------------------------------------------------
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"page-shell"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"page-content"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"page-heading"[39m
+            [36m>[39m
+              [36m<div>[39m
+                [36m<h2>[39m
+                  [0mInsurance Policies[0m
+                [36m</h2>[39m
+                [36m<p>[39m
+                  [0mBrowse, compare, and manage your coverage.[0m
+                [36m</p>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"filter-tabs"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"active-tab"[39m
+              [36m>[39m
+                [0mAll[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHealth[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mLife[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mTravel[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mAuto[0m
+              [36m</button>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m""[39m
+              [36m>[39m
+                [0mHome[0m
+              [36m</button>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"policy-grid"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mHealth Shield Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m500[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1000[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mAuto Secure Plan[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mauto[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m300[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33maria-checked[39m=[32m"false"[39m
+                [33mclass[39m=[32m"card policy-card "[39m
+                [33mrole[39m=[32m"checkbox"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-header"[39m
+                [36m>[39m
+                  [36m<h4>[39m
+                    [0mFamily Health Cover[0m
+                  [36m</h4>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"badge badge-info"[39m
+                  [36m>[39m
+                    [0mhealth[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"price"[39m
+                [36m>[39m
+                  [0m₹[0m
+                  [0m700[0m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"price-term"[39m
+                  [36m>[39m
+                    [0m / [0m
+                    [0m12[0m
+                    [0mmo[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"deductible-line"[39m
+                [36m>[39m
+                  [0mDeductible: ₹[0m
+                  [0m1500[0m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"card-actions"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-primary"[39m
+                  [36m>[39m
+                    [0mBuy Policy[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"btn btn-secondary"[39m
+                  [36m>[39m
+                    [0mFile Claim[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33maria-atomic[39m=[32m"true"[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"toast-viewport"[39m
+        [36m/>[39m
+      [36m</div>[39m
+    [36m</body>[39m
+
+    [0m [90m 130 |[39m     [36mconst[39m { unmount } [33m=[39m renderPolicies()[33m;[39m
+     [90m 131 |[39m     [36mawait[39m waitFor(() [33m=>[39m screen[33m.[39mgetAllByText([35m/Plan|Cover/[39m))[33m;[39m
+    [31m[1m>[22m[39m[90m 132 |[39m     [36mawait[39m userEvent[33m.[39mtype(screen[33m.[39mgetByRole([32m"textbox"[39m[33m,[39m { name[33m:[39m [35m/search/i[39m })[33m,[39m [32m"shield"[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 133 |[39m     [36mawait[39m waitFor(() [33m=>[39m expect(screen[33m.[39mqueryByText([32m"Auto Secure Plan"[39m))[33m.[39mnot[33m.[39mtoBeInTheDocument())[33m;[39m
+     [90m 134 |[39m     unmount()[33m;[39m
+     [90m 135 |[39m[0m
+
+      at Object.getElementError (node_modules/@testing-library/dom/dist/config.js:37:19)
+      at node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+      at node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+      at getByRole (node_modules/@testing-library/dom/dist/query-helpers.js:95:19)
+      at Object.<anonymous> (src/pages/Policies.test.js:132:33)
+
+Test Suites: 4 failed, 4 total
+Tests:       16 failed, 16 total
+Snapshots:   0 total
+Time:        4.985 s
+Ran all test suites matching /(policyFilter|PolicySearchFilter|pages\\Policies|pages\\MyPolicies)\.test\.js/i.
+
+=== PLAYWRIGHT (frontend): e2e/policy-search-filter.spec.js -- ACTUALLY EXECUTED (dev server started via playwright.config.js webServer) ===
+Command: cd frontend && npx playwright test e2e/policy-search-filter.spec.js --reporter=list
+
+
+Running 4 tests using 1 worker
+
+  x  1 e2e\policy-search-filter.spec.js:35:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-016 (Policies catalog): search/filter bar renders without horizontal overflow (6.1s)
+  x  2 e2e\policy-search-filter.spec.js:48:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-016 (My Policies): search/filter bar renders without horizontal overflow (6.1s)
+  x  3 e2e\policy-search-filter.spec.js:62:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-017 (Policies catalog): search, filter, clear end-to-end flow (30.2s)
+  x  4 e2e\policy-search-filter.spec.js:74:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-017 (My Policies): search, filter, clear end-to-end flow (30.1s)
+
+
+  1) e2e\policy-search-filter.spec.js:35:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-016 (Policies catalog): search/filter bar renders without horizontal overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('textbox', { name: /search/i })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('textbox', { name: /search/i }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: /search/i })
+
+
+      37 |
+      38 |     const searchBar = page.getByRole('textbox', { name: /search/i });
+    > 39 |     await expect(searchBar).toBeVisible();
+         |                             ^
+      40 |
+      41 |     const shellBox = await page.locator('.page-content').boundingBox();
+      42 |     const barBox = await searchBar.boundingBox();
+        at C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\frontend\e2e\policy-search-filter.spec.js:39:29
+
+    Error Context: .playwright-results\policy-search-filter-Polic-8b94b-without-horizontal-overflow\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .playwright-results\policy-search-filter-Polic-8b94b-without-horizontal-overflow\trace.zip
+    Usage:
+
+        npx playwright show-trace .playwright-results\policy-search-filter-Polic-8b94b-without-horizontal-overflow\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\policy-search-filter.spec.js:48:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-016 (My Policies): search/filter bar renders without horizontal overflow 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('textbox', { name: /search/i })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('textbox', { name: /search/i }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: /search/i })
+
+
+      51 |
+      52 |     const searchBar = page.getByRole('textbox', { name: /search/i });
+    > 53 |     await expect(searchBar).toBeVisible();
+         |                             ^
+      54 |
+      55 |     const shellBox = await page.locator('.page-content').boundingBox();
+      56 |     const barBox = await searchBar.boundingBox();
+        at C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\frontend\e2e\policy-search-filter.spec.js:53:29
+
+    Error Context: .playwright-results\policy-search-filter-Polic-5c842-without-horizontal-overflow\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .playwright-results\policy-search-filter-Polic-5c842-without-horizontal-overflow\trace.zip
+    Usage:
+
+        npx playwright show-trace .playwright-results\policy-search-filter-Polic-5c842-without-horizontal-overflow\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e\policy-search-filter.spec.js:62:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-017 (Policies catalog): search, filter, clear end-to-end flow 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: /search/i })
+
+
+      63 |     await expect(page.getByRole('heading', { name: 'Insurance Policies' })).toBeVisible();
+      64 |
+    > 65 |     await page.getByRole('textbox', { name: /search/i }).fill('shield');
+         |                                                          ^
+      66 |     await expect(page.getByText('Health Shield Plan')).toBeVisible();
+      67 |     await expect(page.getByText('Auto Secure Plan')).not.toBeVisible();
+      68 |
+        at C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\frontend\e2e\policy-search-filter.spec.js:65:58
+
+    Error Context: .playwright-results\policy-search-filter-Polic-d9924-ilter-clear-end-to-end-flow\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .playwright-results\policy-search-filter-Polic-d9924-ilter-clear-end-to-end-flow\trace.zip
+    Usage:
+
+        npx playwright show-trace .playwright-results\policy-search-filter-Polic-d9924-ilter-clear-end-to-end-flow\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) e2e\policy-search-filter.spec.js:74:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-017 (My Policies): search, filter, clear end-to-end flow 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.fill: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('textbox', { name: /search/i })
+
+
+      76 |     await expect(page.getByRole('heading', { name: 'My Policies' })).toBeVisible();
+      77 |
+    > 78 |     await page.getByRole('textbox', { name: /search/i }).fill('12345');
+         |                                                          ^
+      79 |     await expect(page.getByText(/POL-12345/)).toBeVisible();
+      80 |     await expect(page.getByText(/POL-67890/)).not.toBeVisible();
+      81 |
+        at C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\frontend\e2e\policy-search-filter.spec.js:78:58
+
+    Error Context: .playwright-results\policy-search-filter-Polic-11a0b-ilter-clear-end-to-end-flow\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    .playwright-results\policy-search-filter-Polic-11a0b-ilter-clear-end-to-end-flow\trace.zip
+    Usage:
+
+        npx playwright show-trace .playwright-results\policy-search-filter-Polic-11a0b-ilter-clear-end-to-end-flow\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    e2e\policy-search-filter.spec.js:35:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-016 (Policies catalog): search/filter bar renders without horizontal overflow 
+    e2e\policy-search-filter.spec.js:48:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-016 (My Policies): search/filter bar renders without horizontal overflow 
+    e2e\policy-search-filter.spec.js:62:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-017 (Policies catalog): search, filter, clear end-to-end flow 
+    e2e\policy-search-filter.spec.js:74:3 › Policy search and filter -- TC-016 / TC-017 (AC-007) › TC-017 (My Policies): search, filter, clear end-to-end flow 
