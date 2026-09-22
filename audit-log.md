@@ -68,3 +68,6 @@ separate from `DECISIONS.md` (which records *why*, not just *that*).
 - [2026-09-21T13:00:40Z] tool=Edit file=C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\.agentic\tickets\EPT-25\state.json
 - [2026-09-21T13:00:47Z] tool=Edit file=C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\.agentic\tickets\EPT-25\state.json
 - [2026-09-21T13:00:56Z] tool=Edit file=C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\.agentic\tickets\EPT-25\state.json
+- [2026-09-22T05:07:15Z] session ended
+- [2026-09-22T05:08:18Z] tool=Edit file=C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\.agentic\tickets\EPT-25\state.json
+- [2026-09-22T05:09:02Z] tool=Edit file=C:\Users\Tejas\Desktop\Edme\ai-sdlc-demo\DECISIONS.md
